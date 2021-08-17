@@ -26,7 +26,7 @@ export function ensureAuthenticated(
         const { sub } = verify(token, process.env.TOKEN_SECRET) as IPayload;
         
         // Recuperar informações do usuário
-        request.user_id = sub;
+        request.userId = sub;
         
         return next();
     } catch (error) {

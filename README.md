@@ -41,3 +41,8 @@ yarn typeorm migration:run
 ```bash
 yarn typeorm migration:revert
 ```
+## Link de como foi feito o deploy do Heroku
+
+https://www.youtube.com/watch?v=Zl7ORGmumLI
+
+https://github.com/nunesfb/typeorm_typescript_nodejs_postgres_heroku

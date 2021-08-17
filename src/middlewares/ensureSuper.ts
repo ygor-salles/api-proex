@@ -7,11 +7,11 @@ export async  function ensureSuper (
     response: Response,
     next: NextFunction
 ) {
-    const { user_id } = request;
+    const { userId } = request;
 
     // Verificar se usuário admin
     const connectUser = getCustomRepository(UserRepository);
-    const user = await connectUser.findOne({ id: user_id });
+    const user = await connectUser.findOne({ id: userId });
 
     if(user.role==='super') {
         return next();
