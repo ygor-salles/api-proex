@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
-import 'dotenv/config';
+require('dotenv').config()
 
 interface IPayload {
     sub: string;

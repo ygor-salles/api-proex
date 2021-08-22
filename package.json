@@ -1,37 +1,37 @@
 {
-  "name": "server_deficientes_visuais_proex",
+  "name": "api_proex",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/marcos-bah/server_deficientes_visuais_proex.git",
-  "author": "ygor-salles <ygorsallesaniceto@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "yarn start",
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
-  },
-  "devDependencies": {
-    "@types/bcryptjs": "^2.4.2",
-    "@types/express": "^4.17.13",
-    "@types/jsonwebtoken": "^8.5.4",
-    "@types/uuid": "^8.3.1",
-    "ts-node-dev": "^1.1.8",
-    "typescript": "^4.3.5"
+    "start": "ts-node build/server",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
+    "migration:run": "npm run typeorm migration:run -- -t=each"
   },
   "dependencies": {
-    "@types/cors": "^2.8.12",
-    "@types/http-status": "^1.1.2",
-    "@types/yup": "^0.29.13",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "http-status": "^1.5.0",
     "jsonwebtoken": "^8.5.1",
-    "pg": "^8.7.1",
+    "pg": "^8.3.3",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.34",
-    "uuid": "^8.3.2",
+    "rimraf": "^3.0.2",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typeorm": "^0.2.25",
+    "uuidv4": "^6.2.10",
     "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.10",
+    "@types/express": "^4.17.6",
+    "@types/http-status": "^1.1.2",
+    "@types/jsonwebtoken": "^8.5.5",
+    "@types/yup": "^0.29.13",
+    "typescript": "3.9.6"
   }
 }
