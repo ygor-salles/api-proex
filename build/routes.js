@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var AuthenticateUserController_1 = require("./controllers/AuthenticateUserController");
+var UserController_1 = require("./controllers/UserController");
+var ensureSuper_1 = require("./middlewares/ensureSuper");
+var ensureAuthenticated_1 = require("./middlewares/ensureAuthenticated");
+var router = express_1.Router();
+var userController = new UserController_1.UserController();
+var authenticateUserController = new AuthenticateUserController_1.AuthenticateUserController();
+// router.post('/users', ensureAuthenticated, ensureSuper, userController.create);
+router.post('/users', userController.create);
+router.get('/users', ensureAuthenticated_1.ensureAuthenticated, userController.ready);
+router.get('/users/:id', ensureAuthenticated_1.ensureAuthenticated, userController.readyById);
+router.put('/users/:id', ensureAuthenticated_1.ensureAuthenticated, ensureSuper_1.ensureSuper, userController.update);
+router.delete('/users/:id', ensureAuthenticated_1.ensureAuthenticated, ensureSuper_1.ensureSuper, userController.delete);
+router.post('/login', authenticateUserController.handle);
+exports.default = router;
