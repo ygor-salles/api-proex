@@ -75,7 +75,7 @@ var AuthenticateUserService = /** @class */ (function () {
                             subject: user.id,
                             expiresIn: '1d',
                         });
-                        return [2 /*return*/, token];
+                        return [2 /*return*/, { token: token }];
                 }
             });
         });

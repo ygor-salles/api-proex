@@ -13,6 +13,6 @@ var app = express_1.default();
 app.use(express_1.default.json());
 app.use(cors_1.default());
 app.use(routes_1.default);
-app.listen(process.env.PORT || 3030, function () {
-    return console.log("Server is running " + (process.env.PORT || 3030));
+app.listen(process.env.PORT || 4000, function () {
+    return console.log("Server is running " + (process.env.PORT || 4000));
 });

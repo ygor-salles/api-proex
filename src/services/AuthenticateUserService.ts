@@ -36,7 +36,7 @@ class AuthenticateUserService {
             expiresIn: '1d',
         });
 
-        return token;
+        return { token: token };
     }
 }
 

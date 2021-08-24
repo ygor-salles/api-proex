@@ -9,7 +9,7 @@ const router = Router();
 const userController = new UserController();
 const authenticateUserController = new AuthenticateUserController();
 
-router.use('/', (req: Request, resp: Response) => { 
+router.get('/', (req: Request, resp: Response) => { 
     return resp.status(200).json({ message: 'Welcome api-proex' }); 
 });
 
