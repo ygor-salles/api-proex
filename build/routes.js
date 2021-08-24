@@ -8,8 +8,10 @@ var ensureAuthenticated_1 = require("./middlewares/ensureAuthenticated");
 var router = express_1.Router();
 var userController = new UserController_1.UserController();
 var authenticateUserController = new AuthenticateUserController_1.AuthenticateUserController();
-// router.post('/users', ensureAuthenticated, ensureSuper, userController.create);
-router.post('/users', userController.create);
+router.use('/', function (req, resp) {
+    return resp.status(200).json({ message: 'Welcome api-proex' });
+});
+router.post('/users', ensureAuthenticated_1.ensureAuthenticated, ensureSuper_1.ensureSuper, userController.create);
 router.get('/users', ensureAuthenticated_1.ensureAuthenticated, userController.ready);
 router.get('/users/:id', ensureAuthenticated_1.ensureAuthenticated, userController.readyById);
 router.put('/users/:id', ensureAuthenticated_1.ensureAuthenticated, ensureSuper_1.ensureSuper, userController.update);

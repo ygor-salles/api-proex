@@ -22,7 +22,7 @@ yarn typeorm migration:run
 yarn dev
 ```
 
-- A Api estará rodando na porta conforme definido no arquivo .env em API_PORT, por padrão utilize
+- A Api estará rodando na porta conforme definido no arquivo .env em PORT, por padrão utilize
 a porta 4000. `http://localhost:4000`
 
 ## Comandos migrations
