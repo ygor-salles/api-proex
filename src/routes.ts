@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import { AuthenticateUserController } from "./controllers/AuthenticateUserController";
 import { UserController } from "./controllers/UserController";
 import { ensureSuper } from "./middlewares/ensureSuper";
@@ -8,6 +8,10 @@ const router = Router();
 
 const userController = new UserController();
 const authenticateUserController = new AuthenticateUserController();
+
+router.use('/', (req: Request, resp: Response) => { 
+    return resp.status(200).json({ message: 'Welcome api-proex' }); 
+});
 
 router.post('/users', ensureAuthenticated, ensureSuper, userController.create);
 router.get('/users', ensureAuthenticated, userController.ready);
