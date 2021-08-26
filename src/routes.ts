@@ -10,7 +10,7 @@ const userController = new UserController();
 const authenticateUserController = new AuthenticateUserController();
 
 router.get('/', (req: Request, resp: Response) => { 
-    return resp.status(200).json({ message: 'Welcome api-proex' }); 
+    return resp.status(200).json({ message: 'Bem vindo api-proex' }); 
 });
 
 router.post('/users', ensureAuthenticated, ensureSuper, userController.create);
