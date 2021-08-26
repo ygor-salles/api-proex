@@ -74,7 +74,8 @@ class UserService {
         try {
             const user = await this.connectUser.findOne({ id });
             if (user) {
-                await this.connectUser.update(user.id, { name, email, password, role });
+                const passwordHash = await hash(password, 8);
+                await this.connectUser.update(user.id, { name, email, password: passwordHash, role });
                 return { status: httpStatus.OK, message: 'Usuário atualizado com sucesso!' };
             }
             return { status: httpStatus.NOT_FOUND, message: 'Usuário não existe!' };
