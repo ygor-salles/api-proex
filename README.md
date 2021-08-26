@@ -41,6 +41,14 @@ yarn typeorm migration:run
 ```bash
 yarn typeorm migration:revert
 ```
+
+## Gerar o build
+```bash
+yarn build
+```
+
+* Link da api: https://app-proex.herokuapp.com/
+
 ## Link de como foi feito o deploy do Heroku
 
 https://www.youtube.com/watch?v=Zl7ORGmumLI
