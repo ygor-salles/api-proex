@@ -1,17 +1,18 @@
 import { Request, Response } from "express";
 import * as yup from 'yup';
 import httpStatus from "http-status";
-import { MapService } from "../services/MapService";
+import { BuildingService } from "../services/BuildingService";
 
-class MapController {
+class BuildingController {
     async create(req: Request, resp: Response) {
         // Dados recebidos na requisição
-        const { name, source, description } = req.body;
+        const { name, latitude, longitude, description } = req.body;
 
         // Validação dos campos recebidos no corpo da requisição
         const schema = yup.object().shape({
             name: yup.string().required('Nome é obrigatório'),
-            source: yup.string().required('Url é obrigatório'),
+            latitude: yup.number().required('Latitude é obrigatória'),
+            longitude: yup.number().required('Longitude é obrigatória'),
             description: yup.string().required('Descrição é obrigatória')
         });
         try {
@@ -21,13 +22,13 @@ class MapController {
         }
 
         // Conexão com o banco de dados chamando a service
-        const mapService = new MapService();
+        const buildingService = new BuildingService();
         try {
-            const map = await mapService.create(name, source, description);
-            if(map.status === httpStatus.CREATED){
-                return resp.status(httpStatus.CREATED).json(map.obj);
+            const building = await buildingService.create(name, latitude, longitude, description);
+            if(building.status === httpStatus.CREATED){
+                return resp.status(httpStatus.CREATED).json(building.obj);
             } else {
-                return resp.status(map.status).json({message: map.message});
+                return resp.status(building.status).json({message: building.message});
             }            
         } catch (error) {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
@@ -36,10 +37,10 @@ class MapController {
     }
 
     async ready(req: Request, resp: Response) {
-        const mapService = new MapService();
+        const buildingService = new BuildingService();
         try {
-            const allMaps = await mapService.ready();
-            return resp.json(allMaps);
+            const allBuildings = await buildingService.ready();
+            return resp.json(allBuildings);
         } catch (error) {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
         }
@@ -48,13 +49,13 @@ class MapController {
     async readyById(req: Request, resp: Response) {
         const { id } = req.params;
         
-        const mapService = new MapService();
+        const buildingService = new BuildingService();
         try {
-            const map = await mapService.readyById(id);
-            if(map.status === httpStatus.OK){
-                return resp.json(map.obj);
+            const building = await buildingService.readyById(id);
+            if(building.status === httpStatus.OK){
+                return resp.json(building.obj);
             }
-            return resp.status(map.status).json({ message: map.message });
+            return resp.status(building.status).json({ message: building.message });
         } catch (error) {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
         }
@@ -63,10 +64,10 @@ class MapController {
     async delete(req: Request, resp: Response) {
         const { id } = req.params;
 
-        const mapService = new MapService();
+        const buildingService = new BuildingService();
         try {
-            const map = await mapService.delete(id);
-            return resp.status(map.status).json({ message: map.message });
+            const building = await buildingService.delete(id);
+            return resp.status(building.status).json({ message: building.message });
         } catch (error) {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
         }
@@ -74,11 +75,12 @@ class MapController {
 
     async update(req: Request, resp: Response) {
         const { id } = req.params;
-        const { name, source, description } = req.body;
+        const { name, latitude, longitude , description } = req.body;
 
         const schema = yup.object().shape({
             name: yup.string().required('Nome é obrigatório'),
-            source: yup.string().required('Url é obrigatória'),
+            latitude: yup.number().required('Latitude é obrigatória'),
+            longitude: yup.number().required('Longitude é obrigatória'),
             description: yup.string().required('Descrição é obrigatória')
         })
         try {
@@ -87,14 +89,14 @@ class MapController {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: error });
         }
 
-        const mapService = new MapService()
+        const buildingService = new BuildingService();
         try {
-            const map = await mapService.update(id, name, source, description);
-            return resp.status(map.status).json({ message: map.message });
+            const building = await buildingService.update(id, name, latitude, longitude, description);
+            return resp.status(building.status).json({ message: building.message });
         } catch (error) {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
         }
     }
 }
 
-export { MapController }
+export { BuildingController }
