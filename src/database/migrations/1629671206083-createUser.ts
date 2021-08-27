@@ -1,4 +1,5 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import { EnumRoleUser } from "../../entities/User";
 
 export class createUser1629671206083 implements MigrationInterface {
 
@@ -26,7 +27,8 @@ export class createUser1629671206083 implements MigrationInterface {
                     },
                     {
                         name: 'role',
-                        type: 'varchar',
+                        type: 'enum',
+                        enum: [EnumRoleUser.NORMAL, EnumRoleUser.EMPLOYEE, EnumRoleUser.SUPER]
                     },  
                     {
                         name: 'created_at',

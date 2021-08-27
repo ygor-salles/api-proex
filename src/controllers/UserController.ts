@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import * as yup from 'yup';
 import httpStatus from "http-status";
 import { UserService } from "../services/UserService";
+import { EnumRoleUser } from "../entities/User";
 
 class UserController {
     async create(req: Request, resp: Response) {
@@ -13,7 +14,8 @@ class UserController {
             name: yup.string().required('Nome é obrigatório'),
             email: yup.string().email('E-mail incorreto').required('E-mail é obrigatório'),
             password: yup.string().required('Senha é obrigatória'),
-            role: yup.string().required('Validação de campo administrador necessária')
+            role: yup.mixed<keyof typeof EnumRoleUser>().oneOf(Object.values(EnumRoleUser))
+                .required('Tipo de usuário é obrigatório')
         });
         try {
             await schema.validate(req.body, { abortEarly: false });
@@ -81,7 +83,8 @@ class UserController {
             name: yup.string().required('Nome é obrigatório'),
             email: yup.string().email().required('E-mail é obrigatório'),
             password: yup.string().required('Senha é obrigatória'),
-            role: yup.string().required('Validação de campo administrador necessária')
+            role: yup.mixed<keyof typeof EnumRoleUser>().oneOf(Object.values(EnumRoleUser))
+                .required('Tipo de usuário é obrigatório')
         })
         try {
             await schema.validate(req.body, { abortEarly: false });
