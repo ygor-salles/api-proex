@@ -1,5 +1,5 @@
 import { getCustomRepository, Repository } from 'typeorm';
-import { User } from '../entities/User';
+import { EnumRoleUser, User } from '../entities/User';
 import { UserRepository } from '../repositories/UserRepository';
 import httpStatus from 'http-status';
 import { hash } from 'bcryptjs';
@@ -10,7 +10,7 @@ class UserService {
         this.connectUser = getCustomRepository(UserRepository);
     }
 
-    async create(name: string, email: string, password: string, role: string) {
+    async create(name: string, email: string, password: string, role: EnumRoleUser) {
         try {
             const userExist = await this.connectUser.findOne({ email });
             if (userExist) {
@@ -70,7 +70,7 @@ class UserService {
         }
     }
 
-    async update(id: string, name: string, email: string, password: string, role: string) {
+    async update(id: string, name: string, email: string, password: string, role: EnumRoleUser) {
         try {
             const user = await this.connectUser.findOne({ id });
             if (user) {
