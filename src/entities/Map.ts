@@ -10,7 +10,7 @@ class Map {
     name: string;
 
     @Column()
-    font: string;
+    source: string;
 
     @Column()
     description: string;

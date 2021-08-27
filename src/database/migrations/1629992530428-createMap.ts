@@ -17,7 +17,7 @@ export class createMap1629992530428 implements MigrationInterface {
                         type: 'varchar',
                     },
                     {
-                        name: 'font',
+                        name: 'source',
                         type: 'varchar',
                     },
                     {
