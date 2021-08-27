@@ -10,7 +10,7 @@ class Building {
     name: string;
 
     @Column()
-    latitute: number;
+    latitude: number;
 
     @Column()
     longitude: number;
