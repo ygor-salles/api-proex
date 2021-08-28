@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { getCustomRepository } from 'typeorm';
+import { EnumRoleUser } from '../entities/User';
 import { UserRepository } from '../repositories/UserRepository';
 
 export async  function ensureSuper (
@@ -13,7 +14,7 @@ export async  function ensureSuper (
     const connectUser = getCustomRepository(UserRepository);
     const user = await connectUser.findOne({ id: userId });
 
-    if(user.role==='super') {
+    if(user.role===EnumRoleUser.SUPER) {
         return next();
     }
 
