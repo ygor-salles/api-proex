@@ -1,6 +1,12 @@
 import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from 'uuid';
 
+export enum EnumRoleUser {
+    SUPER = 'SUPER',
+    NORMAL = 'NORMAL',
+    EMPLOYEE = 'EMPLOYEE'
+}
+
 @Entity('users')
 class User {
     @PrimaryColumn('uuid')
@@ -15,8 +21,8 @@ class User {
     @Column()
     password: string;
 
-    @Column()
-    role: string;
+    @Column({ type: 'enum', enum: EnumRoleUser, default: EnumRoleUser.NORMAL })
+    role: EnumRoleUser;
     
     @CreateDateColumn()
     created_at: Date
