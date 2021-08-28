@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from 'uuid';
+import { Building } from "./Building";
 
 @Entity('maps')
 class Map {
@@ -20,6 +21,13 @@ class Map {
 
     @UpdateDateColumn()
     updated_at: Date;
+
+    @Column()
+    building_id: string
+
+    @OneToOne(() => Building, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'building_id' })
+    building: Building
 
     constructor() {
         if(!this.id) {

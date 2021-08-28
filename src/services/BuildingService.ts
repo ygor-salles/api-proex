@@ -31,9 +31,7 @@ class BuildingService {
 
     async ready() {
         try {
-            return await this.connectBuilding.find({
-                select: ['id', 'name', 'latitude', 'longitude', 'created_at']
-            });
+            return await this.connectBuilding.find();
         } catch (error) {
             throw error;
         }
