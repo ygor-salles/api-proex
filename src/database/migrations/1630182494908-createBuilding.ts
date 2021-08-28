@@ -1,6 +1,6 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class createBuilding1630081183391 implements MigrationInterface {
+export class createBuilding1630182494908 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -18,11 +18,11 @@ export class createBuilding1630081183391 implements MigrationInterface {
                     },
                     {
                         name: 'latitude',
-                        type: 'double',
+                        type: 'decimal',
                     },
                     {
                         name: 'longitude',
-                        type: 'double',
+                        type: 'decimal',
                     },
                     {
                         name: 'description',

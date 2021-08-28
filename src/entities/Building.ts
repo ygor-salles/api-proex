@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from 'uuid';
+import { Map } from "./Map";
 
 @Entity('buildings')
 class Building {
@@ -9,10 +10,10 @@ class Building {
     @Column()
     name: string;
 
-    @Column()
+    @Column('decimal')
     latitude: number;
 
-    @Column()
+    @Column('decimal')
     longitude: number;
 
     @Column()
@@ -23,6 +24,9 @@ class Building {
 
     @UpdateDateColumn()
     updated_at: Date
+
+    @OneToOne(() => Map, map => map.building, { eager: true })
+    map: Map
 
     constructor() {
         if(!this.id) {

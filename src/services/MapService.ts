@@ -9,7 +9,7 @@ class MapService {
         this.connectMap = getCustomRepository(MapRepository);
     }
 
-    async create(name: string, source: string, description: string) {
+    async create(name: string, source: string, description: string, building_id: string) {
         try {
             const mapExist = await this.connectMap.findOne({ name });
             if (mapExist) {
@@ -18,7 +18,8 @@ class MapService {
             const map = this.connectMap.create({ 
                 name, 
                 source, 
-                description,  
+                description,
+                building_id  
             });
             await this.connectMap.save(map);
 
@@ -30,9 +31,7 @@ class MapService {
 
     async ready() {
         try {
-            return await this.connectMap.find({
-                select: ['id', 'name', 'source', 'description', 'created_at']
-            });
+            return await this.connectMap.find();
         } catch (error) {
             throw error;
         }
@@ -63,11 +62,11 @@ class MapService {
         }
     }
 
-    async update(id: string, name: string, source: string, description: string) {
+    async update(id: string, name: string, source: string, description: string, building_id: string) {
         try {
             const map = await this.connectMap.findOne({ id });
             if (map) {
-                await this.connectMap.update(map.id, { name, source, description });
+                await this.connectMap.update(map.id, { name, source, description, building_id });
                 return { status: httpStatus.OK, message: 'Mapa atualizado com sucesso!' };
             }
             return { status: httpStatus.NOT_FOUND, message: 'Mapa não existe!' };

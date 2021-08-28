@@ -3,12 +3,12 @@ require('dotenv').config();
 const rootDir = process.env.NODE_ENV === 'development' ? 'src' : 'build';
 const extensionFile = process.env.NODE_ENV === 'development' ? 'ts' : 'js';
 
-// const extraObj = process.env.NODE_ENV === 'development' ? {} : {
-//     ssl: {
-//         require: true,
-//         rejectUnauthorized: false
-//     }
-// }
+const extraObj = process.env.NODE_ENV === 'development' ? {} : {
+    ssl: {
+        require: true,
+        rejectUnauthorized: false
+    }
+}
 
 module.exports = {
     type: 'postgres',
@@ -18,12 +18,7 @@ module.exports = {
     password: process.env.TYPEORM_PASSWORD,
     database: process.env.TYPEORM_DATABASE,
     synchronize: process.env.TYPEORM_SYNCHRONIZE,
-    extra: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false
-        }
-    },
+    extra: extraObj,
     migrations: [rootDir + `/database/migrations/*.${extensionFile}`],
     entities: [rootDir + `/entities/*.${extensionFile}`],
     cli: {

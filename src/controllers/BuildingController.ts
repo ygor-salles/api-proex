@@ -18,7 +18,7 @@ class BuildingController {
         try {
             await schema.validate(req.body, { abortEarly: false });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: error });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });
         }
 
         // Conexão com o banco de dados chamando a service
@@ -86,7 +86,7 @@ class BuildingController {
         try {
             await schema.validate(req.body, { abortEarly: false });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: error });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });
         }
 
         const buildingService = new BuildingService();

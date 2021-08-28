@@ -1,6 +1,6 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class createMap1629992530428 implements MigrationInterface {
+export class createMap1630182508653 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -33,6 +33,21 @@ export class createMap1629992530428 implements MigrationInterface {
                         name: 'updated_at',
                         type: 'timestamp',
                         default: 'now()'
+                    },
+                    {
+                        name: 'building_id',
+                        type: 'uuid',
+                        isUnique: true
+                    }
+                ],
+                foreignKeys: [
+                    {
+                        name: 'FKBuilding',
+                        referencedTableName: 'buildings',
+                        referencedColumnNames: ['id'],
+                        columnNames: ['building_id'],
+                        onDelete: 'CASCADE',
+                        onUpdate: 'CASCADE'
                     }
                 ]
             })
@@ -43,4 +58,4 @@ export class createMap1629992530428 implements MigrationInterface {
         await queryRunner.dropTable('maps');
     }
 
-} 
+}
