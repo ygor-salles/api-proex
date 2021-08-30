@@ -36,8 +36,7 @@ export class createMap1630182508653 implements MigrationInterface {
                     },
                     {
                         name: 'building_id',
-                        type: 'uuid',
-                        isUnique: true
+                        type: 'uuid'
                     }
                 ],
                 foreignKeys: [
