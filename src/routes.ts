@@ -16,7 +16,8 @@ const authenticateUserController = new AuthenticateUserController();
 router.get('/', (req: Request, resp: Response) => { 
     return resp.status(200).json({ message: 'Bem vindo api-proex' }); 
 });
-
+// Para criar o primeiro usuário, é necessário descomentar a linha 20 e comentar a seguinte.
+// router.post('/users', userController.create);
 router.post('/users', ensureAuthenticated, ensureSuper, userController.create);
 router.get('/users', ensureAuthenticated, userController.ready);
 router.get('/users/:id', ensureAuthenticated, userController.readyById);
