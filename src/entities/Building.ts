@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from 'uuid';
 import { Map } from "./Map";
 import { Organization } from "./Organization";
@@ -33,7 +33,7 @@ class Building {
     @JoinColumn({ name: 'organization_id' })
     organization: Organization
     
-    @OneToOne(() => Map, map => map.building, { eager: true })
+    @OneToMany(() => Map, map => map.building, { eager: true })
     map: Map
 
     constructor() {
