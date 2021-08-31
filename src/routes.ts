@@ -3,6 +3,7 @@ import { AuthenticateUserController } from "./controllers/AuthenticateUserContro
 import { UserController } from "./controllers/UserController";
 import { MapController } from "./controllers/MapController";
 import { BuildingController } from "./controllers/BuildingController";
+import { OrganizationController } from "./controllers/OrganizationController";
 import { ensureSuper } from "./middlewares/ensureSuper";
 import { ensureAuthenticated } from "./middlewares/ensureAuthenticated";
 
@@ -11,6 +12,7 @@ const router = Router();
 const userController = new UserController();
 const mapController = new MapController();
 const buildingController = new BuildingController();
+const organizationController = new OrganizationController();
 const authenticateUserController = new AuthenticateUserController();
 
 router.get('/', (req: Request, resp: Response) => { 
@@ -35,6 +37,12 @@ router.get('/buildings', ensureAuthenticated, buildingController.ready);
 router.get('/buildings/:id', ensureAuthenticated, buildingController.readyById);
 router.put('/buildings/:id', ensureAuthenticated, ensureSuper, buildingController.update);
 router.delete('/buildings/:id', ensureAuthenticated, ensureSuper, buildingController.delete);
+
+router.post('/organizations', ensureAuthenticated, ensureSuper, organizationController.create);
+router.get('/organizations', ensureAuthenticated, organizationController.ready);
+router.get('/organizations/:id', ensureAuthenticated, organizationController.readyById);
+router.put('/organizations/:id', ensureAuthenticated, ensureSuper, organizationController.update);
+router.delete('/organizations/:id', ensureAuthenticated, ensureSuper, organizationController.delete);
 
 router.post('/login', authenticateUserController.handle);
 
