@@ -6,14 +6,15 @@ import { BuildingService } from "../services/BuildingService";
 class BuildingController {
     async create(req: Request, resp: Response) {
         // Dados recebidos na requisição
-        const { name, latitude, longitude, description } = req.body;
+        const { name, latitude, longitude, description, organization_id } = req.body;
 
         // Validação dos campos recebidos no corpo da requisição
         const schema = yup.object().shape({
             name: yup.string().required('Nome é obrigatório'),
             latitude: yup.number().required('Latitude é obrigatória'),
             longitude: yup.number().required('Longitude é obrigatória'),
-            description: yup.string().required('Descrição é obrigatória')
+            description: yup.string().required('Descrição é obrigatória'),
+            organization_id: yup.string().required('Id da Organização é obrigatória')
         });
         try {
             await schema.validate(req.body, { abortEarly: false });
@@ -24,7 +25,7 @@ class BuildingController {
         // Conexão com o banco de dados chamando a service
         const buildingService = new BuildingService();
         try {
-            const building = await buildingService.create(name, latitude, longitude, description);
+            const building = await buildingService.create(name, latitude, longitude, description, organization_id);
             if(building.status === httpStatus.CREATED){
                 return resp.status(httpStatus.CREATED).json(building.obj);
             } else {
@@ -75,13 +76,14 @@ class BuildingController {
 
     async update(req: Request, resp: Response) {
         const { id } = req.params;
-        const { name, latitude, longitude , description } = req.body;
+        const { name, latitude, longitude , description, organization_id } = req.body;
 
         const schema = yup.object().shape({
             name: yup.string().required('Nome é obrigatório'),
             latitude: yup.number().required('Latitude é obrigatória'),
             longitude: yup.number().required('Longitude é obrigatória'),
-            description: yup.string().required('Descrição é obrigatória')
+            description: yup.string().required('Descrição é obrigatória'),
+            organization_id: yup.string().required('Id da Organização é obrigatória')
         })
         try {
             await schema.validate(req.body, { abortEarly: false });
@@ -91,7 +93,7 @@ class BuildingController {
 
         const buildingService = new BuildingService();
         try {
-            const building = await buildingService.update(id, name, latitude, longitude, description);
+            const building = await buildingService.update(id, name, latitude, longitude, description, organization_id);
             return resp.status(building.status).json({ message: building.message });
         } catch (error) {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });

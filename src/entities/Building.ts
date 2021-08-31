@@ -31,8 +31,8 @@ class Building {
 
     @ManyToOne(() => Organization, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
     @JoinColumn({ name: 'organization_id' })
-    organization: Organization;
-
+    organization: Organization
+    
     @OneToOne(() => Map, map => map.building, { eager: true })
     map: Map
 
