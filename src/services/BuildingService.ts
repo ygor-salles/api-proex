@@ -9,7 +9,7 @@ class BuildingService {
         this.connectBuilding = getCustomRepository(BuildingRepository);
     }
 
-    async create(name: string, latitude: number, longitude: number, description: string) {
+    async create(name: string, latitude: number, longitude: number, description: string, organization_id: string) {
         try {
             const buildingExist = await this.connectBuilding.findOne({ name });
             if (buildingExist) {
@@ -19,7 +19,8 @@ class BuildingService {
                 name, 
                 latitude,
                 longitude,
-                description
+                description,
+                organization_id
             });
             await this.connectBuilding.save(building);
 
@@ -62,11 +63,11 @@ class BuildingService {
         }
     }
 
-    async update(id: string, name: string, latitude: number, longitude: number, description: string) {
+    async update(id: string, name: string, latitude: number, longitude: number, description: string, organization_id: string) {
         try {
             const building = await this.connectBuilding.findOne({ id });
             if (building) {
-                await this.connectBuilding.update(building.id, { name, latitude, longitude, description });
+                await this.connectBuilding.update(building.id, { name, latitude, longitude, description, organization_id });
                 return { status: httpStatus.OK, message: 'Prédio atualizado com sucesso!' };
             }
             return { status: httpStatus.NOT_FOUND, message: 'Prédio não existe!' };

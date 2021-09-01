@@ -57,7 +57,7 @@ class MapController {
             }
             return resp.status(map.status).json({ message: map.message });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id do mapa não encontrado' });
         }
     }
 
@@ -69,7 +69,7 @@ class MapController {
             const map = await mapService.delete(id);
             return resp.status(map.status).json({ message: map.message });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id do mapa não encontrado' });
         }
     }
 
@@ -94,7 +94,7 @@ class MapController {
             const map = await mapService.update(id, name, source, description, building_id);
             return resp.status(map.status).json({ message: map.message });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id do mapa não encontrado' });
         }
     }
 }

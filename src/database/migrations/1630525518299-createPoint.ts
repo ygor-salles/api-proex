@@ -1,11 +1,11 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class createMap1630182508653 implements MigrationInterface {
+export class createPoint1630525518299 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'maps',
+                name: 'points',
                 columns: [
                     {
                         name: 'id',
@@ -17,44 +17,60 @@ export class createMap1630182508653 implements MigrationInterface {
                         type: 'varchar',
                     },
                     {
-                        name: 'source',
-                        type: 'varchar',
-                    },
-                    {
                         name: 'description',
                         type: 'varchar',
                     },
                     {
+                        name: 'floor',
+                        type: 'decimal',
+                    },
+                    {
+                        name: 'altitude',
+                        type: 'decimal',
+                    },
+                    {
+                        name: 'latitude',
+                        type: 'decimal',
+                    },
+                    {
+                        name: 'longitude',
+                        type: 'decimal',
+                    },
+                    {
+                        name: 'isObstacle',
+                        type: 'boolean',
+                    },
+                    {
                         name: 'created_at',
                         type: 'timestamp',
-                        default: 'now()'
+                        default: 'now()',
                     },
                     {
                         name: 'updated_at',
                         type: 'timestamp',
-                        default: 'now()'
+                        default: 'now()',
                     },
                     {
-                        name: 'building_id',
-                        type: 'uuid'
-                    }
+                        name: 'map_id',
+                        type: 'uuid',
+                    },
                 ],
                 foreignKeys: [
                     {
-                        name: 'FKBuilding',
-                        referencedTableName: 'buildings',
+                        name: 'FKMap',
+                        referencedTableName: 'maps',
                         referencedColumnNames: ['id'],
-                        columnNames: ['building_id'],
+                        columnNames: ['map_id'],
                         onDelete: 'CASCADE',
-                        onUpdate: 'CASCADE'
+                        onUpdate: 'CASCADE',
                     }
                 ]
             })
-        )
+
+        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('maps');
+        await queryRunner.dropTable('points')
     }
-
 }

@@ -1,11 +1,11 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class createBuilding1630182494908 implements MigrationInterface {
+export class createMap1630338033977 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'buildings',
+                name: 'maps',
                 columns: [
                     {
                         name: 'id',
@@ -17,12 +17,8 @@ export class createBuilding1630182494908 implements MigrationInterface {
                         type: 'varchar',
                     },
                     {
-                        name: 'latitude',
-                        type: 'decimal',
-                    },
-                    {
-                        name: 'longitude',
-                        type: 'decimal',
+                        name: 'source',
+                        type: 'varchar',
                     },
                     {
                         name: 'description',
@@ -31,20 +27,34 @@ export class createBuilding1630182494908 implements MigrationInterface {
                     {
                         name: 'created_at',
                         type: 'timestamp',
-                        default: 'now()',
+                        default: 'now()'
                     },
                     {
                         name: 'updated_at',
                         type: 'timestamp',
-                        default: 'now()',
+                        default: 'now()'
+                    },
+                    {
+                        name: 'building_id',
+                        type: 'uuid'
+                    }
+                ],
+                foreignKeys: [
+                    {
+                        name: 'FKBuilding',
+                        referencedTableName: 'buildings',
+                        referencedColumnNames: ['id'],
+                        columnNames: ['building_id'],
+                        onDelete: 'CASCADE',
+                        onUpdate: 'CASCADE'
                     }
                 ]
             })
-        );
+        )
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('buildings');
+        await queryRunner.dropTable('maps');
     }
 
 }
