@@ -26,7 +26,7 @@ class Point {
     longitude: number;
 
     @Column()
-    isOsbstacle: boolean;
+    isObstacle: boolean;
 
     @CreateDateColumn()
     created_at: Date;

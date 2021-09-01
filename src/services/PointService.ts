@@ -9,7 +9,7 @@ class PointService {
         this.connectPoint = getCustomRepository(PointRepository);
     }
 
-    async create(name: string, description: string, floor: number,altitude: number, latitude: number, longitude: number, isObstacle: boolean, map_id: string) {
+    async create(name: string, description: string, floor: number, altitude: number, latitude: number, longitude: number, isObstacle: boolean, map_id: string) {
         try {
             const pointExist = await this.connectPoint.findOne({ name });
             if (pointExist) {
@@ -22,7 +22,7 @@ class PointService {
                 altitude,
                 latitude,
                 longitude,
-                // isObstacle,
+                isObstacle,
                 map_id
             });
             await this.connectPoint.save(point);
@@ -70,7 +70,7 @@ class PointService {
         try {
             const point = await this.connectPoint.findOne({ id });
             if (point) {
-                await this.connectPoint.update(point.id, { name, description, floor, altitude, latitude, longitude,/* isObstacle,*/ map_id });
+                await this.connectPoint.update(point.id, { name, description, floor, altitude, latitude, longitude, isObstacle, map_id });
                 return { status: httpStatus.OK, message: 'Ponto atualizado com sucesso!' };
             }
             return { status: httpStatus.NOT_FOUND, message: 'Ponto não existe!' };

@@ -6,7 +6,7 @@ import { PointService } from "../services/PointService";
 class PointController {
     async create(req: Request, resp: Response) {
         // Dados recebidos na requisição
-        const { name, description, floor, altitude, latitude, longitude, isOsbstacle, map_id } = req.body;
+        const { name, description, floor, altitude, latitude, longitude, isObstacle, map_id } = req.body;
 
         // Validação dos campos recebidos no corpo da requisição
         const schema = yup.object().shape({
@@ -16,7 +16,7 @@ class PointController {
             altitude: yup.number().required('A Altitude é obrigatória'),
             latitude: yup.number().required('A Latitude é obrigatória'),
             longitude: yup.number().required('A Longitude é obrigatória'),
-            isOsbstacle: yup.boolean().required('O Obstáculo é obrigatório'),
+            isObstacle: yup.boolean().oneOf([true], 'O obstáculo é obrigatório'),
             map_id: yup.string().uuid('Id de mapa é obrigatório')
         });
         try {
@@ -28,7 +28,7 @@ class PointController {
         // Conexão com o banco de dados chamando a service
         const pointService = new PointService();
         try {
-            const point = await pointService.create(name, description, floor, altitude, latitude, longitude, isOsbstacle, map_id);
+            const point = await pointService.create(name, description, floor, altitude, latitude, longitude, isObstacle, map_id);
             if(point.status === httpStatus.CREATED){
                 return resp.status(httpStatus.CREATED).json(point.obj);
             } else {
@@ -61,7 +61,7 @@ class PointController {
             }
             return resp.status(point.status).json({ message: point.message });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id do ponto não encontrado' });
         }
     }
 
@@ -73,13 +73,13 @@ class PointController {
             const point = await pointService.delete(id);
             return resp.status(point.status).json({ message: point.message });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id do ponto não encontrado' });
         }
     }
 
     async update(req: Request, resp: Response) {
         const { id } = req.params;
-        const { name, description, floor, altitude, latitude, longitude, isOsbstacle, map_id } = req.body;
+        const { name, description, floor, altitude, latitude, longitude, isObstacle, map_id } = req.body;
 
         const schema = yup.object().shape({
             name: yup.string().required('Nome é obrigatório'),
@@ -88,7 +88,7 @@ class PointController {
             altitude: yup.number().required('A Altitude é obrigatória'),
             latitude: yup.number().required('A Latitude é obrigatória'),
             longitude: yup.number().required('A Longitude é obrigatória'),
-            isOsbstacle: yup.boolean().required('O Obstáculo é obrigatório'),
+            isObstacle: yup.boolean().oneOf([true], 'O obstáculo é obrigatório'),
             map_id: yup.string().uuid('Id de mapa é obrigatório')
         })
         try {
@@ -99,10 +99,10 @@ class PointController {
 
         const pointService = new PointService()
         try {
-            const point = await pointService.update(id, name, description, floor, altitude, latitude, longitude, isOsbstacle, map_id);
+            const point = await pointService.update(id, name, description, floor, altitude, latitude, longitude, isObstacle, map_id);
             return resp.status(point.status).json({ message: point.message });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id do ponto não encontrado' });
         }
     }
 }

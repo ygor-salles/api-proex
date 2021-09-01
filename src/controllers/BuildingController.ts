@@ -58,7 +58,7 @@ class BuildingController {
             }
             return resp.status(building.status).json({ message: building.message });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id do prédio não encontrado' });
         }
     }
 
@@ -70,7 +70,7 @@ class BuildingController {
             const building = await buildingService.delete(id);
             return resp.status(building.status).json({ message: building.message });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id do prédio não encontrado' });
         }
     }
 
@@ -96,7 +96,7 @@ class BuildingController {
             const building = await buildingService.update(id, name, latitude, longitude, description, organization_id);
             return resp.status(building.status).json({ message: building.message });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id da prédio não encontrado' });
         }
     }
 }

@@ -61,7 +61,7 @@ class OrganizationController {
             }
             return resp.status(organization.status).json({ message: organization.message });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id da organização não encontrado' });
         }
     }
 
@@ -73,7 +73,7 @@ class OrganizationController {
             const organization = await organizationService.delete(id);
             return resp.status(organization.status).json({ message: organization.message });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id da organização não encontrado' });
         }
     }
 
@@ -102,7 +102,7 @@ class OrganizationController {
             const organization = await organizationService.update(id, name, cep, state, district, city, street, number, description);
             return resp.status(organization.status).json({ message: organization.message });
         } catch (error) {
-            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
+            return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id da organização não encontrado' });
         }
     }
 }
