@@ -1,11 +1,14 @@
 import { Request, Response, Router } from "express";
+
+import { ensureSuper } from "./middlewares/ensureSuper";
+import { ensureAuthenticated } from "./middlewares/ensureAuthenticated";
+
 import { AuthenticateUserController } from "./controllers/AuthenticateUserController";
 import { UserController } from "./controllers/UserController";
 import { MapController } from "./controllers/MapController";
 import { BuildingController } from "./controllers/BuildingController";
 import { OrganizationController } from "./controllers/OrganizationController";
-import { ensureSuper } from "./middlewares/ensureSuper";
-import { ensureAuthenticated } from "./middlewares/ensureAuthenticated";
+import { PointController } from "./controllers/PointController";
 
 const router = Router();
 
@@ -14,6 +17,7 @@ const mapController = new MapController();
 const buildingController = new BuildingController();
 const organizationController = new OrganizationController();
 const authenticateUserController = new AuthenticateUserController();
+const pointController = new PointController();
 
 router.get('/', (req: Request, resp: Response) => { 
     return resp.status(200).json({ message: 'Bem vindo api-proex' }); 
@@ -43,6 +47,12 @@ router.get('/organizations', ensureAuthenticated, organizationController.ready);
 router.get('/organizations/:id', ensureAuthenticated, organizationController.readyById);
 router.put('/organizations/:id', ensureAuthenticated, ensureSuper, organizationController.update);
 router.delete('/organizations/:id', ensureAuthenticated, ensureSuper, organizationController.delete);
+
+router.post('/points', ensureAuthenticated, ensureSuper, pointController.create);
+router.get('/points', ensureAuthenticated, pointController.ready);
+router.get('/points/:id', ensureAuthenticated, pointController.readyById);
+router.put('/points/:id', ensureAuthenticated, ensureSuper, pointController.update);
+router.delete('/points/:id', ensureAuthenticated, ensureSuper, pointController.delete);
 
 router.post('/login', authenticateUserController.handle);
 
