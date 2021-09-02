@@ -20,7 +20,7 @@ const authenticateUserController = new AuthenticateUserController();
 const pointController = new PointController();
 
 router.get('/', (req: Request, resp: Response) => { 
-    return resp.status(200).json({ message: 'Bem vindo api-proex' }); 
+    return resp.status(200).json({ message: 'Welcome api-proex' }); 
 });
 
 router.post('/users', ensureAuthenticated, ensureSuper, userController.create);
