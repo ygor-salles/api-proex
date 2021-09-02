@@ -35,8 +35,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthenticateUserController = void 0;
+var http_status_1 = __importDefault(require("http-status"));
 var AuthenticateUserService_1 = require("../services/AuthenticateUserService");
 var AuthenticateUserController = /** @class */ (function () {
     function AuthenticateUserController() {
@@ -54,6 +58,9 @@ var AuthenticateUserController = /** @class */ (function () {
                             })];
                     case 1:
                         token = _b.sent();
+                        if (token.status === http_status_1.default.BAD_REQUEST) {
+                            return [2 /*return*/, response.status(http_status_1.default.BAD_REQUEST).json(token)];
+                        }
                         return [2 /*return*/, response.json(token)];
                 }
             });

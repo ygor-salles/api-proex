@@ -62,6 +62,7 @@ exports.UserController = void 0;
 var yup = __importStar(require("yup"));
 var http_status_1 = __importDefault(require("http-status"));
 var UserService_1 = require("../services/UserService");
+var User_1 = require("../entities/User");
 var UserController = /** @class */ (function () {
     function UserController() {
     }
@@ -76,7 +77,8 @@ var UserController = /** @class */ (function () {
                             name: yup.string().required('Nome é obrigatório'),
                             email: yup.string().email('E-mail incorreto').required('E-mail é obrigatório'),
                             password: yup.string().required('Senha é obrigatória'),
-                            role: yup.string().required('Validação de campo administrador necessária')
+                            role: yup.mixed().oneOf(Object.values(User_1.EnumRoleUser))
+                                .required('Tipo de usuário é obrigatório')
                         });
                         _b.label = 1;
                     case 1:
@@ -87,7 +89,7 @@ var UserController = /** @class */ (function () {
                         return [3 /*break*/, 4];
                     case 3:
                         error_1 = _b.sent();
-                        return [2 /*return*/, resp.status(http_status_1.default.BAD_REQUEST).json({ message: error_1 })];
+                        return [2 /*return*/, resp.status(http_status_1.default.BAD_REQUEST).json({ message: error_1.message })];
                     case 4:
                         userService = new UserService_1.UserService();
                         _b.label = 5;
@@ -194,7 +196,8 @@ var UserController = /** @class */ (function () {
                             name: yup.string().required('Nome é obrigatório'),
                             email: yup.string().email().required('E-mail é obrigatório'),
                             password: yup.string().required('Senha é obrigatória'),
-                            role: yup.string().required('Validação de campo administrador necessária')
+                            role: yup.mixed().oneOf(Object.values(User_1.EnumRoleUser))
+                                .required('Tipo de usuário é obrigatório')
                         });
                         _b.label = 1;
                     case 1:
@@ -205,7 +208,7 @@ var UserController = /** @class */ (function () {
                         return [3 /*break*/, 4];
                     case 3:
                         error_6 = _b.sent();
-                        return [2 /*return*/, resp.status(http_status_1.default.BAD_REQUEST).json({ message: error_6 })];
+                        return [2 /*return*/, resp.status(http_status_1.default.BAD_REQUEST).json({ message: error_6.message })];
                     case 4:
                         userService = new UserService_1.UserService();
                         _b.label = 5;

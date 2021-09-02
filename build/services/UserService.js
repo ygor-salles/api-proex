@@ -151,24 +151,27 @@ var UserService = /** @class */ (function () {
     };
     UserService.prototype.update = function (id, name, email, password, role) {
         return __awaiter(this, void 0, void 0, function () {
-            var user, error_5;
+            var user, passwordHash, error_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 4, , 5]);
+                        _a.trys.push([0, 5, , 6]);
                         return [4 /*yield*/, this.connectUser.findOne({ id: id })];
                     case 1:
                         user = _a.sent();
-                        if (!user) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.connectUser.update(user.id, { name: name, email: email, password: password, role: role })];
+                        if (!user) return [3 /*break*/, 4];
+                        return [4 /*yield*/, bcryptjs_1.hash(password, 8)];
                     case 2:
+                        passwordHash = _a.sent();
+                        return [4 /*yield*/, this.connectUser.update(user.id, { name: name, email: email, password: passwordHash, role: role })];
+                    case 3:
                         _a.sent();
                         return [2 /*return*/, { status: http_status_1.default.OK, message: 'Usuário atualizado com sucesso!' }];
-                    case 3: return [2 /*return*/, { status: http_status_1.default.NOT_FOUND, message: 'Usuário não existe!' }];
-                    case 4:
+                    case 4: return [2 /*return*/, { status: http_status_1.default.NOT_FOUND, message: 'Usuário não existe!' }];
+                    case 5:
                         error_5 = _a.sent();
                         throw error_5;
-                    case 5: return [2 /*return*/];
+                    case 6: return [2 /*return*/];
                 }
             });
         });

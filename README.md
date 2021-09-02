@@ -10,7 +10,7 @@ yarn
 ```
 
 - Após todas as dependências instaladas criar na raiz da pasta backend um arquivo `.env`
-e preencher as informações conforme se encontra no arquivo `env_example.txt`. 
+e preencher as informações conforme se encontra no arquivo `.env_example`. 
 
 - Rodar a migration, executando no terminal:
 ```bash
@@ -47,7 +47,21 @@ yarn typeorm migration:revert
 yarn build
 ```
 
-* Link da api: https://app-proex.herokuapp.com/
+## Rodar a migration em homolog
+
+* 1 - alterar no aquivo .env o NODE_ENV para homolog
+* 2 - executar o comando yarn build caso o build não esteja atualizado
+* 3 - executar o comando de rodar a migration - $ yarn typeorm migration:run 
+
+## Rodar a migration em produção
+
+* 1 - alterar no aquivo .env o NODE_ENV para production
+* 2 - executar o comando yarn build caso o build não esteja atualizado
+* 3 - executar o comando de rodar a migration - $ yarn typeorm migration:run 
+
+## Link de homolog
+
+* Link da api homolog: https://app-proex.herokuapp.com/
 
 ## Link de como foi feito o deploy do Heroku
 

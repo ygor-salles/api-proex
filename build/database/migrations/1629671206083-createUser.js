@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser1629671206083 = void 0;
 var typeorm_1 = require("typeorm");
+var User_1 = require("../../entities/User");
 var createUser1629671206083 = /** @class */ (function () {
     function createUser1629671206083() {
     }
@@ -67,7 +68,8 @@ var createUser1629671206083 = /** @class */ (function () {
                                 },
                                 {
                                     name: 'role',
-                                    type: 'varchar',
+                                    type: 'enum',
+                                    enum: [User_1.EnumRoleUser.NORMAL, User_1.EnumRoleUser.EMPLOYEE, User_1.EnumRoleUser.SUPER]
                                 },
                                 {
                                     name: 'created_at',

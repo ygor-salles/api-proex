@@ -9,9 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.User = exports.EnumRoleUser = void 0;
 var typeorm_1 = require("typeorm");
 var uuid_1 = require("uuid");
+var EnumRoleUser;
+(function (EnumRoleUser) {
+    EnumRoleUser["SUPER"] = "SUPER";
+    EnumRoleUser["NORMAL"] = "NORMAL";
+    EnumRoleUser["EMPLOYEE"] = "EMPLOYEE";
+})(EnumRoleUser = exports.EnumRoleUser || (exports.EnumRoleUser = {}));
 var User = /** @class */ (function () {
     function User() {
         if (!this.id) {
@@ -35,7 +41,7 @@ var User = /** @class */ (function () {
         __metadata("design:type", String)
     ], User.prototype, "password", void 0);
     __decorate([
-        typeorm_1.Column(),
+        typeorm_1.Column({ type: 'enum', enum: EnumRoleUser, default: EnumRoleUser.NORMAL }),
         __metadata("design:type", String)
     ], User.prototype, "role", void 0);
     __decorate([

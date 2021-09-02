@@ -1,32 +1,63 @@
 require('dotenv').config();
 
-const rootDir = process.env.NODE_ENV === 'development' ? 'src' : 'build';
-const extensionFile = process.env.NODE_ENV === 'development' ? 'ts' : 'js';
-
-// const extraObj = process.env.NODE_ENV === 'development' ? {} : {
-//     ssl: {
-//         require: true,
-//         rejectUnauthorized: false
-//     }
-// }
-
-module.exports = {
-    type: 'postgres',
-    host: process.env.TYPEORM_HOST,
-    port: process.env.TYPEORM_PORT || 5432,
-    username: process.env.TYPEORM_USERNAME,
-    password: process.env.TYPEORM_PASSWORD,
-    database: process.env.TYPEORM_DATABASE,
-    synchronize: process.env.TYPEORM_SYNCHRONIZE,
-    extra: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false
+let config = {}
+if (process.env.NODE_ENV === 'development') {
+    config = {
+        type: 'postgres',
+        host: process.env.BD_HOST,
+        port: process.env.BD_PORT || 5432,
+        username: process.env.BD_USERNAME,
+        password: process.env.BD_PASSWORD,
+        database: process.env.BD_DATABASE,
+        synchronize: false,
+        migrations: ['src/database/migrations/*.ts'],
+        entities: ['src/entities/*.ts'],
+        cli: {
+            migrationsDir: 'src/database/migrations'
         }
-    },
-    migrations: [rootDir + `/database/migrations/*.${extensionFile}`],
-    entities: [rootDir + `/entities/*.${extensionFile}`],
-    cli: {
-        migrationsDir: rootDir + '/database/migrations'
+    }
+} else if (process.env.NODE_ENV === 'homolog') {
+    config = {
+        type: 'postgres',
+        host: process.env.BD_HOMOLOG_HOST,
+        port: process.env.BD_HOMOLOG_PORT || 5432,
+        username: process.env.BD_HOMOLOG_USERNAME,
+        password: process.env.BD_HOMOLOG_PASSWORD,
+        database: process.env.BD_HOMOLOG_DATABASE,
+        synchronize: false,
+        extra: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
+        },
+        migrations: ['build/database/migrations/*.js'],
+        entities: ['build/entities/*.js'],
+        cli: {
+            migrationsDir: 'build/database/migrations'
+        }
+    }
+} else if (process.env.NODE_ENV === 'production') {
+    config = {
+        type: 'postgres',
+        host: process.env.BD_PROD_HOST,
+        port: process.env.BD_PROD_PORT || 5432,
+        username: process.env.BD_PROD_USERNAME,
+        password: process.env.BD_PROD_PASSWORD,
+        database: process.env.BD_PROD_DATABASE,
+        synchronize: false,
+        extra: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
+        },
+        migrations: ['build/database/migrations/*.js'],
+        entities: ['build/entities/*.js'],
+        cli: {
+            migrationsDir: 'build/database/migrations'
+        }
     }
 }
+
+module.exports = config
