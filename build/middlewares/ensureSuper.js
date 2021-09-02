@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ensureSuper = void 0;
 var typeorm_1 = require("typeorm");
+var User_1 = require("../entities/User");
 var UserRepository_1 = require("../repositories/UserRepository");
 function ensureSuper(request, response, next) {
     return __awaiter(this, void 0, void 0, function () {
@@ -50,7 +51,7 @@ function ensureSuper(request, response, next) {
                     return [4 /*yield*/, connectUser.findOne({ id: userId })];
                 case 1:
                     user = _a.sent();
-                    if (user.role === 'super') {
+                    if (user.role === User_1.EnumRoleUser.SUPER) {
                         return [2 /*return*/, next()];
                     }
                     return [2 /*return*/, response.status(401).json({
