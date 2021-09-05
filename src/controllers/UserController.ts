@@ -1,29 +1,19 @@
 import { Request, Response } from "express";
-import * as yup from 'yup';
 import httpStatus from "http-status";
 import { UserService } from "../services/UserService";
-import { EnumRoleUser } from "../entities/User";
+import { UserDto } from "../validators/UserDto";
 
 class UserController {
     async create(req: Request, resp: Response) {
-        // Dados recebidos na requisição
         const { name, email, password, role } = req.body;
 
-        // Validação dos campos recebidos no corpo da requisição
-        const schema = yup.object().shape({
-            name: yup.string().required('Nome é obrigatório'),
-            email: yup.string().email('E-mail incorreto').required('E-mail é obrigatório'),
-            password: yup.string().required('Senha é obrigatória'),
-            role: yup.mixed<keyof typeof EnumRoleUser>().oneOf(Object.values(EnumRoleUser))
-                .required('Tipo de usuário é obrigatório')
-        });
+        const userValidator = new UserDto();
         try {
-            await schema.validate(req.body, { abortEarly: false });
+            await userValidator.createUpdateValidation().validate(req.body, { abortEarly: false })
         } catch (error) {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });
         }
 
-        // Conexão com o banco de dados chamando a service
         const userService = new UserService();
         try {
             const user = await userService.create(name, email, password, role);
@@ -35,7 +25,6 @@ class UserController {
         } catch (error) {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Falha de conexão com o banco de dados' });
         }
-
     }
 
     async ready(req: Request, resp: Response) {
@@ -79,15 +68,9 @@ class UserController {
         const { id } = req.params;
         const { name, email, password, role } = req.body;
 
-        const schema = yup.object().shape({
-            name: yup.string().required('Nome é obrigatório'),
-            email: yup.string().email().required('E-mail é obrigatório'),
-            password: yup.string().required('Senha é obrigatória'),
-            role: yup.mixed<keyof typeof EnumRoleUser>().oneOf(Object.values(EnumRoleUser))
-                .required('Tipo de usuário é obrigatório')
-        })
+        const userValidator = new UserDto();
         try {
-            await schema.validate(req.body, { abortEarly: false });
+            await userValidator.createUpdateValidation().validate(req.body, { abortEarly: false });
         } catch (error) {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });
         }
@@ -102,4 +85,4 @@ class UserController {
     }
 }
 
-export { UserController }
+export { UserController };
