@@ -1,28 +1,19 @@
 import { Request, Response } from "express";
-import * as yup from 'yup';
 import httpStatus from "http-status";
 import { BuildingService } from "../services/BuildingService";
+import { BuildingDto } from "../validators/BuildingDto";
 
 class BuildingController {
     async create(req: Request, resp: Response) {
-        // Dados recebidos na requisição
         const { name, latitude, longitude, description, organization_id } = req.body;
 
-        // Validação dos campos recebidos no corpo da requisição
-        const schema = yup.object().shape({
-            name: yup.string().required('Nome é obrigatório'),
-            latitude: yup.number().required('Latitude é obrigatória'),
-            longitude: yup.number().required('Longitude é obrigatória'),
-            description: yup.string().required('Descrição é obrigatória'),
-            organization_id: yup.string().required('Id da Organização é obrigatória')
-        });
+        const buildingValidator = new BuildingDto();        
         try {
-            await schema.validate(req.body, { abortEarly: false });
+            await buildingValidator.createUpdateValidation().validate(req.body, { abortEarly: false });
         } catch (error) {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });
         }
 
-        // Conexão com o banco de dados chamando a service
         const buildingService = new BuildingService();
         try {
             const building = await buildingService.create(name, latitude, longitude, description, organization_id);
@@ -78,15 +69,9 @@ class BuildingController {
         const { id } = req.params;
         const { name, latitude, longitude , description, organization_id } = req.body;
 
-        const schema = yup.object().shape({
-            name: yup.string().required('Nome é obrigatório'),
-            latitude: yup.number().required('Latitude é obrigatória'),
-            longitude: yup.number().required('Longitude é obrigatória'),
-            description: yup.string().required('Descrição é obrigatória'),
-            organization_id: yup.string().required('Id da Organização é obrigatória')
-        })
+        const buildingValidator = new BuildingDto();
         try {
-            await schema.validate(req.body, { abortEarly: false });
+            await buildingValidator.createUpdateValidation().validate(req.body, { abortEarly: false });
         } catch (error) {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });
         }

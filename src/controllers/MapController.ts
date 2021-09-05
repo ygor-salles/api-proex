@@ -1,27 +1,19 @@
 import { Request, Response } from "express";
-import * as yup from 'yup';
 import httpStatus from "http-status";
 import { MapService } from "../services/MapService";
+import { MapDto } from "../validators/MapDto";
 
 class MapController {
     async create(req: Request, resp: Response) {
-        // Dados recebidos na requisição
         const { name, source, description, building_id } = req.body;
 
-        // Validação dos campos recebidos no corpo da requisição
-        const schema = yup.object().shape({
-            name: yup.string().required('Nome é obrigatório'),
-            source: yup.string().required('Url é obrigatório'),
-            description: yup.string().required('Descrição é obrigatória'),
-            building_id: yup.string().uuid('Id de prédio é obrigatório')
-        });
+        const mapValidator = new MapDto();
         try {
-            await schema.validate(req.body, { abortEarly: false });
+            await mapValidator.createUpdateValidation().validate(req.body, { abortEarly: false });
         } catch (error) {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });
         }
 
-        // Conexão com o banco de dados chamando a service
         const mapService = new MapService();
         try {
             const map = await mapService.create(name, source, description, building_id);
@@ -77,14 +69,9 @@ class MapController {
         const { id } = req.params;
         const { name, source, description, building_id } = req.body;
 
-        const schema = yup.object().shape({
-            name: yup.string().required('Nome é obrigatório'),
-            source: yup.string().required('Url é obrigatória'),
-            description: yup.string().required('Descrição é obrigatória'),
-            building_id: yup.string().uuid('Id de prédio é obrigatório')
-        })
+        const mapValidator = new MapDto();
         try {
-            await schema.validate(req.body, { abortEarly: false });
+            await mapValidator.createUpdateValidation().validate(req.body, { abortEarly: false });
         } catch (error) {
             return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });
         }
