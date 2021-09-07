@@ -9,6 +9,8 @@ import { MapController } from "./controllers/MapController";
 import { BuildingController } from "./controllers/BuildingController";
 import { OrganizationController } from "./controllers/OrganizationController";
 import { PointController } from "./controllers/PointController";
+import { ForgotPasswordController } from './controllers/ForgotPasswordController'
+import { ChangePasswordController } from "./controllers/ChangePasswordController";
 
 const router = Router();
 
@@ -18,6 +20,8 @@ const buildingController = new BuildingController();
 const organizationController = new OrganizationController();
 const authenticateUserController = new AuthenticateUserController();
 const pointController = new PointController();
+const forgotPasswordController = new ForgotPasswordController();
+const changePasswordControler = new ChangePasswordController();
 
 router.get('/', (req: Request, resp: Response) => { 
     return resp.status(200).json({ message: 'Welcome api-proex' }); 
@@ -54,5 +58,7 @@ router.put('/points/:id', ensureAuthenticated, ensureSuper, pointController.upda
 router.delete('/points/:id', ensureAuthenticated, ensureSuper, pointController.delete);
 
 router.post('/login', authenticateUserController.handle);
+router.post('/forgot-password', forgotPasswordController.handle);
+router.post('/change-password', changePasswordControler.handle);
 
 export default router
