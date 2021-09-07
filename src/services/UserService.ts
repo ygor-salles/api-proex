@@ -2,7 +2,7 @@ import { getCustomRepository, Repository } from 'typeorm';
 import { EnumRoleUser, User } from '../entities/User';
 import { UserRepository } from '../repositories/UserRepository';
 import httpStatus from 'http-status';
-import { hash } from 'bcryptjs';
+import { hash, compareSync, hashSync } from 'bcryptjs';
 
 class UserService {
     private connectUser: Repository<User>;
@@ -19,11 +19,11 @@ class UserService {
 
             const passwordHash = await hash(password, 8);
 
-            const user = this.connectUser.create({ 
-                name, 
-                email, 
-                password: passwordHash, 
-                role 
+            const user = this.connectUser.create({
+                name,
+                email,
+                password: passwordHash,
+                role
             });
             await this.connectUser.save(user);
 
@@ -79,6 +79,31 @@ class UserService {
                 return { status: httpStatus.OK, message: 'Usuário atualizado com sucesso!' };
             }
             return { status: httpStatus.NOT_FOUND, message: 'Usuário não existe!' };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async updateChangePassword(email: string, password: string, codVerificacao: string) {
+        try {
+            const user = await this.connectUser.findOne({ email });
+            if (!user) {
+                return { status: httpStatus.NOT_FOUND, message: 'Usuário não encontrado!' }
+            }
+
+            const passwordIsValid = compareSync(
+                codVerificacao,
+                user.password,
+            );
+
+            if (!passwordIsValid) {
+                return { status: httpStatus.NOT_FOUND, message: 'Código de verificação incorreto!' }
+            }
+
+            user.password = hashSync(password, 8);
+
+            await this.connectUser.save(user);
+            return { status: httpStatus.OK, message: 'Senha recuperada com sucesso!' };
         } catch (error) {
             throw error;
         }
