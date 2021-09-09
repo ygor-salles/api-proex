@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable prettier/prettier */
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from 'uuid';
 import { Map } from "./Map";
@@ -5,42 +7,42 @@ import { Organization } from "./Organization";
 
 @Entity('buildings')
 class Building {
-    @PrimaryColumn('uuid')
-    readonly id: string;
+  @PrimaryColumn('uuid')
+  readonly id: string;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column('decimal')
-    latitude: number;
+  @Column('decimal')
+  latitude: number;
 
-    @Column('decimal')
-    longitude: number;
+  @Column('decimal')
+  longitude: number;
 
-    @Column()
-    description: string;
-    
-    @CreateDateColumn()
-    created_at: Date
+  @Column()
+  description: string;
 
-    @UpdateDateColumn()
-    updated_at: Date
+  @CreateDateColumn()
+  created_at: Date
 
-    @Column()
-    organization_id: string;
+  @UpdateDateColumn()
+  updated_at: Date
 
-    @ManyToOne(() => Organization, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organization_id' })
-    organization: Organization
-    
-    @OneToMany(() => Map, map => map.building, { eager: true })
-    map: Map
+  @Column()
+  organization_id: string;
 
-    constructor() {
-        if(!this.id) {
-            this.id = uuid();
-        }
+  @ManyToOne(() => Organization, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'organization_id' })
+  organization: Organization
+
+  @OneToMany(() => Map, map => map.building, { eager: true })
+  map: Map
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
     }
+  }
 }
 
 export { Building }

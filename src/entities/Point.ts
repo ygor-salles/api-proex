@@ -1,51 +1,53 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable prettier/prettier */
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from 'uuid';
 import { Map } from "./Map";
 
 @Entity('points')
 class Point {
-    @PrimaryColumn('uuid')
-    readonly id: string;
+  @PrimaryColumn('uuid')
+  readonly id: string;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    description: string;
-    
-    @Column('decimal')
-    floor: number;
+  @Column()
+  description: string;
 
-    @Column('decimal')
-    altitude: number;
+  @Column('decimal')
+  floor: number;
 
-    @Column('decimal')
-    latitude: number;
+  @Column('decimal')
+  altitude: number;
 
-    @Column('decimal')
-    longitude: number;
+  @Column('decimal')
+  latitude: number;
 
-    @Column()
-    isObstacle: boolean;
+  @Column('decimal')
+  longitude: number;
 
-    @CreateDateColumn()
-    created_at: Date;
+  @Column()
+  isObstacle: boolean;
 
-    @UpdateDateColumn()
-    updated_at: Date;
+  @CreateDateColumn()
+  created_at: Date;
 
-    @Column()
-    map_id: string
+  @UpdateDateColumn()
+  updated_at: Date;
 
-    @ManyToOne(() => Map, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'map_id' })
-    map: Map
+  @Column()
+  map_id: string
 
-    constructor() {
-        if(!this.id) {
-            this.id = uuid();
-        }
+  @ManyToOne(() => Map, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'map_id' })
+  map: Map
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
     }
+  }
 }
 
 export { Point };
