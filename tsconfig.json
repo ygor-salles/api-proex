@@ -2,20 +2,26 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "lib": ["es6"], 
+    "lib": [
+      "es6"
+    ],
     // "allowJs": true,
     "outDir": "build",
     "rootDir": "src",
     "strict": false,
     "strictPropertyInitialization": false,
-    "experimentalDecorators": true, /* Enables experimental support for ES7 decorators. */
-    "emitDecoratorMetadata": true, /* Enables experimental support for emitting type metadata for decorators. */
-    "typeRoots": ["./src/@types"], 
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "typeRoots": [
+      "./src/@types"
+    ],
     "esModuleInterop": true,
     // "noImplicitAny": true,
     // "resolveJsonModule": true,
-    /* Advanced Options */
-    "skipLibCheck": true, /* Skip type checking of declaration files. */
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }
