@@ -1,16 +1,16 @@
-import { Request, Response, Router } from "express";
+import { Request, Response, Router } from 'express';
 
-import { ensureSuper } from "./middlewares/ensureSuper";
-import { ensureAuthenticated } from "./middlewares/ensureAuthenticated";
+import { ensureSuper } from './middlewares/ensureSuper';
+import { ensureAuthenticated } from './middlewares/ensureAuthenticated';
 
-import { AuthenticateUserController } from "./controllers/AuthenticateUserController";
-import { UserController } from "./controllers/UserController";
-import { MapController } from "./controllers/MapController";
-import { BuildingController } from "./controllers/BuildingController";
-import { OrganizationController } from "./controllers/OrganizationController";
-import { PointController } from "./controllers/PointController";
-import { ForgotPasswordController } from './controllers/ForgotPasswordController'
-import { ChangePasswordController } from "./controllers/ChangePasswordController";
+import { AuthenticateUserController } from './controllers/AuthenticateUserController';
+import { UserController } from './controllers/UserController';
+import { MapController } from './controllers/MapController';
+import { BuildingController } from './controllers/BuildingController';
+import { OrganizationController } from './controllers/OrganizationController';
+import { PointController } from './controllers/PointController';
+import { ForgotPasswordController } from './controllers/ForgotPasswordController';
+import { ChangePasswordController } from './controllers/ChangePasswordController';
 
 const router = Router();
 
@@ -23,9 +23,9 @@ const pointController = new PointController();
 const forgotPasswordController = new ForgotPasswordController();
 const changePasswordControler = new ChangePasswordController();
 
-router.get('/', (req: Request, resp: Response) => { 
-    return resp.status(200).json({ message: 'Welcome api-proex' }); 
-});
+router.get('/', (req: Request, resp: Response) =>
+  resp.status(200).json({ message: 'Welcome api-proex' }),
+);
 
 router.post('/users', ensureAuthenticated, ensureSuper, userController.create);
 router.get('/users', ensureAuthenticated, userController.ready);
@@ -49,7 +49,12 @@ router.post('/organizations', ensureAuthenticated, ensureSuper, organizationCont
 router.get('/organizations', ensureAuthenticated, organizationController.ready);
 router.get('/organizations/:id', ensureAuthenticated, organizationController.readyById);
 router.put('/organizations/:id', ensureAuthenticated, ensureSuper, organizationController.update);
-router.delete('/organizations/:id', ensureAuthenticated, ensureSuper, organizationController.delete);
+router.delete(
+  '/organizations/:id',
+  ensureAuthenticated,
+  ensureSuper,
+  organizationController.delete,
+);
 
 router.post('/points', ensureAuthenticated, ensureSuper, pointController.create);
 router.get('/points', ensureAuthenticated, pointController.ready);
@@ -61,4 +66,4 @@ router.post('/login', authenticateUserController.handle);
 router.post('/forgot-password', forgotPasswordController.handle);
 router.post('/change-password', changePasswordControler.handle);
 
-export default router
+export default router;

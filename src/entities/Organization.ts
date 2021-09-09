@@ -1,50 +1,52 @@
-import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable prettier/prettier */
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from 'uuid';
 import { Building } from "./Building";
 
 @Entity('organizations')
 class Organization {
-    @PrimaryColumn('uuid')
-    readonly id: string;
+  @PrimaryColumn('uuid')
+  readonly id: string;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    cep: string;
+  @Column()
+  cep: string;
 
-    @Column()
-    state: string;
+  @Column()
+  state: string;
 
-    @Column()
-    district: string;
+  @Column()
+  district: string;
 
-    @Column()
-    city: string;
+  @Column()
+  city: string;
 
-    @Column()
-    street: string;
+  @Column()
+  street: string;
 
-    @Column("integer")
-    number: number;
+  @Column("integer")
+  number: number;
 
-    @Column()
-    description: string;
-    
-    @CreateDateColumn()
-    created_at: Date
+  @Column()
+  description: string;
 
-    @UpdateDateColumn()
-    updated_at: Date
+  @CreateDateColumn()
+  created_at: Date
 
-    @OneToMany(() => Building, building => building.organization, { eager: true })
-    building: Building
+  @UpdateDateColumn()
+  updated_at: Date
 
-    constructor() {
-        if(!this.id) {
-            this.id = uuid();
-        }
+  @OneToMany(() => Building, building => building.organization, { eager: true })
+  building: Building
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
     }
+  }
 }
 
-export { Organization }
+export { Organization };
