@@ -2,13 +2,18 @@ import { getCustomRepository, Repository } from 'typeorm';
 import httpStatus from 'http-status';
 import { Map } from '../entities/Map';
 import { MapRepository } from '../repositories/MapRepository';
+import { Building } from '../entities/Building';
+import { BuildingRepository } from '../repositories/BuildingRepository';
 
 class MapService {
   // eslint-disable-next-line prettier/prettier
   private connectMap: Repository<Map>;
 
+  private connectBuilding: Repository<Building>;
+
   constructor() {
     this.connectMap = getCustomRepository(MapRepository);
+    this.connectBuilding = getCustomRepository(BuildingRepository);
   }
 
   async create(name: string, source: string, description: string, building_id: string) {
@@ -17,6 +22,12 @@ class MapService {
       if (mapExist) {
         return { status: httpStatus.BAD_REQUEST, message: 'Mapa já existe' };
       }
+
+      const fkBuilding = await this.connectBuilding.findOne({ id: building_id });
+      if (!fkBuilding) {
+        return { status: httpStatus.NOT_FOUND, message: 'Id de prédio não existe' };
+      }
+
       const map = this.connectMap.create({
         name,
         source,
@@ -31,7 +42,7 @@ class MapService {
     }
   }
 
-  async ready() {
+  async read() {
     try {
       return await this.connectMap.find();
     } catch (error) {
@@ -39,7 +50,7 @@ class MapService {
     }
   }
 
-  async readyById(id: string) {
+  async readById(id: string) {
     try {
       const map = await this.connectMap.findOne({ id });
       if (map) {
@@ -68,6 +79,11 @@ class MapService {
     try {
       const map = await this.connectMap.findOne({ id });
       if (map) {
+        const fkBuilding = await this.connectBuilding.findOne({ id: building_id });
+        if (!fkBuilding) {
+          return { status: httpStatus.NOT_FOUND, message: 'Id de prédio não existe' };
+        }
+
         await this.connectMap.update(map.id, { name, source, description, building_id });
         return { status: httpStatus.OK, message: 'Mapa atualizado com sucesso!' };
       }

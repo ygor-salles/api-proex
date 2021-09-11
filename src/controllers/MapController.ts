@@ -28,10 +28,10 @@ class MapController {
     }
   }
 
-  async ready(req: Request, resp: Response) {
+  async read(req: Request, resp: Response) {
     const mapService = new MapService();
     try {
-      const allMaps = await mapService.ready();
+      const allMaps = await mapService.read();
       return resp.json(allMaps);
     } catch (error) {
       return resp
@@ -40,12 +40,12 @@ class MapController {
     }
   }
 
-  async readyById(req: Request, resp: Response) {
+  async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
     const mapService = new MapService();
     try {
-      const map = await mapService.readyById(id);
+      const map = await mapService.readById(id);
       if (map.status === httpStatus.OK) {
         return resp.json(map.obj);
       }

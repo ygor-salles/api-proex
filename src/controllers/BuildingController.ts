@@ -34,10 +34,10 @@ class BuildingController {
     }
   }
 
-  async ready(req: Request, resp: Response) {
+  async read(req: Request, resp: Response) {
     const buildingService = new BuildingService();
     try {
-      const allBuildings = await buildingService.ready();
+      const allBuildings = await buildingService.read();
       return resp.json(allBuildings);
     } catch (error) {
       return resp
@@ -46,12 +46,12 @@ class BuildingController {
     }
   }
 
-  async readyById(req: Request, resp: Response) {
+  async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
     const buildingService = new BuildingService();
     try {
-      const building = await buildingService.readyById(id);
+      const building = await buildingService.readById(id);
       if (building.status === httpStatus.OK) {
         return resp.json(building.obj);
       }

@@ -35,7 +35,7 @@ class OrganizationService {
     }
   }
 
-  async ready() {
+  async read() {
     try {
       return await this.connectOrganization.find();
     } catch (error) {
@@ -43,7 +43,7 @@ class OrganizationService {
     }
   }
 
-  async readyById(id: string) {
+  async readById(id: string) {
     try {
       const organization = await this.connectOrganization.findOne({ id });
       if (organization) {

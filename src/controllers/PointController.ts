@@ -38,10 +38,10 @@ class PointController {
     }
   }
 
-  async ready(req: Request, resp: Response) {
+  async read(req: Request, resp: Response) {
     const pointService = new PointService();
     try {
-      const allPoints = await pointService.ready();
+      const allPoints = await pointService.read();
       return resp.json(allPoints);
     } catch (error) {
       return resp
@@ -50,12 +50,12 @@ class PointController {
     }
   }
 
-  async readyById(req: Request, resp: Response) {
+  async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
     const pointService = new PointService();
     try {
-      const point = await pointService.readyById(id);
+      const point = await pointService.readById(id);
       if (point.status === httpStatus.OK) {
         return resp.json(point.obj);
       }
