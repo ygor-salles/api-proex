@@ -28,10 +28,10 @@ class UserController {
     }
   }
 
-  async ready(req: Request, resp: Response) {
+  async read(req: Request, resp: Response) {
     const userService = new UserService();
     try {
-      const allUsers = await userService.ready();
+      const allUsers = await userService.read();
       return resp.json(allUsers);
     } catch (error) {
       return resp
@@ -40,12 +40,12 @@ class UserController {
     }
   }
 
-  async readyById(req: Request, resp: Response) {
+  async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
     const userService = new UserService();
     try {
-      const user = await userService.readyById(id);
+      const user = await userService.readById(id);
       if (user.status === httpStatus.OK) {
         return resp.json(user.obj);
       }

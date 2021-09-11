@@ -6,7 +6,10 @@ class MapDto {
       name: yup.string().required('Nome é obrigatório'),
       source: yup.string().required('Url é obrigatório'),
       description: yup.string().required('Descrição é obrigatória'),
-      building_id: yup.string().uuid('Id de prédio é obrigatório'),
+      building_id: yup
+        .string()
+        .uuid('Id de prédio deve ser do tipo uuid')
+        .required('Id de prédio é obrigatório'),
     });
 
     return schema;

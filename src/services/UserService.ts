@@ -36,7 +36,7 @@ class UserService {
     }
   }
 
-  async ready() {
+  async read() {
     try {
       return await this.connectUser.find({
         select: ['id', 'name', 'email', 'role', 'created_at']
@@ -46,7 +46,7 @@ class UserService {
     }
   }
 
-  async readyById(id: string) {
+  async readById(id: string) {
     try {
       const user = await this.connectUser.findOne({ id });
       if (user) {

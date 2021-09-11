@@ -2,13 +2,18 @@ import { getCustomRepository, Repository } from 'typeorm';
 import httpStatus from 'http-status';
 import { Building } from '../entities/Building';
 import { BuildingRepository } from '../repositories/BuildingRepository';
+import { Organization } from '../entities/Organization';
+import { OrganizationRepository } from '../repositories/OrganizationRepository';
 
 class BuildingService {
   // eslint-disable-next-line prettier/prettier
   private connectBuilding: Repository<Building>;
 
+  private connectOrganization: Repository<Organization>;
+
   constructor() {
     this.connectBuilding = getCustomRepository(BuildingRepository);
+    this.connectOrganization = getCustomRepository(OrganizationRepository);
   }
 
   async create(name: string, latitude: number, longitude: number, description: string, organization_id: string) {
@@ -17,6 +22,12 @@ class BuildingService {
       if (buildingExist) {
         return { status: httpStatus.BAD_REQUEST, message: 'Prédio já existe' };
       }
+
+      const fkOrganization = await this.connectOrganization.findOne({ id: organization_id });
+      if (!fkOrganization) {
+        return { status: httpStatus.NOT_FOUND, message: 'Id de organização não existe' };
+      }
+
       const building = this.connectBuilding.create({
         name,
         latitude,
@@ -32,7 +43,7 @@ class BuildingService {
     }
   }
 
-  async ready() {
+  async read() {
     try {
       return await this.connectBuilding.find();
     } catch (error) {
@@ -40,7 +51,7 @@ class BuildingService {
     }
   }
 
-  async readyById(id: string) {
+  async readById(id: string) {
     try {
       const building = await this.connectBuilding.findOne({ id });
       if (building) {
@@ -69,6 +80,11 @@ class BuildingService {
     try {
       const building = await this.connectBuilding.findOne({ id });
       if (building) {
+        const fkOrganization = await this.connectOrganization.findOne({ id: organization_id });
+        if (!fkOrganization) {
+          return { status: httpStatus.NOT_FOUND, message: 'Id de organização não existe' };
+        }
+
         await this.connectBuilding.update(building.id, { name, latitude, longitude, description, organization_id });
         return { status: httpStatus.OK, message: 'Prédio atualizado com sucesso!' };
       }

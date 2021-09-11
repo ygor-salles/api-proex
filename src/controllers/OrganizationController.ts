@@ -39,10 +39,10 @@ class OrganizationController {
     }
   }
 
-  async ready(req: Request, resp: Response) {
+  async read(req: Request, resp: Response) {
     const organizationService = new OrganizationService();
     try {
-      const allOrganizations = await organizationService.ready();
+      const allOrganizations = await organizationService.read();
       return resp.json(allOrganizations);
     } catch (error) {
       return resp
@@ -51,12 +51,12 @@ class OrganizationController {
     }
   }
 
-  async readyById(req: Request, resp: Response) {
+  async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
     const organizationService = new OrganizationService();
     try {
-      const organization = await organizationService.readyById(id);
+      const organization = await organizationService.readById(id);
       if (organization.status === httpStatus.OK) {
         return resp.json(organization.obj);
       }
