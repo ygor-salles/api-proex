@@ -7,21 +7,27 @@
     ],
     // "allowJs": true,
     "outDir": "build",
-    "rootDir": "src",
+    "rootDir": "./",
+    // "rootDirs": [
+    //   "src",
+    //   "./jest.config.ts"
+    // ],
     "strict": false,
     "strictPropertyInitialization": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "typeRoots": [
-      "./src/@types"
-    ],
+    // "typeRoots": [
+    //   "./src/@types"
+    // ],
     "esModuleInterop": true,
     // "noImplicitAny": true,
     // "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": [
-    "node_modules"
-  ]
+  // "exclude": [
+  //   "node_modules",
+  //   "build"
+  // ],
+  // "include": ["**/*"]
 }

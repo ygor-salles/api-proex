@@ -2,7 +2,7 @@
 
 ### BACKEND
 
-- Criar um banco no postgres com o nome: app_proex
+- Criar um banco local no postgres com o nome: app_proex
 
 - Entrar no repositório backend do projeto com o terminal e executar o seguinte comando para instalar as dependências:
 ```bash
@@ -10,7 +10,7 @@ yarn
 ```
 
 - Após todas as dependências instaladas criar na raiz da pasta backend um arquivo `.env`
-e preencher as informações conforme se encontra no arquivo `.env_example`. 
+e preencher as informações conforme se encontra no arquivo `.env_example`.
 
 - Rodar a migration, executando no terminal:
 ```bash
@@ -51,13 +51,13 @@ yarn build
 
 * 1 - alterar no aquivo .env o NODE_ENV para homolog
 * 2 - executar o comando yarn build caso o build não esteja atualizado
-* 3 - executar o comando de rodar a migration - $ yarn typeorm migration:run 
+* 3 - executar o comando de rodar a migration - $ yarn typeorm migration:run
 
 ## Rodar a migration em produção
 
 * 1 - alterar no aquivo .env o NODE_ENV para production
 * 2 - executar o comando yarn build caso o build não esteja atualizado
-* 3 - executar o comando de rodar a migration - $ yarn typeorm migration:run 
+* 3 - executar o comando de rodar a migration - $ yarn typeorm migration:run
 
 ## Link de homolog
 
@@ -117,3 +117,14 @@ git merge dev
 ```bash
 git push
 ```
+
+## Executar os testes
+
+* Deve-se criar um banco local no postgresSQL com o nome: app_proex_test.
+
+* Uma vez criado o banco de testes e definido nas variáveis de amibeinte, para executar os testes, basta executar o comando:
+
+```bash
+yarn test
+```
+
