@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === 'development') {
   config = {
     type: 'postgres',
     host: process.env.BD_HOST,
-    port: process.env.BD_PORT || 5432,
+    port: +process.env.BD_PORT || 5432,
     username: process.env.BD_USERNAME,
     password: process.env.BD_PASSWORD,
     database: process.env.BD_DATABASE,
@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'development') {
   config = {
     type: 'postgres',
     host: process.env.BD_TEST_HOST,
-    port: process.env.BD_TEST_PORT || 5432,
+    port: +process.env.BD_TEST_PORT || 5432,
     username: process.env.BD_TEST_USERNAME,
     password: process.env.BD_TEST_PASSWORD,
     database: process.env.BD_TEST_DATABASE,
@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'development') {
   config = {
     type: 'postgres',
     host: process.env.BD_HOMOLOG_HOST,
-    port: process.env.BD_HOMOLOG_PORT || 5432,
+    port: +process.env.BD_HOMOLOG_PORT || 5432,
     username: process.env.BD_HOMOLOG_USERNAME,
     password: process.env.BD_HOMOLOG_PASSWORD,
     database: process.env.BD_HOMOLOG_DATABASE,
@@ -46,17 +46,17 @@ if (process.env.NODE_ENV === 'development') {
         rejectUnauthorized: false,
       },
     },
-    migrations: ['build/database/migrations/*.js'],
-    entities: ['build/entities/*.js'],
+    migrations: ['build/src/database/migrations/*.js'],
+    entities: ['build/src/entities/*.js'],
     cli: {
-      migrationsDir: 'build/database/migrations',
+      migrationsDir: 'build/src/database/migrations',
     },
   };
 } else if (process.env.NODE_ENV === 'production') {
   config = {
     type: 'postgres',
     host: process.env.BD_PROD_HOST,
-    port: process.env.BD_PROD_PORT || 5432,
+    port: +process.env.BD_PROD_PORT || 5432,
     username: process.env.BD_PROD_USERNAME,
     password: process.env.BD_PROD_PASSWORD,
     database: process.env.BD_PROD_DATABASE,
@@ -67,10 +67,10 @@ if (process.env.NODE_ENV === 'development') {
         rejectUnauthorized: false,
       },
     },
-    migrations: ['build/database/migrations/*.js'],
-    entities: ['build/entities/*.js'],
+    migrations: ['build/src/database/migrations/*.js'],
+    entities: ['build/src/entities/*.js'],
     cli: {
-      migrationsDir: 'build/database/migrations',
+      migrationsDir: 'build/src/database/migrations',
     },
   };
 }
