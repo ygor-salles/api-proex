@@ -27,7 +27,8 @@ router.get('/', (req: Request, resp: Response) =>
   resp.status(200).json({ message: 'Welcome api-proex' }),
 );
 
-router.post('/users', ensureAuthenticated, ensureSuper, userController.create);
+// router.post('/users', ensureAuthenticated, ensureSuper, userController.create);
+router.post('/users', userController.create);
 router.get('/users', ensureAuthenticated, userController.read);
 router.get('/users/:id', ensureAuthenticated, userController.readById);
 router.put('/users/:id', ensureAuthenticated, ensureSuper, userController.update);
@@ -66,4 +67,4 @@ router.post('/login', authenticateUserController.handle);
 router.post('/forgot-password', forgotPasswordController.handle);
 router.post('/change-password', changePasswordControler.handle);
 
-export default router;
+export { router };
