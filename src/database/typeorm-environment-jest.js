@@ -31,6 +31,8 @@ class CustomEnvironment extends NodeEnvironment {
 
     // rodar as migrations
   }
+
+  teardown() { }
 }
 
 module.exports = CustomEnvironment;
