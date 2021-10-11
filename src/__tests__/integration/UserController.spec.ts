@@ -14,14 +14,11 @@ const createUser = {
 
 describe('Users', () => {
   beforeAll(async () => {
-    const connection = await createConnection();
-    if (connection.isConnected) console.log('Conexão com DB efetuada com sucesso - Teste');
-    else console.log('Falha de connexão com o banco de dados - Teste');
+    await createConnection();
   });
 
   afterAll(async () => {
     const connection = getConnection();
-    await connection.dropDatabase();
     await connection.close();
   });
 
