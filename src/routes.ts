@@ -46,7 +46,8 @@ router.get('/buildings/:id', ensureAuthenticated, buildingController.readById);
 router.put('/buildings/:id', ensureAuthenticated, ensureSuper, buildingController.update);
 router.delete('/buildings/:id', ensureAuthenticated, ensureSuper, buildingController.delete);
 
-router.post('/organizations', ensureAuthenticated, ensureSuper, organizationController.create);
+// router.post('/organizations', ensureAuthenticated, ensureSuper, organizationController.create);
+router.post('/organizations', organizationController.create);
 router.get('/organizations', ensureAuthenticated, organizationController.read);
 router.get('/organizations/:id', ensureAuthenticated, organizationController.readById);
 router.put('/organizations/:id', ensureAuthenticated, ensureSuper, organizationController.update);

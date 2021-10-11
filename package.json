@@ -8,7 +8,9 @@
     "dev": "ts-node-dev --files --transpile-only --ignore-watch node_modules src/server.ts",
     "start": "ts-node build/src/server",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "test": "set NODE_ENV=test&&jest --detectOpenHandles --forceExit"
+    "pretest": "set NODE_ENV=test&&ts-node-dev ./node_modules/typeorm/cli.js migration:run",
+    "test": "set NODE_ENV=test&&jest",
+    "posttest": "ts-node-dev src/__tests__/afterAllTests.ts"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -18,6 +20,7 @@
     "@types/jest": "^27.0.1",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/nodemailer": "^6.4.4",
+    "@types/pg": "^8.6.1",
     "@types/supertest": "^2.0.11",
     "@types/yup": "^0.29.13",
     "@typescript-eslint/eslint-plugin": "^4.31.0",
