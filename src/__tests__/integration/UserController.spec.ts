@@ -12,6 +12,9 @@ const createUser = {
   role: 'NORMAL',
 };
 
+let token: string;
+let userId: string;
+
 describe('Users', () => {
   beforeAll(async () => {
     const connection = await createConnection();
@@ -43,5 +46,57 @@ describe('Users', () => {
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
     expect(response.body.message).toBe('Usuário já existe');
+  });
+
+  it('Should be able to login with existing user and a token must be returned', async () => {
+    const loginUser = {
+      email: createUser.email,
+      password: createUser.password,
+    };
+
+    const response = await request(app).post('/login').send(loginUser);
+
+    token = response.body.token;
+    userId = response.body.id;
+
+    expect(response.status).toBe(httpStatus.OK);
+    expect(response.body).toHaveProperty('token');
+    expect(token.length).toBe(224);
+  });
+
+  it('Should not be able to login with a non-existing user', async () => {
+    const loginNotExistingUser = {
+      email: 'test@test.com',
+      password: 'test',
+    };
+
+    const response = await request(app).post('/login').send(loginNotExistingUser);
+
+    expect(response.status).toBe(httpStatus.BAD_REQUEST);
+    expect(response.body.message).toBe('Credenciais incorretas!');
+  });
+
+  it('Should not be able to login with a non-existing user', async () => {
+    const loginNotExistingUser = {
+      email: 'test@test.com',
+      password: 'test',
+    };
+
+    const response = await request(app).post('/login').send(loginNotExistingUser);
+
+    expect(response.status).toBe(httpStatus.BAD_REQUEST);
+    expect(response.body.message).toBe('Credenciais incorretas!');
+  });
+
+  it('Should be able to edit a existing user', async () => {
+    const editedUser = {
+      email: 'test@test.com',
+      password: 'test',
+    };
+
+    const response = await request(app).put(`/users/${userId}`).send(editedUser);
+
+    expect(response.status).toBe(httpStatus.BAD_REQUEST);
+    expect(response.body.message).toBe('Credenciais incorretas!');
   });
 });

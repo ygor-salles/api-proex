@@ -32,7 +32,7 @@ class CustomEnvironment extends NodeEnvironment {
     // rodar as migrations
   }
 
-  teardown() { }
+  teardown() {}
 }
 
 module.exports = CustomEnvironment;
