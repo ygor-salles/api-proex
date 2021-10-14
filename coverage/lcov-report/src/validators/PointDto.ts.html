@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.18% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/22</span>
+                <span class='fraction'>22/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.18% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/22</span>
+                <span class='fraction'>22/22</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -81,46 +81,46 @@
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as yup from 'yup';
 &nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >class PointDto {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  createUpdateValidation() {</span></span>
-<span class="cstat-no" title="statement not covered" >    const schema = yup.object().shape({</span>
-<span class="cstat-no" title="statement not covered" >      name: yup.string().required('Nome é obrigatório'),</span>
-<span class="cstat-no" title="statement not covered" >      description: yup.string().required('Descrição é obrigatória'),</span>
-<span class="cstat-no" title="statement not covered" >      floor: yup.number().required('O Andar é obrigatório'),</span>
-<span class="cstat-no" title="statement not covered" >      altitude: yup.number().required('A Altitude é obrigatória'),</span>
-<span class="cstat-no" title="statement not covered" >      latitude: yup.number().required('A Latitude é obrigatória'),</span>
-<span class="cstat-no" title="statement not covered" >      longitude: yup.number().required('A Longitude é obrigatória'),</span>
-<span class="cstat-no" title="statement not covered" >      isObstacle: yup.boolean().oneOf([true], 'O obstáculo é obrigatório'),</span>
-<span class="cstat-no" title="statement not covered" >      map_id: yup</span>
-<span class="cstat-no" title="statement not covered" >        .string()</span>
-<span class="cstat-no" title="statement not covered" >        .uuid('Id de mapa deve ser do tipo uuid')</span>
-<span class="cstat-no" title="statement not covered" >        .required('Id de mapa é obrigatório'),</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >    return schema;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+class PointDto {
+  createUpdateValidation() {
+    const schema = yup.object().shape({
+      name: yup.string().required('Nome é obrigatório'),
+      description: yup.string().required('Descrição é obrigatória'),
+      floor: yup.number().required('O Andar é obrigatório'),
+      altitude: yup.number().required('A Altitude é obrigatória'),
+      latitude: yup.number().required('A Latitude é obrigatória'),
+      longitude: yup.number().required('A Longitude é obrigatória'),
+      isObstacle: yup.boolean().oneOf([true], 'O obstáculo é obrigatório'),
+      map_id: yup
+        .string()
+        .uuid('Id de mapa deve ser do tipo uuid')
+        .required('Id de mapa é obrigatório'),
+    });
+    return schema;
+  }
+}
 &nbsp;
 export { PointDto };
 &nbsp;</pre></td></tr></table></pre>
@@ -130,7 +130,7 @@ export { PointDto };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Oct 14 2021 02:33:24 GMT-0300 (Horário Padrão de Brasília)
+                at Thu Oct 14 2021 18:00:52 GMT-0300 (Horário Padrão de Brasília)
             </div>
         </div>
         <script src="../../prettify.js"></script>
