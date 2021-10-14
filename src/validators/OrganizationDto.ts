@@ -9,7 +9,7 @@ class OrganizationDto {
       district: yup.string().required('Bairro é obrigatório'),
       city: yup.string().required('Cidade é obrigatório'),
       street: yup.string().required('Rua é obrigatório'),
-      number: yup.string().required('Número é obrigatório'),
+      number: yup.number().required('Número é obrigatório'),
       description: yup.string().required('Descrição é obrigatória'),
     });
 

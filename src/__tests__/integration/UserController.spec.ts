@@ -17,13 +17,11 @@ let userId: string;
 
 describe('Users', () => {
   beforeAll(async () => {
-    const connection = await createConnection();
-    await connection.runMigrations();
+    await createConnection();
   });
 
   afterAll(async () => {
     const connection = getConnection();
-    await connection.dropDatabase();
     await connection.close();
   });
 

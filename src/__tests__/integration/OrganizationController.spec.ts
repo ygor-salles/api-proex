@@ -18,13 +18,11 @@ const createOrganization = {
 
 describe('Organizations', () => {
   beforeAll(async () => {
-    const connection = await createConnetion();
-    await connection.runMigrations();
+    await createConnetion();
   });
 
   afterAll(async () => {
     const connection = getConnection();
-    await connection.dropDatabase();
     await connection.close();
   });
 
