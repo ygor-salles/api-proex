@@ -46,10 +46,10 @@ class UserController {
     const userService = new UserService();
     try {
       const user = await userService.readById(id);
-      // if (user.status === httpStatus.OK) {
-      return resp.json(user.obj);
-      // }
-      // return resp.status(user.status).json({ message: user.message });
+      if (user.status === httpStatus.OK) {
+        return resp.json(user.obj);
+      }
+      return resp.status(user.status).json({ message: user.message });
     } catch (error) {
       return resp.status(httpStatus.NOT_FOUND).json({ message: 'Usuário não existe!' });
     }

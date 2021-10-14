@@ -5,6 +5,13 @@ import { getConnection } from 'typeorm';
 import { app } from '../../app';
 import createConnetion from '../../database';
 
+const createMap = {
+  name: 'Mapa 1',
+  source: 'url',
+  description: 'Descrição Mapa 2',
+  building_id: '',
+};
+
 const createBuilding = {
   name: 'Prédio 1',
   latitude: -25.3347773,
@@ -37,10 +44,11 @@ const loginUser = {
 };
 
 let token: string;
-let buildingId: string;
 let organization_id: string;
+let building_id: string;
+let map_id: string;
 
-describe('Buildings', () => {
+describe('Maps', () => {
   beforeAll(async () => {
     await createConnetion();
     // to create a new user
@@ -54,6 +62,13 @@ describe('Buildings', () => {
       .send(createOrganization);
 
     organization_id = newOrganization.body.id;
+    createBuilding.organization_id = organization_id;
+    const newBuilding = await request(app)
+      .post('/buildings')
+      .set('Authorization', `bearer ${token}`)
+      .send(createBuilding);
+
+    building_id = newBuilding.body.id;
   });
 
   afterAll(async () => {
@@ -61,80 +76,79 @@ describe('Buildings', () => {
     await connection.close();
   });
 
-  it('Should be able to create a new building', async () => {
-    createBuilding.organization_id = organization_id;
+  it('Should be able to create a new map', async () => {
+    createMap.building_id = building_id;
 
     const response = await request(app)
-      .post('/buildings')
+      .post('/maps')
       .set('Authorization', `bearer ${token}`)
-      .send(createBuilding);
+      .send(createMap);
 
-    buildingId = response.body.id;
+    map_id = response.body.id;
 
     expect(response.status).toBe(httpStatus.CREATED);
-    expect(response.body.name).toBe(createBuilding.name);
-    expect(response.body.latitude).toBe(createBuilding.latitude);
-    expect(response.body.longitude).toBe(createBuilding.longitude);
-    expect(response.body.organization_id).toBe(createBuilding.organization_id);
+    expect(response.body.name).toBe(createMap.name);
+    expect(response.body.source).toBe(createMap.source);
+    expect(response.body.description).toBe(createMap.description);
+    expect(response.body.building_id).toBe(createMap.building_id);
   });
 
-  it('Should not be able to create a building with exists', async () => {
+  it('Should not be able to create a map with exists', async () => {
     const response = await request(app)
-      .post('/buildings')
+      .post('/maps')
       .set('Authorization', `bearer ${token}`)
-      .send(createBuilding);
+      .send(createMap);
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
-    expect(response.body.message).toBe('Prédio já existe');
+    expect(response.body.message).toBe('Mapa já existe');
   });
 
-  it('Should be able to edit a existing building', async () => {
-    const editedBuilding = {
-      name: 'Prédio 1 editado',
-      latitude: -25.3347773,
-      longitude: -47.5304414,
-      description: 'Descrição do prédio 1',
-      organization_id,
+  it('Should be able to edit a existing map', async () => {
+    const editedMap = {
+      name: 'Mapa 1 editado',
+      source: 'url',
+      description: 'Descrição Mapa 2',
+      building_id,
     };
 
     const response = await request(app)
-      .put(`/buildings/${buildingId}`)
+      .put(`/maps/${map_id}`)
       .set('Authorization', `bearer ${token}`)
-      .send(editedBuilding);
+      .send(editedMap);
 
     expect(response.status).toBe(httpStatus.OK);
-    expect(response.body.message).toBe('Prédio atualizado com sucesso!');
+    expect(response.body.message).toBe('Mapa atualizado com sucesso!');
   });
 
-  it('Should be able to get a building by Id', async () => {
+  it('Should be able to get a map by Id', async () => {
     const response = await request(app)
-      .get(`/buildings/${buildingId}`)
+      .get(`/maps/${map_id}`)
       .set('Authorization', `bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.OK);
-    expect(response.body.name).toBe('Prédio 1 editado');
+    expect(response.body.name).toBe('Mapa 1 editado');
   });
 
-  it('Should not be able to get a building by Id', async () => {
-    const response = await request(app).get(`/buildings/2`).set('Authorization', `bearer ${token}`);
+  it('Should not be able to get a map by Id', async () => {
+    const response = await request(app).get(`/maps/2`).set('Authorization', `bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
-    expect(response.body.message).toBe('Id do prédio não encontrado');
+    expect(response.body.message).toBe('Id do mapa não encontrado');
   });
 
-  it('Should be able to get all buildings', async () => {
-    const response = await request(app).get('/buildings').set('Authorization', `bearer ${token}`);
+  it('Should be able to get all maps', async () => {
+    const response = await request(app).get('/maps').set('Authorization', `bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.OK);
-    expect(response.body[0].name).toBe('Prédio 1 editado');
+    expect(response.body[0].name).toBe('Mapa 1 editado');
   });
 
-  it('Should be able to delete a building', async () => {
+  it('Should be able to delete a map', async () => {
     const response = await request(app)
-      .delete(`/buildings/${buildingId}`)
+      .delete(`/maps/${map_id}`)
       .set('Authorization', `bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.OK);
-    expect(response.body.message).toBe('Prédio removido com sucesso!');
+    expect(response.body.message).toBe('Mapa removido com sucesso!');
   });
 });
