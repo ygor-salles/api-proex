@@ -9,7 +9,7 @@ const createUser = {
   name: 'User example',
   email: 'user@example.com',
   password: '123456',
-  role: 'NORMAL',
+  role: 'SUPER',
 };
 
 let token: string;
@@ -18,11 +18,6 @@ let userId: string;
 describe('Users', () => {
   beforeAll(async () => {
     const connection = await createConnection();
-    if (connection.isConnected) {
-      console.log('Conexão com DB efetuada com sucesso 2');
-    } else {
-      console.log('Falha de connexão com o banco de dados');
-    }
     await connection.runMigrations();
   });
 
@@ -34,6 +29,8 @@ describe('Users', () => {
 
   it('Should be able to create a new user', async () => {
     const response = await request(app).post('/users').send(createUser);
+
+    userId = response.body.id;
 
     expect(response.status).toBe(httpStatus.CREATED);
     expect(response.body.name).toBe(createUser.name);
@@ -57,7 +54,6 @@ describe('Users', () => {
     const response = await request(app).post('/login').send(loginUser);
 
     token = response.body.token;
-    userId = response.body.id;
 
     expect(response.status).toBe(httpStatus.OK);
     expect(response.body).toHaveProperty('token');
@@ -69,7 +65,6 @@ describe('Users', () => {
       email: 'test@test.com',
       password: 'test',
     };
-
     const response = await request(app).post('/login').send(loginNotExistingUser);
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
@@ -90,13 +85,18 @@ describe('Users', () => {
 
   it('Should be able to edit a existing user', async () => {
     const editedUser = {
-      email: 'test@test.com',
-      password: 'test',
+      name: 'User example edited',
+      email: 'useredit@example.com',
+      password: '123456',
+      role: 'SUPER',
     };
 
-    const response = await request(app).put(`/users/${userId}`).send(editedUser);
+    const response = await request(app)
+      .put(`/users/${userId}`)
+      .set('Authorization', `bearer ${token}`)
+      .send(editedUser);
 
-    expect(response.status).toBe(httpStatus.BAD_REQUEST);
-    expect(response.body.message).toBe('Credenciais incorretas!');
+    expect(response.status).toBe(httpStatus.OK);
+    expect(response.body.message).toBe('Usuário atualizado com sucesso!');
   });
 });

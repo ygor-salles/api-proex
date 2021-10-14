@@ -15,6 +15,6 @@ export async function ensureSuper(request: Request, response: Response, next: Ne
   }
 
   return response.status(401).json({
-    error: 'Unauthoraized',
+    error: 'Unauthorized',
   });
 }

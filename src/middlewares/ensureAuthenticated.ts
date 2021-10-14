@@ -1,20 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 
-require('dotenv').config()
+require('dotenv').config();
 
 interface IPayload {
   sub: string;
 }
 
-export function ensureAuthenticated(
-  request: Request,
-  response: Response,
-  next: NextFunction
-) {
+export function ensureAuthenticated(request: Request, response: Response, next: NextFunction) {
   // Receber o token
-  const authToken = request.headers.authorization
-
+  const authToken = request.headers.authorization;
   // Validar se o authToken está preenchido
   if (!authToken) {
     return response.status(401).end();
@@ -25,7 +20,7 @@ export function ensureAuthenticated(
   try {
     // Validar se token é válido
     // eslint-disable-next-line prettier/prettier
-    const { sub } = verify(token, process.env.TOKEN_SECRET) as IPayload;
+    const {sub} = verify(token, process.env.TOKEN_SECRET) as IPayload
 
     // Recuperar informações do usuário
     request.userId = sub;
