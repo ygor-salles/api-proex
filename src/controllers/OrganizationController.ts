@@ -62,9 +62,7 @@ class OrganizationController {
       }
       return resp.status(organization.status).json({ message: organization.message });
     } catch (error) {
-      return resp
-        .status(httpStatus.BAD_REQUEST)
-        .json({ message: 'Id da organização não encontrado' });
+      return resp.status(error.status).json(error.message);
     }
   }
 
@@ -76,9 +74,7 @@ class OrganizationController {
       const organization = await organizationService.delete(id);
       return resp.status(organization.status).json({ message: organization.message });
     } catch (error) {
-      return resp
-        .status(httpStatus.BAD_REQUEST)
-        .json({ message: 'Id da organização não encontrado' });
+      return resp.status(error.status).json(error.message);
     }
   }
 
@@ -110,9 +106,7 @@ class OrganizationController {
       );
       return resp.status(organization.status).json({ message: organization.message });
     } catch (error) {
-      return resp
-        .status(httpStatus.BAD_REQUEST)
-        .json({ message: 'Id da organização não encontrado' });
+      return resp.status(error.status).json(error.message);
     }
   }
 }

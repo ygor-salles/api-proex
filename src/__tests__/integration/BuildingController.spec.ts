@@ -5,7 +5,16 @@ import { getConnection } from 'typeorm';
 import { app } from '../../app';
 import createConnetion from '../../database';
 
+const createBuilding = {
+  name: 'Prédio 1',
+  latitude: -25.3347773,
+  longitude: -47.5304414,
+  description: 'Descrição do prédio 1',
+  // organization_id: '{{ _.organization_id }}',
+};
+
 const createOrganization = {
+  id: '{{ _.organization_id }}',
   name: 'Organização Tal',
   cep: '37510-000',
   state: 'Minas Gerais',

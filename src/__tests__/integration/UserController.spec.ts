@@ -25,6 +25,12 @@ describe('Users', () => {
     await connection.close();
   });
 
+  it('Server is running', async () => {
+    const response = await request(app).get('/');
+
+    expect(response.body.message).toBe('Welcome api-proex');
+  });
+
   it('Should be able to create a new user', async () => {
     const response = await request(app).post('/users').send(createUser);
 
@@ -69,22 +75,10 @@ describe('Users', () => {
     expect(response.body.message).toBe('Credenciais incorretas!');
   });
 
-  it('Should not be able to login with a non-existing user', async () => {
-    const loginNotExistingUser = {
-      email: 'test@test.com',
-      password: 'test',
-    };
-
-    const response = await request(app).post('/login').send(loginNotExistingUser);
-
-    expect(response.status).toBe(httpStatus.BAD_REQUEST);
-    expect(response.body.message).toBe('Credenciais incorretas!');
-  });
-
   it('Should be able to edit a existing user', async () => {
     const editedUser = {
       name: 'User example edited',
-      email: 'useredit@example.com',
+      email: 'user@example.com',
       password: '123456',
       role: 'SUPER',
     };
@@ -96,5 +90,37 @@ describe('Users', () => {
 
     expect(response.status).toBe(httpStatus.OK);
     expect(response.body.message).toBe('Usuário atualizado com sucesso!');
+  });
+
+  it('Should be able to get a user by Id', async () => {
+    const response = await request(app)
+      .get(`/users/${userId}`)
+      .set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(httpStatus.OK);
+    expect(response.body.name).toBe('User example edited');
+  });
+
+  it('Should not be able to get a user by Id', async () => {
+    const response = await request(app).get(`/users/2`).set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(httpStatus.NOT_FOUND);
+    expect(response.body.message).toBe('Usuário não existe!');
+  });
+
+  it('Should be able to get all users', async () => {
+    const response = await request(app).get('/users').set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(httpStatus.OK);
+    expect(response.body[0].name).toBe('User example edited');
+  });
+
+  it('Should be able to delete a user', async () => {
+    const response = await request(app)
+      .delete(`/users/${userId}`)
+      .set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(httpStatus.OK);
+    expect(response.body.message).toBe('Usuário removido com sucesso!');
   });
 });

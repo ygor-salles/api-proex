@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/validators/MapDto.ts</title>
+    <title>Code coverage report for src/__tests__/afterAllTests.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/validators</a> MapDto.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/__tests__</a> afterAllTests.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.05% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/19</span>
+                <span class='fraction'>0/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.05% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/19</span>
+                <span class='fraction'>0/17</span>
             </div>
         
             
@@ -74,10 +74,7 @@
 <a name='L15'></a><a href='#L15'>15</a>
 <a name='L16'></a><a href='#L16'>16</a>
 <a name='L17'></a><a href='#L17'>17</a>
-<a name='L18'></a><a href='#L18'>18</a>
-<a name='L19'></a><a href='#L19'>19</a>
-<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L18'></a><a href='#L18'>18</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -93,27 +90,24 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as yup from 'yup';
-&nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >class MapDto {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  createUpdateValidation() {</span></span>
-<span class="cstat-no" title="statement not covered" >    const schema = yup.object().shape({</span>
-<span class="cstat-no" title="statement not covered" >      name: yup.string().required('Nome é obrigatório'),</span>
-<span class="cstat-no" title="statement not covered" >      source: yup.string().required('Url é obrigatório'),</span>
-<span class="cstat-no" title="statement not covered" >      description: yup.string().required('Descrição é obrigatória'),</span>
-<span class="cstat-no" title="statement not covered" >      building_id: yup</span>
-<span class="cstat-no" title="statement not covered" >        .string()</span>
-<span class="cstat-no" title="statement not covered" >        .uuid('Id de prédio deve ser do tipo uuid')</span>
-<span class="cstat-no" title="statement not covered" >        .required('Id de prédio é obrigatório'),</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { Client } from 'pg';</span></span></span>
+<span class="cstat-no" title="statement not covered" >import 'dotenv/config';</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    return schema;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >async function dropDatabase() {</span>
+<span class="cstat-no" title="statement not covered" >  const client = new Client({</span>
+<span class="cstat-no" title="statement not covered" >    connectionString: process.env.BD_URL_TEST,</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  await client.connect();</span>
+<span class="cstat-no" title="statement not covered" >  await client.query('DROP SCHEMA PUBLIC CASCADE; CREATE SCHEMA PUBLIC');</span>
+<span class="cstat-no" title="statement not covered" >  await client.end();</span>
+<span class="cstat-no" title="statement not covered" >  return process.env.BD_TEST_DATABASE || '';</span>
 <span class="cstat-no" title="statement not covered" >}</span>
-&nbsp;
-export { MapDto };
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >dropDatabase()</span>
+<span class="cstat-no" title="statement not covered" >  .then((db: string) =&gt; console.log(`Test database ${db} deleted successfully`))</span>
+<span class="cstat-no" title="statement not covered" >  .catch(err =&gt; console.log('Error: ', err));</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

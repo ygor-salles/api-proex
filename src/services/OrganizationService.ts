@@ -46,12 +46,11 @@ class OrganizationService {
   async readById(id: string) {
     try {
       const organization = await this.connectOrganization.findOne({ id });
-      if (organization) {
-        return { status: httpStatus.OK, obj: organization };
-      }
-      return { status: httpStatus.NOT_FOUND, message: 'Organização não existe!' };
+
+      return { status: httpStatus.OK, obj: organization };
+
     } catch (error) {
-      throw error;
+      return { status: httpStatus.NOT_FOUND, message: 'Organização não existe!' };
     }
   }
 
@@ -71,13 +70,11 @@ class OrganizationService {
   async update(id: string, name: string, cep: string, state: string, district: string, city: string, street: string, number: number, description: string) {
     try {
       const organization = await this.connectOrganization.findOne({ id });
-      if (organization) {
-        await this.connectOrganization.update(organization.id, { name, cep, state, district, city, street, description });
-        return { status: httpStatus.OK, message: 'Organização atualizada com sucesso!' };
-      }
-      return { status: httpStatus.NOT_FOUND, message: 'Organização não existe!' };
+      await this.connectOrganization.update(organization.id, { name, cep, state, district, city, street, description });
+      return { status: httpStatus.OK, message: 'Organização atualizada com sucesso!' };
+
     } catch (error) {
-      throw error;
+      return { status: httpStatus.NOT_FOUND, message: 'Organização não existe!' };
     }
   }
 }
