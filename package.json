@@ -11,7 +11,7 @@
     "pretest": "set NODE_ENV=test&&ts-node-dev ./node_modules/typeorm/cli.js migration:run",
     "test": "set NODE_ENV=test&&jest",
     "posttest": "ts-node-dev src/__tests__/afterAllTests.ts",
-    "seed": "ts-node-dev --transpile-only --ignore-watch node_modules src/database/seeders/Seeders.ts"
+    "seed": "ts-node-dev src/database/seeders/Seeders.ts"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
