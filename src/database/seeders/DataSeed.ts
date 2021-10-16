@@ -8,7 +8,17 @@ import { UserRepository } from '../../repositories/UserRepository';
 
 class DataSeed {
   // eslint-disable-next-line prettier/prettier
-  public static async createUsers() {
+  public static async verifyEntities(): Promise<boolean> {
+    const repositoryUser = getCustomRepository(UserRepository)
+    try {
+      await repositoryUser.find();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  public static async createUsers(): Promise<void> {
     const repository = getCustomRepository(UserRepository);
     const arrayUsers = [];
 
@@ -52,7 +62,7 @@ class DataSeed {
     await repository.save(arrayUsers);
   }
 
-  public static async createOrganizations() {
+  public static async createOrganizations(): Promise<void> {
     const repository = getCustomRepository(OrganizationRepository);
     const arrayOrganizations = [];
 
@@ -86,7 +96,7 @@ class DataSeed {
     await repository.save(arrayOrganizations);
   }
 
-  public static async createBuildings() {
+  public static async createBuildings(): Promise<void> {
     const repository = getCustomRepository(BuildingRepository);
     const arrayBuilding = [];
 
@@ -144,7 +154,7 @@ class DataSeed {
     await repository.save(arrayBuilding);
   }
 
-  public static async createMaps() {
+  public static async createMaps(): Promise<void> {
     const repository = getCustomRepository(MapRepository);
     const arrayMaps = [];
 
@@ -206,7 +216,7 @@ class DataSeed {
     await repository.save(arrayMaps);
   }
 
-  public static async createPoints() {
+  public static async createPoints(): Promise<void> {
     const repository = getCustomRepository(PointRepository);
     const arrayPoints = [];
 

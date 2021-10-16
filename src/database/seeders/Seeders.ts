@@ -6,13 +6,28 @@ class SeederRun {
   // eslint-disable-next-line prettier/prettier
   public static async run() {
     if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
-      console.log('\n[Running seeders]... \n');
-      await DataSeed.createUsers();
-      await DataSeed.createOrganizations();
-      await DataSeed.createBuildings();
-      await DataSeed.createMaps();
-      await DataSeed.createPoints();
-      console.log('**[Seeders run successfully]** \n')
+      try {
+        const connection = await createConnection();
+        console.log('\n== [Database connection] ==');
+
+        const entitiesExists = await DataSeed.verifyEntities();
+        if (!entitiesExists) {
+          await connection.runMigrations();
+          console.log('\n== [Migrations run sucessfully] ==');
+
+          await DataSeed.createUsers();
+          await DataSeed.createOrganizations();
+          await DataSeed.createBuildings();
+          await DataSeed.createMaps();
+          await DataSeed.createPoints();
+          console.log('\n== [Seeders run successfully] ==\n')
+        } else {
+          console.log('== Database is already populated ==\n');
+        }
+      } catch (error) {
+        console.log('\nError:', error);
+      }
+
     }
     else {
       console.log('Seeders should only be run in local environments');
@@ -20,9 +35,4 @@ class SeederRun {
   }
 }
 
-createConnection()
-  .then(async () => {
-    console.log('Database connection');
-    SeederRun.run();
-  })
-  .catch(err => console.log('Database failure!', err));
+SeederRun.run();

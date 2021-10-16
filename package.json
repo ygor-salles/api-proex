@@ -8,10 +8,11 @@
     "dev": "ts-node-dev --files --transpile-only --ignore-watch node_modules src/server.ts",
     "start": "ts-node build/src/server",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "pretest": "set NODE_ENV=test&&ts-node-dev ./node_modules/typeorm/cli.js migration:run",
+    "pretest": "set NODE_ENV=test&&ts-node-dev src/database/seeders/Seeders.ts",
     "test": "set NODE_ENV=test&&jest",
     "posttest": "ts-node-dev src/__tests__/afterAllTests.ts",
-    "seed": "ts-node-dev src/database/seeders/Seeders.ts"
+    "seed": "ts-node-dev src/database/seeders/Seeders.ts",
+    "clean": "ts-node-dev src/__tests__/afterAllTests.ts"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
