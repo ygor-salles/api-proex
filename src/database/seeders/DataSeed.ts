@@ -11,8 +11,8 @@ class DataSeed {
   public static async verifyEntities(): Promise<boolean> {
     const repositoryUser = getCustomRepository(UserRepository)
     try {
-      await repositoryUser.find();
-      return true;
+      const allUsers = await repositoryUser.find();
+      return !!allUsers.length;
     } catch (error) {
       return false;
     }
