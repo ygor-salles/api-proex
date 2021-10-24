@@ -8,12 +8,14 @@
     "dev": "ts-node-dev --files --transpile-only --ignore-watch node_modules src/server.ts",
     "start": "ts-node build/src/server",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "pretest:coverage": "set NODE_ENV=test&&ts-node-dev ./node_modules/typeorm/cli.js migration:run",
-    "test:coverage": "set NODE_ENV=test&&jest --detectOpenHandles --forceExit --coverage --collectCoverageFrom='src/**/*.ts'",
+    "pretest:coverage": "set NODE_ENV=test&&ts-node-dev src/database/seeders/Seeders.ts",
+    "test:coverage": "set NODE_ENV=test&&jest --coverage --collectCoverageFrom='src/**/*.ts'",
     "posttest:coverage": "ts-node-dev src/__tests__/afterAllTests.ts",
-    "pretest": "set NODE_ENV=test&&ts-node-dev ./node_modules/typeorm/cli.js migration:run",
+    "pretest": "set NODE_ENV=test&&ts-node-dev src/database/seeders/Seeders.ts",
     "test": "set NODE_ENV=test&&jest",
-    "posttest": "ts-node-dev src/__tests__/afterAllTests.ts"
+    "posttest": "ts-node-dev src/__tests__/afterAllTests.ts",
+    "seed": "ts-node-dev src/database/seeders/Seeders.ts",
+    "clean": "ts-node-dev src/__tests__/afterAllTests.ts"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

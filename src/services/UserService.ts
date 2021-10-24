@@ -19,12 +19,10 @@ class UserService {
         return { status: httpStatus.BAD_REQUEST, message: 'Usuário já existe' };
       }
 
-      const passwordHash = await hash(password, 8);
-
       const user = this.connectUser.create({
         name,
         email,
-        password: passwordHash,
+        password,
         role
       });
       await this.connectUser.save(user);

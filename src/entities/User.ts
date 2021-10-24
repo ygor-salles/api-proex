@@ -2,8 +2,9 @@
 /* eslint-disable no-shadow */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable prettier/prettier */
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from 'uuid';
+import { hashSync } from 'bcryptjs';
 
 export enum EnumRoleUser {
   SUPER = 'SUPER',
@@ -33,6 +34,11 @@ class User {
 
   @UpdateDateColumn()
   updated_at: Date
+
+  @BeforeInsert()
+  hashPasswordCreate() {
+    this.password = hashSync(this.password, 8)
+  }
 
   constructor() {
     if (!this.id) {

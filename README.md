@@ -122,9 +122,31 @@ git push
 
 * Deve-se criar um banco local no postgresSQL com o nome: app_proex_test.
 
-* Uma vez criado o banco de testes e definido nas variáveis de amibeinte, para executar os testes, basta executar o comando:
+* Para executar os testes no sistema operacional windows, deve ser setado dentro de script as seguintes configs no package.json:
+
+```json
+"pretest": "set NODE_ENV=test&&ts-node-dev ./src/database/seeders/Seeders.ts",
+"test": "set NODE_ENV=test&&jest",
+"posttest": "ts-node-dev src/__tests__/afterAllTests.ts",
+```
+
+* Para SO linux, deve ser:
+
+```json
+"pretest": "NODE_ENV=test ts-node-dev ./src/database/seeders/Seeders.ts",
+"test": "NODE_ENV=test jest",
+"posttest": "ts-node-dev src/__tests__/afterAllTests.ts",
+```
+
+* Uma vez criado o banco de testes e definido nas variáveis de ambiente, para executar os testes, basta executar o comando:
 
 ```bash
 yarn test
+```
+
+* Caso algum teste de integração falhe, é necessário zerar o banco de testes novamente executando o comando:
+
+```bash
+yarn clean
 ```
 
