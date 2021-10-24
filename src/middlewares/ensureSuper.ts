@@ -1,20 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
-import { getCustomRepository } from 'typeorm';
 import { EnumRoleUser } from '../entities/User';
-import { UserRepository } from '../repositories/UserRepository';
+import { UserService } from '../services/UserService';
 
 export async function ensureSuper(request: Request, response: Response, next: NextFunction) {
   const { userId } = request;
 
-  // Verificar se usuário admin
-  const connectUser = getCustomRepository(UserRepository);
-  const user = await connectUser.findOne({ id: userId });
+  const userService = new UserService();
 
-  if (user.role === EnumRoleUser.SUPER) {
+  const user = await userService.readById(userId);
+
+  if (user.message === 'Usuário não existe!') {
+    return response.status(404).json({ message: 'Usuário não existe!' });
+  }
+
+  if (user.obj.role === EnumRoleUser.SUPER) {
     return next();
   }
 
-  return response.status(401).json({
-    error: 'Unauthoraized',
-  });
+  return response.status(401).json({ error: 'Unauthorized' });
 }

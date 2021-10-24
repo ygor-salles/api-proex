@@ -8,6 +8,9 @@
     "dev": "ts-node-dev --files --transpile-only --ignore-watch node_modules src/server.ts",
     "start": "ts-node build/src/server",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
+    "pretest:coverage": "set NODE_ENV=test&&ts-node-dev src/database/seeders/Seeders.ts",
+    "test:coverage": "set NODE_ENV=test&&jest --coverage --collectCoverageFrom='src/**/*.ts'",
+    "posttest:coverage": "ts-node-dev src/__tests__/afterAllTests.ts",
     "pretest": "set NODE_ENV=test&&ts-node-dev src/database/seeders/Seeders.ts",
     "test": "set NODE_ENV=test&&jest",
     "posttest": "ts-node-dev src/__tests__/afterAllTests.ts",
@@ -54,6 +57,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "typeorm": "^0.2.25",
+    "typeorm-seeding": "^1.6.1",
     "uuidv4": "^6.2.10",
     "yup": "^0.32.9"
   }
