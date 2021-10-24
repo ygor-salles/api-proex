@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.86% </span>
+                <span class="strong">15.79% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>50/114</span>
+                <span class='fraction'>18/114</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">16.67% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>1/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.86% </span>
+                <span class="strong">15.79% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>50/114</span>
+                <span class='fraction'>18/114</span>
             </div>
         
             
@@ -178,39 +178,39 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -291,40 +291,40 @@ import { OrganizationService } from '../services/OrganizationService';
 import { OrganizationDto } from '../validators/OrganizationDto';
 &nbsp;
 class OrganizationController {
-  async create(req: Request, resp: Response) {
-    const { name, cep, state, district, city, street, number, description } = req.body;
-&nbsp;
-    const organizationValidator = new OrganizationDto();
-    try {
-      await organizationValidator
-        .createUpdateValidation()
-        .validate(req.body, { abortEarly: false });
-    } catch (error) {
-      return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });
-    }
-&nbsp;
-    const organizationService = new OrganizationService();
-    try {
-      const organization = await organizationService.create(
-        name,
-        cep,
-        state,
-        district,
-        city,
-        street,
-        number,
-        description,
-      );
-      if (organization.status === httpStatus.CREATED) {
-        return resp.status(httpStatus.CREATED).json(organization.obj);
-      }
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >      return resp.status(organization.status).json({ message: organization.message });</span></span>
-    } catch (error) {
-      return resp
-        .status(httpStatus.BAD_REQUEST)
-        .json({ message: 'Falha de conexão com o banco de dados' });
-    }
-  }
+<span class="fstat-no" title="function not covered" >  async create(req: Request, resp: Response) {</span>
+<span class="cstat-no" title="statement not covered" >    const { name, cep, state, district, city, street, number, description } = req.body;</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    const organizationValidator = new OrganizationDto();</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      await organizationValidator</span>
+<span class="cstat-no" title="statement not covered" >        .createUpdateValidation()</span>
+<span class="cstat-no" title="statement not covered" >        .validate(req.body, { abortEarly: false });</span>
+<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >      return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    const organizationService = new OrganizationService();</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      const organization = await organizationService.create(</span>
+<span class="cstat-no" title="statement not covered" >        name,</span>
+<span class="cstat-no" title="statement not covered" >        cep,</span>
+<span class="cstat-no" title="statement not covered" >        state,</span>
+<span class="cstat-no" title="statement not covered" >        district,</span>
+<span class="cstat-no" title="statement not covered" >        city,</span>
+<span class="cstat-no" title="statement not covered" >        street,</span>
+<span class="cstat-no" title="statement not covered" >        number,</span>
+<span class="cstat-no" title="statement not covered" >        description,</span>
+<span class="cstat-no" title="statement not covered" >      );</span>
+<span class="cstat-no" title="statement not covered" >      if (organization.status === httpStatus.CREATED) {</span>
+<span class="cstat-no" title="statement not covered" >        return resp.status(httpStatus.CREATED).json(organization.obj);</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >      return resp.status(organization.status).json({ message: organization.message });</span>
+<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >      return resp</span>
+<span class="cstat-no" title="statement not covered" >        .status(httpStatus.BAD_REQUEST)</span>
+<span class="cstat-no" title="statement not covered" >        .json({ message: 'Falha de conexão com o banco de dados' });</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
 <span class="fstat-no" title="function not covered" >  async read(req: Request, resp: Response) {</span>
 <span class="cstat-no" title="statement not covered" >    const organizationService = new OrganizationService();</span>
@@ -406,7 +406,7 @@ export { OrganizationController };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Oct 14 2021 18:00:52 GMT-0300 (Horário Padrão de Brasília)
+                at Sun Oct 24 2021 18:32:57 GMT-0300 (Horário Padrão de Brasília)
             </div>
         </div>
         <script src="../../prettify.js"></script>

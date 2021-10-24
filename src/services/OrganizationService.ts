@@ -70,7 +70,7 @@ class OrganizationService {
   async update(id: string, name: string, cep: string, state: string, district: string, city: string, street: string, number: number, description: string) {
     try {
       const organization = await this.connectOrganization.findOne({ id });
-      await this.connectOrganization.update(organization.id, { name, cep, state, district, city, street, description });
+      await this.connectOrganization.update(organization.id, { name, cep, state, district, city, street, number, description });
       return { status: httpStatus.OK, message: 'Organização atualizada com sucesso!' };
 
     } catch (error) {

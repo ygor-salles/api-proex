@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.88% </span>
+                <span class="strong">28.05% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>45/82</span>
+                <span class='fraction'>23/82</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.88% </span>
+                <span class="strong">28.05% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>45/82</span>
+                <span class='fraction'>23/82</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -148,32 +148,32 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -228,33 +228,33 @@ class OrganizationService {
   // eslint-disable-next-line prettier/prettier
   private connectOrganization: Repository&lt;Organization&gt;;
 &nbsp;
-  constructor() {
-    this.connectOrganization = getCustomRepository(OrganizationRepository);
-  }
+<span class="fstat-no" title="function not covered" >  constructor() {</span>
+<span class="cstat-no" title="statement not covered" >    this.connectOrganization = getCustomRepository(OrganizationRepository);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-  async create(name: string, cep: string, state: string, district: string, city: string, street: string, number: number, description: string) {
-    try {
-      const organizationExist = await this.connectOrganization.findOne({ name });
-      if (organizationExist) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="fstat-no" title="function not covered" >  async create(name: string, cep: string, state: string, district: string, city: string, street: string, number: number, description: string) {</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      const organizationExist = await this.connectOrganization.findOne({ name });</span>
+<span class="cstat-no" title="statement not covered" >      if (organizationExist) {</span>
 <span class="cstat-no" title="statement not covered" >        return { status: httpStatus.BAD_REQUEST, message: 'Organização já existe' };</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
-      const organization = this.connectOrganization.create({
-        name,
-        cep,
-        state,
-        district,
-        city,
-        street,
-        number,
-        description
-      });
-      await this.connectOrganization.save(organization);
-&nbsp;
-      return { status: httpStatus.CREATED, obj: organization };
-    } catch (error) {
-      throw error;
-    }
-  }
+<span class="cstat-no" title="statement not covered" >      const organization = this.connectOrganization.create({</span>
+<span class="cstat-no" title="statement not covered" >        name,</span>
+<span class="cstat-no" title="statement not covered" >        cep,</span>
+<span class="cstat-no" title="statement not covered" >        state,</span>
+<span class="cstat-no" title="statement not covered" >        district,</span>
+<span class="cstat-no" title="statement not covered" >        city,</span>
+<span class="cstat-no" title="statement not covered" >        street,</span>
+<span class="cstat-no" title="statement not covered" >        number,</span>
+<span class="cstat-no" title="statement not covered" >        description</span>
+<span class="cstat-no" title="statement not covered" >      });</span>
+<span class="cstat-no" title="statement not covered" >      await this.connectOrganization.save(organization);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      return { status: httpStatus.CREATED, obj: organization };</span>
+<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >      throw error;</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
 <span class="fstat-no" title="function not covered" >  async read() {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
@@ -307,7 +307,7 @@ export { OrganizationService }</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Oct 14 2021 18:00:52 GMT-0300 (Horário Padrão de Brasília)
+                at Sun Oct 24 2021 18:32:57 GMT-0300 (Horário Padrão de Brasília)
             </div>
         </div>
         <script src="../../prettify.js"></script>
