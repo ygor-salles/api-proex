@@ -125,6 +125,9 @@ git push
 * Para executar os testes no sistema operacional windows, deve ser setado dentro de script as seguintes configs no package.json:
 
 ```json
+"pretest:coverage": "set NODE_ENV=test&&ts-node-dev src/database/seeders/Seeders.ts",
+"test:coverage": "set NODE_ENV=test&&jest --coverage --collectCoverageFrom='src/**/*.ts'",
+"posttest:coverage": "ts-node-dev src/__tests__/afterAllTests.ts",
 "pretest": "set NODE_ENV=test&&ts-node-dev ./src/database/seeders/Seeders.ts",
 "test": "set NODE_ENV=test&&jest",
 "posttest": "ts-node-dev src/__tests__/afterAllTests.ts",
@@ -133,6 +136,9 @@ git push
 * Para SO linux, deve ser:
 
 ```json
+"pretest:coverage": "NODE_ENV=test ts-node-dev ./src/database/seeders/Seeders.ts",
+"test:coverage": "NODE_ENV=test jest --coverage --collectCoverageFrom='src/**/*.ts'",
+"posttest:coverage": "ts-node-dev src/__tests__/afterAllTests.ts",
 "pretest": "NODE_ENV=test ts-node-dev ./src/database/seeders/Seeders.ts",
 "test": "NODE_ENV=test jest",
 "posttest": "ts-node-dev src/__tests__/afterAllTests.ts",
