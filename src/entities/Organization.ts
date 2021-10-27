@@ -27,7 +27,7 @@ class Organization {
   @Column()
   street: string;
 
-  @Column("integer")
+  @Column()
   number: number;
 
   @Column()

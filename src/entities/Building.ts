@@ -13,10 +13,10 @@ class Building {
   @Column()
   name: string;
 
-  @Column('decimal')
+  @Column()
   latitude: number;
 
-  @Column('decimal')
+  @Column()
   longitude: number;
 
   @Column()

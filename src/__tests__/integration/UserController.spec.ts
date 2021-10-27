@@ -19,6 +19,13 @@ const createUser = {
   role: EnumRoleUser.SUPER,
 };
 
+const editedUser = {
+  name: 'User example edited',
+  email: 'user@example_edit.com',
+  password: '123456',
+  role: EnumRoleUser.NORMAL,
+};
+
 let token: string;
 let userId: string;
 
@@ -125,13 +132,6 @@ describe('Users', () => {
 
   // testes para atualização de usuário
   it('Should be able to edit a existing user and return 200', async () => {
-    const editedUser = {
-      name: 'User example edited',
-      email: 'user@example_edit.com',
-      password: '123456',
-      role: EnumRoleUser.NORMAL,
-    };
-
     const response = await request(app)
       .put(`/users/${userId}`)
       .set('Authorization', `bearer ${token}`)
@@ -148,9 +148,9 @@ describe('Users', () => {
       .set('Authorization', `bearer ${token}`);
 
     expect(response.status).toBe(200);
-    expect(response.body.name).toBe('User example edited');
-    expect(response.body.email).toBe('user@example_edit.com');
-    expect(response.body.role).toBe(EnumRoleUser.NORMAL);
+    expect(response.body.name).toBe(editedUser.name);
+    expect(response.body.email).toBe(editedUser.email);
+    expect(response.body.role).toBe(editedUser.role);
   });
 
   it('Should not be able to get a user by inavlid Id and return 404', async () => {
@@ -181,7 +181,7 @@ describe('Users', () => {
     const deleted = await repository.findOne({ id: userId });
 
     expect(response.status).toBe(200);
-    expect(response.body.message).toBe('Usuário removido com sucesso!');
     expect(deleted).toBeUndefined();
+    expect(response.body.message).toBe('Usuário removido com sucesso!');
   });
 });

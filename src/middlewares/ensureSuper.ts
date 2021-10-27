@@ -10,7 +10,7 @@ export async function ensureSuper(request: Request, response: Response, next: Ne
   const user = await userService.readById(userId);
 
   if (user.message === 'Usuário não existe!') {
-    return response.status(404).json({ message: 'Usuário não existe!' });
+    return response.status(404).json({ message: 'Token inválido!' });
   }
 
   if (user.obj.role === EnumRoleUser.SUPER) {

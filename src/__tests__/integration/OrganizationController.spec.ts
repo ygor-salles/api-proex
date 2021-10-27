@@ -282,7 +282,7 @@ describe('Organizations', () => {
     const deleted = await repository.findOne({ id: organizationId });
 
     expect(response.status).toBe(200);
-    expect(response.body.message).toBe('Organização removida com sucesso!');
     expect(deleted).toBeUndefined();
+    expect(response.body.message).toBe('Organização removida com sucesso!');
   });
 });
