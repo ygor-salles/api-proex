@@ -15,16 +15,16 @@ class Point {
   @Column()
   description: string;
 
-  @Column('decimal')
+  @Column()
   floor: number;
 
-  @Column('decimal')
+  @Column()
   altitude: number;
 
-  @Column('decimal')
+  @Column()
   latitude: number;
 
-  @Column('decimal')
+  @Column()
   longitude: number;
 
   @Column()

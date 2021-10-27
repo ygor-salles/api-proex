@@ -9,7 +9,7 @@ class PointDto {
       altitude: yup.number().required('A Altitude é obrigatória'),
       latitude: yup.number().required('A Latitude é obrigatória'),
       longitude: yup.number().required('A Longitude é obrigatória'),
-      isObstacle: yup.boolean().oneOf([true], 'O obstáculo é obrigatório'),
+      isObstacle: yup.boolean().required('O obstáculo é obrigatório'),
       map_id: yup
         .string()
         .uuid('Id de mapa deve ser do tipo uuid')
