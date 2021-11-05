@@ -98,9 +98,13 @@ E por fim clicar em delete branch, para finalizar a branch que ocorreu a altera�
 - 6 - Logo após voltar para a branch dev no VSCode (git checkout dev) e executar o comando para atualizar a DEV
 (git pull). Assim a branch DEV estará atualizada no seu repositório local. E para uma nova demanda, seguir novamente os mesmos passos, criar uma nova branch a partir da dev ...
 
-## Atualizar ambiente de homolog ou prod a partir do ambiente de dev
+## Atualizar ambiente de homolog ou prod a partir do ambiente de dev(local)
 
-* Entrar na branch homolog ou prod
+* Até o momento não foi configurado actions no repositório do projeto para que as migrations e os ambientes de homologação e produção sejam atualizados de forma mais automatizada
+
+* IMPORTANTE: sempre verificar se existe alguma migration nova antes de atualizar ambiente de homolog ou prod, caso exista, alterar a variável de ambiente NODE_ENV para o ambiente desejado e executar a migration no terminal. (Essa execução irá alterar a regra do banco de dados de homolog ou produção, por isso é importante primeiramente testar essas novas migrations no banco de dev(local)) 
+
+* Após a verificação das migrations, entrar na branch homolog ou prod
 
 ```bash
 git checkout homolog
