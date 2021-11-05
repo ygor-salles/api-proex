@@ -18,9 +18,8 @@ export function ensureAuthenticated(request: Request, response: Response, next: 
   const [, token] = authToken.split(' ');
 
   try {
-    // Validar se token é válido
-    // eslint-disable-next-line prettier/prettier
-    const {sub} = verify(token, process.env.TOKEN_SECRET) as IPayload
+    // Verificar se token é válido
+    const { sub } = verify(token, process.env.TOKEN_SECRET) as IPayload;
 
     // Recuperar informações do usuário
     request.userId = sub;
@@ -29,5 +28,4 @@ export function ensureAuthenticated(request: Request, response: Response, next: 
   } catch (error) {
     return response.status(401).end();
   }
-
 }

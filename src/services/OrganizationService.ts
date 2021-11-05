@@ -4,14 +4,22 @@ import { Organization } from '../entities/Organization';
 import { OrganizationRepository } from '../repositories/OrganizationRepository';
 
 class OrganizationService {
-  // eslint-disable-next-line prettier/prettier
   private connectOrganization: Repository<Organization>;
 
   constructor() {
     this.connectOrganization = getCustomRepository(OrganizationRepository);
   }
 
-  async create(name: string, cep: string, state: string, district: string, city: string, street: string, number: number, description: string) {
+  async create(
+    name: string,
+    cep: string,
+    state: string,
+    district: string,
+    city: string,
+    street: string,
+    number: number,
+    description: string,
+  ) {
     try {
       const organizationExist = await this.connectOrganization.findOne({ name });
       if (organizationExist) {
@@ -25,7 +33,7 @@ class OrganizationService {
         city,
         street,
         number,
-        description
+        description,
       });
       await this.connectOrganization.save(organization);
 
@@ -48,7 +56,6 @@ class OrganizationService {
       const organization = await this.connectOrganization.findOne({ id });
 
       return { status: httpStatus.OK, obj: organization };
-
     } catch (error) {
       return { status: httpStatus.NOT_FOUND, message: 'Organização não existe!' };
     }
@@ -67,16 +74,34 @@ class OrganizationService {
     }
   }
 
-  async update(id: string, name: string, cep: string, state: string, district: string, city: string, street: string, number: number, description: string) {
+  async update(
+    id: string,
+    name: string,
+    cep: string,
+    state: string,
+    district: string,
+    city: string,
+    street: string,
+    number: number,
+    description: string,
+  ) {
     try {
       const organization = await this.connectOrganization.findOne({ id });
-      await this.connectOrganization.update(organization.id, { name, cep, state, district, city, street, number, description });
+      await this.connectOrganization.update(organization.id, {
+        name,
+        cep,
+        state,
+        district,
+        city,
+        street,
+        number,
+        description,
+      });
       return { status: httpStatus.OK, message: 'Organização atualizada com sucesso!' };
-
     } catch (error) {
       return { status: httpStatus.NOT_FOUND, message: 'Organização não existe!' };
     }
   }
 }
 
-export { OrganizationService }
+export { OrganizationService };

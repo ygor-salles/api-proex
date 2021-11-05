@@ -7,12 +7,13 @@ class UserDto {
       name: yup.string().required('Nome é obrigatório'),
       email: yup.string().email('E-mail incorreto').required('E-mail é obrigatório'),
       password: yup.string().required('Senha é obrigatória'),
-      // eslint-disable-next-line prettier/prettier
-      role: yup.mixed<keyof typeof EnumRoleUser>().oneOf(Object.values(EnumRoleUser))
-        .required('Tipo de usuário é obrigatório')
+      role: yup
+        .mixed<keyof typeof EnumRoleUser>()
+        .oneOf(Object.values(EnumRoleUser))
+        .required('Tipo de usuário é obrigatório'),
     });
     return schema;
   }
 }
 
-export { UserDto }
+export { UserDto };

@@ -1,9 +1,16 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable prettier/prettier */
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Map } from "./Map";
-import { Organization } from "./Organization";
+import { Map } from './Map';
+import { Organization } from './Organization';
 
 @Entity('buildings')
 class Building {
@@ -23,20 +30,20 @@ class Building {
   description: string;
 
   @CreateDateColumn()
-  created_at: Date
+  created_at: Date;
 
   @UpdateDateColumn()
-  updated_at: Date
+  updated_at: Date;
 
   @Column()
   organization_id: string;
 
   @ManyToOne(() => Organization, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
   @JoinColumn({ name: 'organization_id' })
-  organization: Organization
+  organization: Organization;
 
   @OneToMany(() => Map, map => map.building, { eager: true })
-  map: Map
+  map: Map;
 
   constructor() {
     if (!this.id) {
@@ -45,4 +52,4 @@ class Building {
   }
 }
 
-export { Building }
+export { Building };

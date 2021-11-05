@@ -1,15 +1,20 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable prettier/prettier */
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
-import { v4 as uuid } from 'uuid';
 import { hashSync } from 'bcryptjs';
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { v4 as uuid } from 'uuid';
 
 export enum EnumRoleUser {
   SUPER = 'SUPER',
   NORMAL = 'NORMAL',
-  EMPLOYEE = 'EMPLOYEE'
+  EMPLOYEE = 'EMPLOYEE',
 }
 
 @Entity('users')
@@ -30,14 +35,14 @@ class User {
   role: EnumRoleUser;
 
   @CreateDateColumn()
-  created_at: Date
+  created_at: Date;
 
   @UpdateDateColumn()
-  updated_at: Date
+  updated_at: Date;
 
   @BeforeInsert()
   hashPasswordCreate() {
-    this.password = hashSync(this.password, 8)
+    this.password = hashSync(this.password, 8);
   }
 
   constructor() {
@@ -47,4 +52,4 @@ class User {
   }
 }
 
-export { User }
+export { User };

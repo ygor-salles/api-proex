@@ -1,8 +1,14 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable prettier/prettier */
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Map } from "./Map";
+import { Map } from './Map';
 
 @Entity('points')
 class Point {
@@ -37,11 +43,11 @@ class Point {
   updated_at: Date;
 
   @Column()
-  map_id: string
+  map_id: string;
 
   @ManyToOne(() => Map, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
   @JoinColumn({ name: 'map_id' })
-  map: Map
+  map: Map;
 
   constructor() {
     if (!this.id) {

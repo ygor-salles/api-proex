@@ -1,8 +1,13 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable prettier/prettier */
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Building } from "./Building";
+import { Building } from './Building';
 
 @Entity('organizations')
 class Organization {
@@ -34,13 +39,13 @@ class Organization {
   description: string;
 
   @CreateDateColumn()
-  created_at: Date
+  created_at: Date;
 
   @UpdateDateColumn()
-  updated_at: Date
+  updated_at: Date;
 
   @OneToMany(() => Building, building => building.organization, { eager: true })
-  building: Building
+  building: Building;
 
   constructor() {
     if (!this.id) {

@@ -1,10 +1,9 @@
-// eslint-disable-next-line import/order
-import { UserService } from './UserService';
 import 'dotenv/config';
 import { resolve } from 'path';
 import handelbars from 'handlebars';
 import fs from 'fs';
 import httpStatus from 'http-status';
+import { UserService } from './UserService';
 import transport from '../utils/Mailer';
 
 class ChangeService {

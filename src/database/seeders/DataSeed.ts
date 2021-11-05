@@ -7,9 +7,8 @@ import { PointRepository } from '../../repositories/PointRepository';
 import { UserRepository } from '../../repositories/UserRepository';
 
 class DataSeed {
-  // eslint-disable-next-line prettier/prettier
   public static async verifyEntities(): Promise<boolean> {
-    const repositoryUser = getCustomRepository(UserRepository)
+    const repositoryUser = getCustomRepository(UserRepository);
     try {
       const allUsers = await repositoryUser.find();
       return !!allUsers.length;
@@ -29,7 +28,7 @@ class DataSeed {
         email: 'user1@gmail.com',
         password: '123456',
         role: EnumRoleUser.SUPER,
-      })
+      }),
     );
     arrayUsers.push(
       repository.create({
@@ -38,7 +37,7 @@ class DataSeed {
         email: 'user2@gmail.com',
         password: '123456',
         role: EnumRoleUser.NORMAL,
-      })
+      }),
     );
     arrayUsers.push(
       repository.create({
@@ -46,8 +45,8 @@ class DataSeed {
         name: 'User 3',
         email: 'user3@gmail.com',
         password: '123456',
-        role: EnumRoleUser.NORMAL
-      })
+        role: EnumRoleUser.NORMAL,
+      }),
     );
     arrayUsers.push(
       repository.create({
@@ -56,8 +55,8 @@ class DataSeed {
         email: 'user4@gmail.com',
         password: '123456',
         role: EnumRoleUser.EMPLOYEE,
-      })
-    )
+      }),
+    );
 
     await repository.save(arrayUsers);
   }
@@ -77,7 +76,7 @@ class DataSeed {
         street: 'Rua Inácio Ferrão',
         number: 122,
         description: 'Escola',
-      })
+      }),
     );
     arrayOrganizations.push(
       repository.create({
@@ -90,7 +89,7 @@ class DataSeed {
         street: 'Rua Castro Alves',
         number: 100,
         description: 'Faculdade',
-      })
+      }),
     );
 
     await repository.save(arrayOrganizations);
@@ -107,28 +106,28 @@ class DataSeed {
         latitude: -25.334776,
         longitude: -48.5304419,
         description: 'Descrição do prédio 1',
-        organization_id: 'ad8fb4ff-a518-42c0-af78-ac5062eaf53d'
-      })
+        organization_id: 'ad8fb4ff-a518-42c0-af78-ac5062eaf53d',
+      }),
     );
     arrayBuilding.push(
       repository.create({
         id: 'f372b5a3-bf4d-4fe8-bd4b-07fe1fb33011',
         name: 'Prédio 2',
-        latitude: -25.334770,
+        latitude: -25.33477,
         longitude: -48.5304422,
         description: 'Descrição do prédio 2',
-        organization_id: 'ad8fb4ff-a518-42c0-af78-ac5062eaf53d'
-      })
+        organization_id: 'ad8fb4ff-a518-42c0-af78-ac5062eaf53d',
+      }),
     );
     arrayBuilding.push(
       repository.create({
         id: '8ff9f33a-d975-4483-b305-95aeab4c0226',
         name: 'Prédio 3',
-        latitude: -25.334800,
+        latitude: -25.3348,
         longitude: -48.5304615,
         description: 'Descrição do prédio 3',
-        organization_id: 'ad8fb4ff-a518-42c0-af78-ac5062eaf53d'
-      })
+        organization_id: 'ad8fb4ff-a518-42c0-af78-ac5062eaf53d',
+      }),
     );
     arrayBuilding.push(
       repository.create({
@@ -137,18 +136,18 @@ class DataSeed {
         latitude: -28.334776,
         longitude: -45.5304419,
         description: 'Descrição do prédio 1',
-        organization_id: '45659fc4-1946-4080-adba-d084543c3324'
-      })
+        organization_id: '45659fc4-1946-4080-adba-d084543c3324',
+      }),
     );
     arrayBuilding.push(
       repository.create({
         id: 'a37262f8-0ff5-4bec-ac90-9279f3f2dc9a',
         name: 'Prédio 2',
-        latitude: -28.334210,
-        longitude: -45.5301000,
+        latitude: -28.33421,
+        longitude: -45.5301,
         description: 'Descrição do prédio 2',
-        organization_id: '45659fc4-1946-4080-adba-d084543c3324'
-      })
+        organization_id: '45659fc4-1946-4080-adba-d084543c3324',
+      }),
     );
 
     await repository.save(arrayBuilding);
@@ -162,55 +161,61 @@ class DataSeed {
       repository.create({
         id: 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e',
         name: 'Map 1',
-        source: 'https://lh3.googleusercontent.com/proxy/MYVsPb8GalrYmSgYbGOvJLGC4nf9pmHRfmkHWc_Cv6H5zHuOV4nstIMk3m0LankaxsK9lpJMrKsEdkvCzHYEKawF7Ya0dc_tui5CIKEVPJGidDiAab95jnEXtxfPFheXOdcE60RI9AxI6uJFYpKEaxZrYnl6Lj-W4o07tR22QpnAsTC1bzlZBjJYcCvBnS4Kyw7IiJUKJhw7_AIMzpo-hw',
+        source:
+          'https://lh3.googleusercontent.com/proxy/MYVsPb8GalrYmSgYbGOvJLGC4nf9pmHRfmkHWc_Cv6H5zHuOV4nstIMk3m0LankaxsK9lpJMrKsEdkvCzHYEKawF7Ya0dc_tui5CIKEVPJGidDiAab95jnEXtxfPFheXOdcE60RI9AxI6uJFYpKEaxZrYnl6Lj-W4o07tR22QpnAsTC1bzlZBjJYcCvBnS4Kyw7IiJUKJhw7_AIMzpo-hw',
         description: 'Descrição do Mapa 1',
-        building_id: '5a6d70a4-d0c6-4f38-90fe-730fed66cd66'
-      })
+        building_id: '5a6d70a4-d0c6-4f38-90fe-730fed66cd66',
+      }),
     );
     arrayMaps.push(
       repository.create({
         id: 'd80c3e0f-97b7-4a1d-bba3-384db2c1ff5c',
         name: 'Map 2',
-        source: 'https://ct.ufes.br/sites/ct.ufes.br/files/imagem/ct-adm-estrutura-fisica-mapa-geral.png',
+        source:
+          'https://ct.ufes.br/sites/ct.ufes.br/files/imagem/ct-adm-estrutura-fisica-mapa-geral.png',
         description: 'Descrição do Mapa 2',
-        building_id: '5a6d70a4-d0c6-4f38-90fe-730fed66cd66'
-      })
+        building_id: '5a6d70a4-d0c6-4f38-90fe-730fed66cd66',
+      }),
     );
     arrayMaps.push(
       repository.create({
         id: 'bb0c94d4-8dda-4ce3-8742-5704d0fbd04b',
         name: 'Map 1',
-        source: 'https://ct.ufes.br/sites/ct.ufes.br/files/imagem/ct-adm-estrutura-fisica-mapa-geral.png',
+        source:
+          'https://ct.ufes.br/sites/ct.ufes.br/files/imagem/ct-adm-estrutura-fisica-mapa-geral.png',
         description: 'Descrição do Mapa 1',
-        building_id: 'f372b5a3-bf4d-4fe8-bd4b-07fe1fb33011'
-      })
+        building_id: 'f372b5a3-bf4d-4fe8-bd4b-07fe1fb33011',
+      }),
     );
     arrayMaps.push(
       repository.create({
         id: 'a7184129-4c29-4d8e-b271-4d043393a1d0',
         name: 'Map 1',
-        source: 'https://lh3.googleusercontent.com/proxy/MYVsPb8GalrYmSgYbGOvJLGC4nf9pmHRfmkHWc_Cv6H5zHuOV4nstIMk3m0LankaxsK9lpJMrKsEdkvCzHYEKawF7Ya0dc_tui5CIKEVPJGidDiAab95jnEXtxfPFheXOdcE60RI9AxI6uJFYpKEaxZrYnl6Lj-W4o07tR22QpnAsTC1bzlZBjJYcCvBnS4Kyw7IiJUKJhw7_AIMzpo-hw',
+        source:
+          'https://lh3.googleusercontent.com/proxy/MYVsPb8GalrYmSgYbGOvJLGC4nf9pmHRfmkHWc_Cv6H5zHuOV4nstIMk3m0LankaxsK9lpJMrKsEdkvCzHYEKawF7Ya0dc_tui5CIKEVPJGidDiAab95jnEXtxfPFheXOdcE60RI9AxI6uJFYpKEaxZrYnl6Lj-W4o07tR22QpnAsTC1bzlZBjJYcCvBnS4Kyw7IiJUKJhw7_AIMzpo-hw',
         description: 'Descrição do Mapa 1',
-        building_id: '8ff9f33a-d975-4483-b305-95aeab4c0226'
-      })
+        building_id: '8ff9f33a-d975-4483-b305-95aeab4c0226',
+      }),
     );
     arrayMaps.push(
       repository.create({
         id: 'c14330a6-841e-4cde-8d03-da0a66823975',
         name: 'Map 2',
-        source: 'https://ct.ufes.br/sites/ct.ufes.br/files/imagem/ct-adm-estrutura-fisica-mapa-geral.png',
+        source:
+          'https://ct.ufes.br/sites/ct.ufes.br/files/imagem/ct-adm-estrutura-fisica-mapa-geral.png',
         description: 'Descrição do Mapa 2',
-        building_id: '8ff9f33a-d975-4483-b305-95aeab4c0226'
-      })
+        building_id: '8ff9f33a-d975-4483-b305-95aeab4c0226',
+      }),
     );
     arrayMaps.push(
       repository.create({
         id: '7731f4c4-9866-4cb2-a723-3e1c6935e687',
         name: 'Map 3',
-        source: 'https://ct.ufes.br/sites/ct.ufes.br/files/imagem/ct-adm-estrutura-fisica-mapa-geral.png',
+        source:
+          'https://ct.ufes.br/sites/ct.ufes.br/files/imagem/ct-adm-estrutura-fisica-mapa-geral.png',
         description: 'Descrição do Mapa 3',
-        building_id: '8ff9f33a-d975-4483-b305-95aeab4c0226'
-      })
+        building_id: '8ff9f33a-d975-4483-b305-95aeab4c0226',
+      }),
     );
 
     await repository.save(arrayMaps);
@@ -230,8 +235,8 @@ class DataSeed {
         latitude: -25.3347773,
         longitude: -47.5304414,
         isObstacle: false,
-        map_id: 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e'
-      })
+        map_id: 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e',
+      }),
     );
     arrayPoints.push(
       repository.create({
@@ -241,10 +246,10 @@ class DataSeed {
         floor: 1,
         altitude: 2.123,
         latitude: -25.3347772,
-        longitude: -47.5304410,
+        longitude: -47.530441,
         isObstacle: true,
-        map_id: 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e'
-      })
+        map_id: 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e',
+      }),
     );
     arrayPoints.push(
       repository.create({
@@ -256,8 +261,8 @@ class DataSeed {
         latitude: -25.3347769,
         longitude: -47.5304407,
         isObstacle: true,
-        map_id: 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e'
-      })
+        map_id: 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e',
+      }),
     );
 
     arrayPoints.push(
@@ -270,8 +275,8 @@ class DataSeed {
         latitude: -25.3347773,
         longitude: -47.5304414,
         isObstacle: false,
-        map_id: 'd80c3e0f-97b7-4a1d-bba3-384db2c1ff5c'
-      })
+        map_id: 'd80c3e0f-97b7-4a1d-bba3-384db2c1ff5c',
+      }),
     );
     arrayPoints.push(
       repository.create({
@@ -281,10 +286,10 @@ class DataSeed {
         floor: 1,
         altitude: 2.123,
         latitude: -25.3347772,
-        longitude: -47.5304410,
+        longitude: -47.530441,
         isObstacle: false,
-        map_id: 'd80c3e0f-97b7-4a1d-bba3-384db2c1ff5c'
-      })
+        map_id: 'd80c3e0f-97b7-4a1d-bba3-384db2c1ff5c',
+      }),
     );
     arrayPoints.push(
       repository.create({
@@ -296,8 +301,8 @@ class DataSeed {
         latitude: -25.3347769,
         longitude: -47.5304407,
         isObstacle: true,
-        map_id: 'd80c3e0f-97b7-4a1d-bba3-384db2c1ff5c'
-      })
+        map_id: 'd80c3e0f-97b7-4a1d-bba3-384db2c1ff5c',
+      }),
     );
 
     arrayPoints.push(
@@ -310,8 +315,8 @@ class DataSeed {
         latitude: -22.3347769,
         longitude: -42.5304407,
         isObstacle: false,
-        map_id: 'c14330a6-841e-4cde-8d03-da0a66823975'
-      })
+        map_id: 'c14330a6-841e-4cde-8d03-da0a66823975',
+      }),
     );
 
     await repository.save(arrayPoints);

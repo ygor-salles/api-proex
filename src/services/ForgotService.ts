@@ -1,12 +1,11 @@
 import { getCustomRepository } from 'typeorm';
-// eslint-disable-next-line import/order
-import { UserRepository } from '../repositories/UserRepository';
 import { hashSync } from 'bcryptjs';
 import 'dotenv/config';
 import { resolve } from 'path';
 import handelbars from 'handlebars';
 import fs from 'fs';
 import httpStatus from 'http-status';
+import { UserRepository } from '../repositories/UserRepository';
 import transport from '../utils/Mailer';
 
 class ForgotService {

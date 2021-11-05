@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import request from 'supertest';
 import { getConnection, getCustomRepository } from 'typeorm';
 import { app } from '../../app';

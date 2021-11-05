@@ -1,10 +1,16 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable prettier/prettier */
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Point } from "./Point";
-import { Building } from "./Building";
-
+import { Point } from './Point';
+import { Building } from './Building';
 
 @Entity('maps')
 class Map {
@@ -27,14 +33,14 @@ class Map {
   updated_at: Date;
 
   @Column()
-  building_id: string
+  building_id: string;
 
   @ManyToOne(() => Building, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
   @JoinColumn({ name: 'building_id' })
-  building: Building
+  building: Building;
 
   @OneToMany(() => Point, points => points.map, { eager: true })
-  points: Point
+  points: Point;
 
   constructor() {
     if (!this.id) {

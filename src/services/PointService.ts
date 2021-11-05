@@ -6,7 +6,6 @@ import { PointRepository } from '../repositories/PointRepository';
 import { MapRepository } from '../repositories/MapRepository';
 
 class PointService {
-  // eslint-disable-next-line prettier/prettier
   private connectPoint: Repository<Point>;
 
   private connectMap: Repository<Map>;
@@ -16,7 +15,16 @@ class PointService {
     this.connectMap = getCustomRepository(MapRepository);
   }
 
-  async create(name: string, description: string, floor: number, altitude: number, latitude: number, longitude: number, isObstacle: boolean, map_id: string) {
+  async create(
+    name: string,
+    description: string,
+    floor: number,
+    altitude: number,
+    latitude: number,
+    longitude: number,
+    isObstacle: boolean,
+    map_id: string,
+  ) {
     try {
       const pointExist = await this.connectPoint.findOne({ name });
       if (pointExist) {
@@ -36,7 +44,7 @@ class PointService {
         latitude,
         longitude,
         isObstacle,
-        map_id
+        map_id,
       });
       await this.connectPoint.save(point);
 
@@ -79,7 +87,17 @@ class PointService {
     }
   }
 
-  async update(id: string, name: string, description: string, floor: number, altitude: number, latitude: number, longitude: number, isObstacle: boolean, map_id: string) {
+  async update(
+    id: string,
+    name: string,
+    description: string,
+    floor: number,
+    altitude: number,
+    latitude: number,
+    longitude: number,
+    isObstacle: boolean,
+    map_id: string,
+  ) {
     try {
       const point = await this.connectPoint.findOne({ id });
       if (point) {
@@ -88,7 +106,16 @@ class PointService {
           return { status: httpStatus.NOT_FOUND, message: 'Id de mapa não existe' };
         }
 
-        await this.connectPoint.update(point.id, { name, description, floor, altitude, latitude, longitude, isObstacle, map_id });
+        await this.connectPoint.update(point.id, {
+          name,
+          description,
+          floor,
+          altitude,
+          latitude,
+          longitude,
+          isObstacle,
+          map_id,
+        });
         return { status: httpStatus.OK, message: 'Ponto atualizado com sucesso!' };
       }
       return { status: httpStatus.NOT_FOUND, message: 'Ponto não existe!' };
@@ -98,4 +125,4 @@ class PointService {
   }
 }
 
-export { PointService }
+export { PointService };

@@ -6,7 +6,6 @@ import { Organization } from '../entities/Organization';
 import { OrganizationRepository } from '../repositories/OrganizationRepository';
 
 class BuildingService {
-  // eslint-disable-next-line prettier/prettier
   private connectBuilding: Repository<Building>;
 
   private connectOrganization: Repository<Organization>;
@@ -16,7 +15,13 @@ class BuildingService {
     this.connectOrganization = getCustomRepository(OrganizationRepository);
   }
 
-  async create(name: string, latitude: number, longitude: number, description: string, organization_id: string) {
+  async create(
+    name: string,
+    latitude: number,
+    longitude: number,
+    description: string,
+    organization_id: string,
+  ) {
     try {
       const buildingExist = await this.connectBuilding.findOne({ name });
       if (buildingExist) {
@@ -33,7 +38,7 @@ class BuildingService {
         latitude,
         longitude,
         description,
-        organization_id
+        organization_id,
       });
       await this.connectBuilding.save(building);
 
@@ -76,7 +81,14 @@ class BuildingService {
     }
   }
 
-  async update(id: string, name: string, latitude: number, longitude: number, description: string, organization_id: string) {
+  async update(
+    id: string,
+    name: string,
+    latitude: number,
+    longitude: number,
+    description: string,
+    organization_id: string,
+  ) {
     try {
       const building = await this.connectBuilding.findOne({ id });
       if (building) {
@@ -85,7 +97,13 @@ class BuildingService {
           return { status: httpStatus.NOT_FOUND, message: 'Id de organização não existe' };
         }
 
-        await this.connectBuilding.update(building.id, { name, latitude, longitude, description, organization_id });
+        await this.connectBuilding.update(building.id, {
+          name,
+          latitude,
+          longitude,
+          description,
+          organization_id,
+        });
         return { status: httpStatus.OK, message: 'Prédio atualizado com sucesso!' };
       }
       return { status: httpStatus.NOT_FOUND, message: 'Prédio não existe!' };
@@ -95,4 +113,4 @@ class BuildingService {
   }
 }
 
-export { BuildingService }
+export { BuildingService };

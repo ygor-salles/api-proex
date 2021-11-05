@@ -5,7 +5,6 @@ import { EnumRoleUser, User } from '../entities/User';
 import { UserRepository } from '../repositories/UserRepository';
 
 class UserService {
-  // eslint-disable-next-line prettier/prettier
   private connectUser: Repository<User>;
 
   constructor() {
@@ -23,7 +22,7 @@ class UserService {
         name,
         email,
         password,
-        role
+        role,
       });
       await this.connectUser.save(user);
 
@@ -37,7 +36,7 @@ class UserService {
   async read() {
     try {
       return await this.connectUser.find({
-        select: ['id', 'name', 'email', 'role', 'created_at']
+        select: ['id', 'name', 'email', 'role', 'created_at'],
       });
     } catch (error) {
       throw error;
@@ -88,16 +87,13 @@ class UserService {
     try {
       const user = await this.connectUser.findOne({ email });
       if (!user) {
-        return { status: httpStatus.NOT_FOUND, message: 'Usuário não encontrado!' }
+        return { status: httpStatus.NOT_FOUND, message: 'Usuário não encontrado!' };
       }
 
-      const passwordIsValid = compareSync(
-        codVerificacao,
-        user.password,
-      );
+      const passwordIsValid = compareSync(codVerificacao, user.password);
 
       if (!passwordIsValid) {
-        return { status: httpStatus.NOT_FOUND, message: 'Código de verificação incorreto!' }
+        return { status: httpStatus.NOT_FOUND, message: 'Código de verificação incorreto!' };
       }
 
       user.password = hashSync(password, 8);
@@ -110,4 +106,4 @@ class UserService {
   }
 }
 
-export { UserService }
+export { UserService };

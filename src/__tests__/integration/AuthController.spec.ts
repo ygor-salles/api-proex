@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import httpStatus from 'http-status';
 import request from 'supertest';
 import { getConnection } from 'typeorm';

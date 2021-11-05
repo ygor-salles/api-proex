@@ -6,7 +6,6 @@ import { Building } from '../entities/Building';
 import { BuildingRepository } from '../repositories/BuildingRepository';
 
 class MapService {
-  // eslint-disable-next-line prettier/prettier
   private connectMap: Repository<Map>;
 
   private connectBuilding: Repository<Building>;
@@ -32,7 +31,7 @@ class MapService {
         name,
         source,
         description,
-        building_id
+        building_id,
       });
       await this.connectMap.save(map);
 
@@ -94,4 +93,4 @@ class MapService {
   }
 }
 
-export { MapService }
+export { MapService };
