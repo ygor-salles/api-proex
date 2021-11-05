@@ -19,10 +19,10 @@ if (process.env.NODE_ENV === 'development') {
 } else if (process.env.NODE_ENV === 'test') {
   config = {
     type: 'postgres',
-    host: process.env.BD_TEST_HOST,
-    port: +process.env.BD_TEST_PORT || 5432,
-    username: process.env.BD_TEST_USERNAME,
-    password: process.env.BD_TEST_PASSWORD,
+    host: process.env.BD_HOST,
+    port: +process.env.BD_PORT || 5432,
+    username: process.env.BD_USERNAME,
+    password: process.env.BD_PASSWORD,
     database: process.env.BD_TEST_DATABASE,
     synchronize: false,
     migrations: ['src/database/migrations/*.ts'],
