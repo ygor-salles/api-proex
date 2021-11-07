@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { EnumRoleUser } from '../entities/User';
+import { ApiError } from '../exceptions/ApiError';
 import { UserService } from '../services/UserService';
 
 export async function ensureSuper(request: Request, response: Response, next: NextFunction) {
@@ -7,15 +8,14 @@ export async function ensureSuper(request: Request, response: Response, next: Ne
 
   const userService = new UserService();
 
-  const user = await userService.readById(userId);
+  try {
+    const user = await userService.readById(userId);
+    if (user.role === EnumRoleUser.SUPER) {
+      return next();
+    }
 
-  if (user.message === 'Usuário não existe!') {
-    return response.status(404).json({ message: 'Token inválido!' });
+    throw new ApiError(401, 'Unauthorized');
+  } catch (error) {
+    throw new ApiError(404, 'Token inválido, usuário não existe no sistema!');
   }
-
-  if (user.obj.role === EnumRoleUser.SUPER) {
-    return next();
-  }
-
-  return response.status(401).json({ error: 'Unauthorized' });
 }

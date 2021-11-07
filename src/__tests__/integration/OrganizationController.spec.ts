@@ -4,6 +4,9 @@ import { app } from '../../app';
 import createConnetion from '../../database';
 import { OrganizationRepository } from '../../repositories/OrganizationRepository';
 
+// id inexistente
+const idInexist = 'bf918fbb-94a9-4dd5-9db1-85ce524ed306';
+
 const createOrganization = {
   name: 'Organização Tal',
   cep: '37510-000',
@@ -251,7 +254,7 @@ describe('Organizations', () => {
 
   it('Should not be able to get a user by Id and return 404', async () => {
     const response = await request(app)
-      .get(`/organizations/2`)
+      .get(`/organizations/${idInexist}`)
       .set('Authorization', `bearer ${token}`);
 
     expect(response.status).toBe(404);

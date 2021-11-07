@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import httpStatus from 'http-status';
+import { ApiError } from '../exceptions/ApiError';
 import { OrganizationService } from '../services/OrganizationService';
 import { OrganizationDto } from '../validators/OrganizationDto';
 
@@ -13,69 +13,43 @@ class OrganizationController {
         .createUpdateValidation()
         .validate(req.body, { abortEarly: false });
     } catch (error) {
-      return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+      throw new ApiError(400, error.message);
     }
 
     const organizationService = new OrganizationService();
-    try {
-      const organization = await organizationService.create(
-        name,
-        cep,
-        state,
-        district,
-        city,
-        street,
-        number,
-        description,
-      );
-      if (organization.status === httpStatus.CREATED) {
-        return resp.status(httpStatus.CREATED).json(organization.obj);
-      }
-      return resp.status(organization.status).json({ message: organization.message });
-    } catch (error) {
-      return resp
-        .status(httpStatus.BAD_REQUEST)
-        .json({ message: 'Falha de conexão com o banco de dados' });
-    }
+    const organization = await organizationService.create(
+      name,
+      cep,
+      state,
+      district,
+      city,
+      street,
+      number,
+      description,
+    );
+    return resp.status(201).json(organization);
   }
 
   async read(req: Request, resp: Response) {
     const organizationService = new OrganizationService();
-    try {
-      const allOrganizations = await organizationService.read();
-      return resp.json(allOrganizations);
-    } catch (error) {
-      return resp
-        .status(httpStatus.BAD_REQUEST)
-        .json({ message: 'Falha de conexão com o banco de dados' });
-    }
+    const allOrganizations = await organizationService.read();
+    return resp.json(allOrganizations);
   }
 
   async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
     const organizationService = new OrganizationService();
-    try {
-      const organization = await organizationService.readById(id);
-      if (organization.status === httpStatus.OK) {
-        return resp.json(organization.obj);
-      }
-      return resp.status(organization.status).json({ message: organization.message });
-    } catch (error) {
-      return resp.status(error.status).json(error.message);
-    }
+    const organization = await organizationService.readById(id);
+    return resp.status(200).json(organization);
   }
 
   async delete(req: Request, resp: Response) {
     const { id } = req.params;
 
     const organizationService = new OrganizationService();
-    try {
-      const organization = await organizationService.delete(id);
-      return resp.status(organization.status).json({ message: organization.message });
-    } catch (error) {
-      return resp.status(error.status).json(error.message);
-    }
+    await organizationService.delete(id);
+    return resp.status(200).json({ message: 'Organização removida com sucesso!' });
   }
 
   async update(req: Request, resp: Response) {
@@ -88,26 +62,22 @@ class OrganizationController {
         .createUpdateValidation()
         .validate(req.body, { abortEarly: false });
     } catch (error) {
-      return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+      throw new ApiError(400, error.message);
     }
 
     const organizationService = new OrganizationService();
-    try {
-      const organization = await organizationService.update(
-        id,
-        name,
-        cep,
-        state,
-        district,
-        city,
-        street,
-        number,
-        description,
-      );
-      return resp.status(organization.status).json({ message: organization.message });
-    } catch (error) {
-      return resp.status(error.status).json(error.message);
-    }
+    await organizationService.update(
+      id,
+      name,
+      cep,
+      state,
+      district,
+      city,
+      street,
+      number,
+      description,
+    );
+    return resp.status(200).json({ message: 'Organização atualizada com sucesso!' });
   }
 }
 

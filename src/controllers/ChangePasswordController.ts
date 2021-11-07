@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import httpStatus from 'http-status';
+import { ApiError } from '../exceptions/ApiError';
 import { ChangeService } from '../services/ChangeService';
 import { ChangeDto } from '../validators/ChangeDto';
 
@@ -11,18 +11,12 @@ class ChangePasswordController {
     try {
       await changeValidator.changeValidation().validate(request.body, { abortEarly: false });
     } catch (error) {
-      return response.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+      throw new ApiError(400, error.message);
     }
 
     const changeService = new ChangeService();
-    try {
-      const changePassword = await changeService.execute(email, password, codVerificacao);
-      return response.status(changePassword.status).json({ message: changePassword.message });
-    } catch (error) {
-      return response
-        .status(httpStatus.BAD_REQUEST)
-        .json({ message: 'Falha ao atualizar nova senha!' });
-    }
+    await changeService.execute(email, password, codVerificacao);
+    return response.status(200).json({ message: 'Senha recuperada com sucesso!' });
   }
 }
 

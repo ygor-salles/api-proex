@@ -11,4 +11,8 @@ createConnection()
   })
   .catch(error => {
     console.log('TypeORM connection error: ', error.message);
+
+    app.listen(process.env.PORT || 4000, () =>
+      console.log(`Server is running ${process.env.PORT || 4000}`),
+    );
   });

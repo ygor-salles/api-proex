@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import httpStatus from 'http-status';
 import { AuthenticateUserService } from '../services/AuthenticateUserService';
 import { AuthDto } from '../validators/AuthDto';
 
@@ -11,7 +10,7 @@ class AuthenticateUserController {
     try {
       await authValidator.authValidation().validate(request.body, { abortEarly: false });
     } catch (error) {
-      return response.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+      return response.status(400).json({ message: error.message });
     }
 
     const authenticateUserService = new AuthenticateUserService();
@@ -20,8 +19,8 @@ class AuthenticateUserController {
       password,
     });
 
-    if (token.status === httpStatus.BAD_REQUEST) {
-      return response.status(httpStatus.BAD_REQUEST).json(token);
+    if (token.status === 400) {
+      return response.status(400).json(token);
     }
     return response.json(token);
   }

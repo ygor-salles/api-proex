@@ -2,7 +2,6 @@ import 'dotenv/config';
 import { resolve } from 'path';
 import handelbars from 'handlebars';
 import fs from 'fs';
-import httpStatus from 'http-status';
 import { UserService } from './UserService';
 import transport from '../utils/Mailer';
 
@@ -10,11 +9,8 @@ class ChangeService {
   async execute(email: string, password: string, codVerificacao: string) {
     const userService = new UserService();
 
-    const updatePassword = await userService.updateChangePassword(email, password, codVerificacao);
-    if (updatePassword.status === httpStatus.OK) {
-      this.sendMailChangePassword(email);
-    }
-    return updatePassword;
+    await userService.updateChangePassword(email, password, codVerificacao);
+    this.sendMailChangePassword(email);
   }
 
   async sendMailChangePassword(email: string) {

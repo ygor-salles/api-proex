@@ -8,6 +8,9 @@ import { PointRepository } from '../../repositories/PointRepository';
 const mapId1 = 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e';
 const mapId2 = 'd80c3e0f-97b7-4a1d-bba3-384db2c1ff5c';
 
+// id inexistente
+const idInexist = 'bf918fbb-94a9-4dd5-9db1-85ce524ed306';
+
 const createPoint = {
   name: 'Point Test',
   description: 'Point Test Description',
@@ -252,10 +255,12 @@ describe('Maps', () => {
   });
 
   it('Should not be able to get a point by Id and return 400', async () => {
-    const response = await request(app).get(`/points/2`).set('Authorization', `bearer ${token}`);
+    const response = await request(app)
+      .get(`/points/${idInexist}`)
+      .set('Authorization', `bearer ${token}`);
 
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('Id do ponto não encontrado');
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Ponto não existe!');
   });
 
   // testes para visualização de todos pontos

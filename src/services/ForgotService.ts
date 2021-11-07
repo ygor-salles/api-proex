@@ -4,9 +4,9 @@ import 'dotenv/config';
 import { resolve } from 'path';
 import handelbars from 'handlebars';
 import fs from 'fs';
-import httpStatus from 'http-status';
 import { UserRepository } from '../repositories/UserRepository';
 import transport from '../utils/Mailer';
+import { ApiError } from '../exceptions/ApiError';
 
 class ForgotService {
   async execute(email: string) {
@@ -14,7 +14,7 @@ class ForgotService {
 
     const user = await connectUser.findOne({ email });
     if (!user) {
-      return { status: httpStatus.NOT_FOUND, message: 'E-mail de usuário inexistente no sistema!' };
+      throw new ApiError(404, 'E-mail de usuário inexistente no sistema!');
     }
 
     const passwordRand = Math.random().toString(36).slice(-8);
@@ -26,16 +26,16 @@ class ForgotService {
       const sendEmail = await this.sendMailForgotPassword(user.email, user.name, passwordRand);
       if (sendEmail) {
         return {
-          status: httpStatus.OK,
+          status: 200,
           message: 'Senha atualizada com sucesso, verifique sua caixa de entrada',
         };
       }
       return {
-        status: httpStatus.BAD_REQUEST,
+        status: 400,
         message: 'Senha atualizada, mas falha no envio de e-mail',
       };
     }
-    return { status: httpStatus.BAD_REQUEST, message: 'Erro ao resetar senha' };
+    return { status: 400, message: 'Erro ao resetar senha' };
   }
 
   async sendMailForgotPassword(email: string, name: string, password: string): Promise<any> {

@@ -5,6 +5,9 @@ import createConnection from '../../database';
 import { EnumRoleUser } from '../../entities/User';
 import { UserRepository } from '../../repositories/UserRepository';
 
+// id inexistente
+const idInexist = 'bf918fbb-94a9-4dd5-9db1-85ce524ed306';
+
 // usuário criado na execução dos seeders
 const loginUser = {
   email: 'user1@gmail.com',
@@ -153,7 +156,9 @@ describe('Users', () => {
   });
 
   it('Should not be able to get a user by inavlid Id and return 404', async () => {
-    const response = await request(app).get(`/users/2`).set('Authorization', `bearer ${token}`);
+    const response = await request(app)
+      .get(`/users/${idInexist}`)
+      .set('Authorization', `bearer ${token}`);
 
     expect(response.status).toBe(404);
     expect(response.body.message).toBe('Usuário não existe!');

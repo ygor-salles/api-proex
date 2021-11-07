@@ -10,19 +10,20 @@ class SeederRun {
         console.log('\n== [Database connection] ==');
 
         const entitiesExists = await DataSeed.verifyEntities();
-        if (!entitiesExists) {
-          await connection.runMigrations();
-          console.log('\n== [Migrations run sucessfully] ==');
-
-          await DataSeed.createUsers();
-          await DataSeed.createOrganizations();
-          await DataSeed.createBuildings();
-          await DataSeed.createMaps();
-          await DataSeed.createPoints();
-          console.log('\n== [Seeders run successfully] ==\n');
-        } else {
-          console.log('== Database is already populated ==\n');
+        if (entitiesExists) {
+          console.log('\n== Database is already populated ==\n');
+          await connection.query(`DROP SCHEMA PUBLIC CASCADE; CREATE SCHEMA PUBLIC`);
+          console.log('== Database initialized ==\n');
         }
+        await connection.runMigrations();
+        console.log('\n== [Migrations run sucessfully] ==');
+
+        await DataSeed.createUsers();
+        await DataSeed.createOrganizations();
+        await DataSeed.createBuildings();
+        await DataSeed.createMaps();
+        await DataSeed.createPoints();
+        console.log('\n== [Seeders run successfully] ==\n');
       } catch (error) {
         console.log('\nError:', error);
       }

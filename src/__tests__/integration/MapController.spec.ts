@@ -8,6 +8,9 @@ import { MapRepository } from '../../repositories/MapRepository';
 const buildingId1 = '5a6d70a4-d0c6-4f38-90fe-730fed66cd66';
 const buildingId2 = 'f372b5a3-bf4d-4fe8-bd4b-07fe1fb33011';
 
+// id inexistente
+const idInexist = 'bf918fbb-94a9-4dd5-9db1-85ce524ed306';
+
 const createMap = {
   name: 'Map Test',
   source: 'https://www.joaoleitao.com/viagens/wp-content/uploads/2008/05/MAPA-DO-MUNDO-1.jpg',
@@ -138,10 +141,12 @@ describe('Maps', () => {
   });
 
   it('Should not be able to get a map by Id and return 400', async () => {
-    const response = await request(app).get(`/maps/2`).set('Authorization', `bearer ${token}`);
+    const response = await request(app)
+      .get(`/maps/${idInexist}`)
+      .set('Authorization', `bearer ${token}`);
 
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('Id do mapa não encontrado');
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Mapa não existe!');
   });
 
   // testes para visualização de todos mapas

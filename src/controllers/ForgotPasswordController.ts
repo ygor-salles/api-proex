@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import httpStatus from 'http-status';
+import { ApiError } from '../exceptions/ApiError';
 import { ForgotService } from '../services/ForgotService';
 import { ForgotDto } from '../validators/ForgotDto';
 
@@ -11,16 +11,12 @@ class ForgotPasswordController {
     try {
       (await forgotValidator.forgotValidation()).validate(request.body, { abortEarly: false });
     } catch (error) {
-      return response.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+      throw new ApiError(400, error.message);
     }
 
     const forgotService = new ForgotService();
-    try {
-      const forgotPassword = await forgotService.execute(email);
-      return response.status(forgotPassword.status).json({ message: forgotPassword.message });
-    } catch (error) {
-      return response.status(httpStatus.BAD_REQUEST).json({ message: 'Falha ao recuperar senha!' });
-    }
+    const forgotPassword = await forgotService.execute(email);
+    return response.status(forgotPassword.status).json({ message: forgotPassword.message });
   }
 }
 

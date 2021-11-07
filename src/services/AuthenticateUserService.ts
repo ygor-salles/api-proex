@@ -1,4 +1,3 @@
-import httpStatus from 'http-status';
 import 'dotenv/config';
 import { getCustomRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
@@ -18,14 +17,14 @@ class AuthenticateUserService {
     const user = await connectUser.findOne({ email });
 
     if (!user) {
-      return { status: httpStatus.BAD_REQUEST, message: 'Credenciais incorretas!' };
+      return { status: 400, message: 'Credenciais incorretas!' };
     }
 
     // Verificar se a senha está correta
     const isMatchPassword = await compare(password, user.password);
 
     if (!isMatchPassword) {
-      return { status: httpStatus.BAD_REQUEST, message: 'Credenciais incorretas!' };
+      return { status: 400, message: 'Credenciais incorretas!' };
     }
 
     // Gerar o token - https://www.md5hashgenerator.com/

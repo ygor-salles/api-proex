@@ -1,9 +1,9 @@
 import { getCustomRepository, Repository } from 'typeorm';
-import httpStatus from 'http-status';
 import { Map } from '../entities/Map';
 import { MapRepository } from '../repositories/MapRepository';
 import { Building } from '../entities/Building';
 import { BuildingRepository } from '../repositories/BuildingRepository';
+import { ApiError } from '../exceptions/ApiError';
 
 class MapService {
   private connectMap: Repository<Map>;
@@ -16,80 +16,59 @@ class MapService {
   }
 
   async create(name: string, source: string, description: string, building_id: string) {
-    try {
-      const mapExist = await this.connectMap.findOne({ name });
-      if (mapExist) {
-        return { status: httpStatus.BAD_REQUEST, message: 'Mapa já existe' };
-      }
-
-      const fkBuilding = await this.connectBuilding.findOne({ id: building_id });
-      if (!fkBuilding) {
-        return { status: httpStatus.NOT_FOUND, message: 'Id de prédio não existe' };
-      }
-
-      const map = this.connectMap.create({
-        name,
-        source,
-        description,
-        building_id,
-      });
-      await this.connectMap.save(map);
-
-      return { status: httpStatus.CREATED, obj: map };
-    } catch (error) {
-      throw error;
+    const mapExist = await this.connectMap.findOne({ name });
+    if (mapExist) {
+      throw new ApiError(400, 'Mapa já existe');
     }
+
+    const fkBuilding = await this.connectBuilding.findOne({ id: building_id });
+    if (!fkBuilding) {
+      throw new ApiError(404, 'Id de prédio não existe');
+    }
+
+    const map = this.connectMap.create({
+      name,
+      source,
+      description,
+      building_id,
+    });
+    await this.connectMap.save(map);
+
+    return map;
   }
 
   async read() {
-    try {
-      return await this.connectMap.find();
-    } catch (error) {
-      throw error;
-    }
+    const allMaps = await this.connectMap.find();
+    return allMaps;
   }
 
   async readById(id: string) {
-    try {
-      const map = await this.connectMap.findOne({ id });
-      if (map) {
-        return { status: httpStatus.OK, obj: map };
-      }
-      return { status: httpStatus.NOT_FOUND, message: 'Mapa não existe!' };
-    } catch (error) {
-      throw error;
+    const map = await this.connectMap.findOne({ id });
+    if (!map) {
+      throw new ApiError(404, 'Mapa não existe!');
     }
+    return map;
   }
 
   async delete(id: string) {
-    try {
-      const map = await this.connectMap.findOne({ id });
-      if (map) {
-        await this.connectMap.delete(map.id);
-        return { status: httpStatus.OK, message: 'Mapa removido com sucesso!' };
-      }
-      return { status: httpStatus.NOT_FOUND, message: 'Mapa não existe!' };
-    } catch (error) {
-      throw error;
+    const map = await this.connectMap.findOne({ id });
+    if (!map) {
+      throw new ApiError(404, 'Mapa não existe!');
     }
+    await this.connectMap.delete(map.id);
   }
 
   async update(id: string, name: string, source: string, description: string, building_id: string) {
-    try {
-      const map = await this.connectMap.findOne({ id });
-      if (map) {
-        const fkBuilding = await this.connectBuilding.findOne({ id: building_id });
-        if (!fkBuilding) {
-          return { status: httpStatus.NOT_FOUND, message: 'Id de prédio não existe' };
-        }
-
-        await this.connectMap.update(map.id, { name, source, description, building_id });
-        return { status: httpStatus.OK, message: 'Mapa atualizado com sucesso!' };
-      }
-      return { status: httpStatus.NOT_FOUND, message: 'Mapa não existe!' };
-    } catch (error) {
-      throw error;
+    const map = await this.connectMap.findOne({ id });
+    if (!map) {
+      throw new ApiError(404, 'Mapa não existe!');
     }
+    const fkBuilding = await this.connectBuilding.findOne({ id: building_id });
+    if (!fkBuilding) {
+      throw new ApiError(404, 'Id de prédio não existe');
+    }
+
+    await this.connectMap.update(map.id, { name, source, description, building_id });
   }
 }
 

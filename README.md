@@ -180,9 +180,3 @@ git push
 ```bash
 yarn test
 ```
-
-- Caso algum teste de integração falhe, é necessário zerar o banco de testes novamente executando o comando:
-
-```bash
-yarn clean
-```

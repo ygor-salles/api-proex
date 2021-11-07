@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
+import { ApiError } from '../exceptions/ApiError';
 
 require('dotenv').config();
 
@@ -12,7 +13,7 @@ export function ensureAuthenticated(request: Request, response: Response, next: 
   const authToken = request.headers.authorization;
   // Validar se o authToken está preenchido
   if (!authToken) {
-    return response.status(401).end();
+    throw new ApiError(401);
   }
 
   const [, token] = authToken.split(' ');
@@ -26,6 +27,6 @@ export function ensureAuthenticated(request: Request, response: Response, next: 
 
     return next();
   } catch (error) {
-    return response.status(401).end();
+    throw new ApiError(401);
   }
 }

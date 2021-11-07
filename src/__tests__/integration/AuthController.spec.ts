@@ -1,4 +1,3 @@
-import httpStatus from 'http-status';
 import request from 'supertest';
 import { getConnection } from 'typeorm';
 import { app } from '../../app';
@@ -29,7 +28,7 @@ describe('Auth', () => {
 
     const response = await request(app).post('/login').send(loginUser);
 
-    expect(response.status).toBe(httpStatus.OK);
+    expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('token');
   });
 
@@ -40,7 +39,7 @@ describe('Auth', () => {
     };
     const response = await request(app).post('/login').send(loginNotExistingUser);
 
-    expect(response.status).toBe(httpStatus.BAD_REQUEST);
+    expect(response.status).toBe(400);
     expect(response.body.message).toBe('Credenciais incorretas!');
   });
 });

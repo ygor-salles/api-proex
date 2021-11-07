@@ -8,6 +8,9 @@ import { BuildingRepository } from '../../repositories/BuildingRepository';
 const organizationId1 = 'ad8fb4ff-a518-42c0-af78-ac5062eaf53d';
 const organizationId2 = '45659fc4-1946-4080-adba-d084543c3324';
 
+// id inexistente
+const idInexist = 'bf918fbb-94a9-4dd5-9db1-85ce524ed306';
+
 const createBuilding = {
   name: 'Prédio Test',
   latitude: -25.3347773,
@@ -172,10 +175,12 @@ describe('Buildings', () => {
   });
 
   it('Should not be able to get a building by Id and return 400', async () => {
-    const response = await request(app).get(`/buildings/2`).set('Authorization', `bearer ${token}`);
+    const response = await request(app)
+      .get(`/buildings/${idInexist}`)
+      .set('Authorization', `bearer ${token}`);
 
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('Id do prédio não encontrado');
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Prédio não existe');
   });
 
   // testes para visualização de todos prédios

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import httpStatus from 'http-status';
+import { ApiError } from '../exceptions/ApiError';
 import { MapService } from '../services/MapService';
 import { MapDto } from '../validators/MapDto';
 
@@ -11,60 +11,34 @@ class MapController {
     try {
       await mapValidator.createUpdateValidation().validate(req.body, { abortEarly: false });
     } catch (error) {
-      return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+      throw new ApiError(400, error.message);
     }
 
     const mapService = new MapService();
-    try {
-      const map = await mapService.create(name, source, description, building_id);
-      if (map.status === httpStatus.CREATED) {
-        return resp.status(httpStatus.CREATED).json(map.obj);
-      }
-      return resp.status(map.status).json({ message: map.message });
-    } catch (error) {
-      return resp
-        .status(httpStatus.BAD_REQUEST)
-        .json({ message: 'Falha de conexão com o banco de dados' });
-    }
+    const map = await mapService.create(name, source, description, building_id);
+    return resp.status(201).json(map);
   }
 
   async read(req: Request, resp: Response) {
     const mapService = new MapService();
-    try {
-      const allMaps = await mapService.read();
-      return resp.json(allMaps);
-    } catch (error) {
-      return resp
-        .status(httpStatus.BAD_REQUEST)
-        .json({ message: 'Falha de conexão com o banco de dados' });
-    }
+    const allMaps = await mapService.read();
+    return resp.json(allMaps);
   }
 
   async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
     const mapService = new MapService();
-    try {
-      const map = await mapService.readById(id);
-      if (map.status === httpStatus.OK) {
-        return resp.json(map.obj);
-      }
-      return resp.status(map.status).json({ message: map.message });
-    } catch (error) {
-      return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id do mapa não encontrado' });
-    }
+    const map = await mapService.readById(id);
+    return resp.json(map);
   }
 
   async delete(req: Request, resp: Response) {
     const { id } = req.params;
 
     const mapService = new MapService();
-    try {
-      const map = await mapService.delete(id);
-      return resp.status(map.status).json({ message: map.message });
-    } catch (error) {
-      return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id do mapa não encontrado' });
-    }
+    await mapService.delete(id);
+    return resp.status(200).json({ message: 'Mapa removido com sucesso!' });
   }
 
   async update(req: Request, resp: Response) {
@@ -75,16 +49,12 @@ class MapController {
     try {
       await mapValidator.createUpdateValidation().validate(req.body, { abortEarly: false });
     } catch (error) {
-      return resp.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+      throw new ApiError(400, error.message);
     }
 
     const mapService = new MapService();
-    try {
-      const map = await mapService.update(id, name, source, description, building_id);
-      return resp.status(map.status).json({ message: map.message });
-    } catch (error) {
-      return resp.status(httpStatus.BAD_REQUEST).json({ message: 'Id do mapa não encontrado' });
-    }
+    await mapService.update(id, name, source, description, building_id);
+    return resp.status(200).json({ message: 'Mapa atualizado com sucesso!' });
   }
 }
 
