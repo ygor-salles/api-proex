@@ -231,8 +231,29 @@ describe('Organizations', () => {
       .set('Authorization', `bearer ${token}`)
       .send(editedOrganization);
 
+    const repository = getCustomRepository(OrganizationRepository);
+    const organizationUpdated = await repository.findOne({ id: organizationId });
+
     expect(response.status).toBe(200);
+    expect(editedOrganization.name).toBe(organizationUpdated.name);
+    expect(editedOrganization.cep).toBe(organizationUpdated.cep);
+    expect(editedOrganization.state).toBe(organizationUpdated.state);
+    expect(editedOrganization.district).toBe(organizationUpdated.district);
+    expect(editedOrganization.city).toBe(organizationUpdated.city);
+    expect(editedOrganization.street).toBe(organizationUpdated.street);
+    expect(editedOrganization.number).toBe(organizationUpdated.number);
+    expect(editedOrganization.description).toBe(organizationUpdated.description);
     expect(response.body.message).toBe('Organização atualizada com sucesso!');
+  });
+
+  it('Should return 400 when update organization by invalid type id', async () => {
+    const response = await request(app)
+      .put(`/organizations/2`)
+      .set('Authorization', `bearer ${token}`)
+      .send(editedOrganization);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Id de organização deve ser do tipo uuid');
   });
 
   // testes para visualização de organização por id
@@ -261,6 +282,15 @@ describe('Organizations', () => {
     expect(response.body.message).toBe('Organização não existe!');
   });
 
+  it('Should return 400 when searching organization by invalid type id', async () => {
+    const response = await request(app)
+      .get(`/organizations/2`)
+      .set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Id de organização deve ser do tipo uuid');
+  });
+
   // teste para visualização de todas as organizações
   it('Should be able to get all organizations and return 200', async () => {
     const response = await request(app)
@@ -286,5 +316,14 @@ describe('Organizations', () => {
     expect(response.status).toBe(200);
     expect(deleted).toBeUndefined();
     expect(response.body.message).toBe('Organização removida com sucesso!');
+  });
+
+  it('Should return 400 when delete organization by invalid type id', async () => {
+    const response = await request(app)
+      .delete(`/organizations/2`)
+      .set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Id de organização deve ser do tipo uuid');
   });
 });

@@ -33,6 +33,17 @@ const editPoint = {
   map_id: mapId2,
 };
 
+const pointInvalid = {
+  name: 'Point Test 2',
+  description: 'Point Test Description 2',
+  floor: 2,
+  altitude: 2.321,
+  latitude: -25.3347701,
+  longitude: -47.5304401,
+  isObstacle: true,
+  map_id: idInexist,
+};
+
 // usuário criado na execução dos seeders
 const loginUser = {
   email: 'user1@gmail.com',
@@ -226,6 +237,16 @@ describe('Maps', () => {
     expect(response.body.message).toBe('Ponto já existe');
   });
 
+  it('Should return 404 because when registering point, map_id does not exist in the database', async () => {
+    const response = await request(app)
+      .post('/points')
+      .set('Authorization', `bearer ${token}`)
+      .send(pointInvalid);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Id de mapa não existe');
+  });
+
   // testes para edição de pontos
   it('Should be able to edit a existing point and return 200', async () => {
     const response = await request(app)
@@ -233,8 +254,39 @@ describe('Maps', () => {
       .set('Authorization', `bearer ${token}`)
       .send(editPoint);
 
+    const repository = getCustomRepository(PointRepository);
+    const pointUpdated = await repository.findOne({ id: pointId });
+
     expect(response.status).toBe(200);
+    expect(editPoint.name).toBe(pointUpdated.name);
+    expect(editPoint.description).toBe(pointUpdated.description);
+    expect(editPoint.floor).toBe(pointUpdated.floor);
+    expect(editPoint.altitude).toBe(pointUpdated.altitude);
+    expect(editPoint.latitude).toBe(pointUpdated.latitude);
+    expect(editPoint.longitude).toBe(pointUpdated.longitude);
+    expect(editPoint.isObstacle).toBe(pointUpdated.isObstacle);
+    expect(editPoint.map_id).toBe(pointUpdated.map_id);
     expect(response.body.message).toBe('Ponto atualizado com sucesso!');
+  });
+
+  it('Should return 400 when update point by invalid type id', async () => {
+    const response = await request(app)
+      .put(`/points/2`)
+      .set('Authorization', `bearer ${token}`)
+      .send(editPoint);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Id de ponto deve ser do tipo uuid');
+  });
+
+  it('Should return 404 because when update point, map_id does not exist in the database', async () => {
+    const response = await request(app)
+      .put(`/points/${pointId}`)
+      .set('Authorization', `bearer ${token}`)
+      .send(pointInvalid);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Id de mapa não existe');
   });
 
   // testes para visualição de ponto por id
@@ -263,6 +315,13 @@ describe('Maps', () => {
     expect(response.body.message).toBe('Ponto não existe!');
   });
 
+  it('Should return 400 when searching point by invalid type id', async () => {
+    const response = await request(app).get(`/points/2`).set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Id de ponto deve ser do tipo uuid');
+  });
+
   // testes para visualização de todos pontos
   it('Should be able to get all buildings', async () => {
     const response = await request(app).get('/points').set('Authorization', `bearer ${token}`);
@@ -286,5 +345,12 @@ describe('Maps', () => {
     expect(response.status).toBe(200);
     expect(deleted).toBeUndefined();
     expect(response.body.message).toBe('Ponto removido com sucesso!');
+  });
+
+  it('Should return 400 when delete point by invalid type id', async () => {
+    const response = await request(app).delete(`/points/2`).set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Id de ponto deve ser do tipo uuid');
   });
 });

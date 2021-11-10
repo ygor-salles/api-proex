@@ -1,8 +1,9 @@
 import { getCustomRepository, Repository } from 'typeorm';
 import { hash, compareSync, hashSync } from 'bcryptjs';
-import { EnumRoleUser, User } from '../entities/User';
+import { User } from '../entities/User';
 import { UserRepository } from '../repositories/UserRepository';
 import { ApiError } from '../exceptions/ApiError';
+import { IUser } from '../interfaces/IUser.interface';
 
 class UserService {
   private connectUser: Repository<User>;
@@ -11,18 +12,13 @@ class UserService {
     this.connectUser = getCustomRepository(UserRepository);
   }
 
-  async create(name: string, email: string, password: string, role: EnumRoleUser) {
-    const userExist = await this.connectUser.findOne({ email });
+  async create(data: IUser) {
+    const userExist = await this.connectUser.findOne({ email: data.email });
     if (userExist) {
       throw new ApiError(400, 'Usuário já existe');
     }
 
-    const user = this.connectUser.create({
-      name,
-      email,
-      password,
-      role,
-    });
+    const user = this.connectUser.create(data);
     await this.connectUser.save(user);
 
     delete user.password;
@@ -55,14 +51,16 @@ class UserService {
     await this.connectUser.delete(user.id);
   }
 
-  async update(id: string, name: string, email: string, password: string, role: EnumRoleUser) {
+  async update(data: IUser, id: string) {
     const user = await this.connectUser.findOne({ id });
     if (!user) {
       throw new ApiError(404, 'Usuário não existe!');
     }
 
-    const passwordHash = await hash(password, 8);
-    await this.connectUser.update(user.id, { name, email, password: passwordHash, role });
+    if (data.password) {
+      data.password = await hash(data.password, 8);
+    }
+    await this.connectUser.update(user.id, data);
   }
 
   async updateChangePassword(email: string, password: string, codVerificacao: string) {

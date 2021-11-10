@@ -4,6 +4,7 @@ import { MapRepository } from '../repositories/MapRepository';
 import { Building } from '../entities/Building';
 import { BuildingRepository } from '../repositories/BuildingRepository';
 import { ApiError } from '../exceptions/ApiError';
+import { IMap } from '../interfaces/IMap.interface';
 
 class MapService {
   private connectMap: Repository<Map>;
@@ -15,23 +16,18 @@ class MapService {
     this.connectBuilding = getCustomRepository(BuildingRepository);
   }
 
-  async create(name: string, source: string, description: string, building_id: string) {
-    const mapExist = await this.connectMap.findOne({ name });
+  async create(data: IMap) {
+    const mapExist = await this.connectMap.findOne({ name: data.name });
     if (mapExist) {
       throw new ApiError(400, 'Mapa já existe');
     }
 
-    const fkBuilding = await this.connectBuilding.findOne({ id: building_id });
+    const fkBuilding = await this.connectBuilding.findOne({ id: data.building_id });
     if (!fkBuilding) {
       throw new ApiError(404, 'Id de prédio não existe');
     }
 
-    const map = this.connectMap.create({
-      name,
-      source,
-      description,
-      building_id,
-    });
+    const map = this.connectMap.create(data);
     await this.connectMap.save(map);
 
     return map;
@@ -58,17 +54,17 @@ class MapService {
     await this.connectMap.delete(map.id);
   }
 
-  async update(id: string, name: string, source: string, description: string, building_id: string) {
+  async update(data: IMap, id: string) {
     const map = await this.connectMap.findOne({ id });
     if (!map) {
       throw new ApiError(404, 'Mapa não existe!');
     }
-    const fkBuilding = await this.connectBuilding.findOne({ id: building_id });
+    const fkBuilding = await this.connectBuilding.findOne({ id: data.building_id });
     if (!fkBuilding) {
       throw new ApiError(404, 'Id de prédio não existe');
     }
 
-    await this.connectMap.update(map.id, { name, source, description, building_id });
+    await this.connectMap.update(map.id, data);
   }
 }
 

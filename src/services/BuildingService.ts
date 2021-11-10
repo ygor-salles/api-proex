@@ -4,6 +4,7 @@ import { BuildingRepository } from '../repositories/BuildingRepository';
 import { Organization } from '../entities/Organization';
 import { OrganizationRepository } from '../repositories/OrganizationRepository';
 import { ApiError } from '../exceptions/ApiError';
+import { IBuilding } from '../interfaces/IBuilding.interface';
 
 class BuildingService {
   private connectBuilding: Repository<Building>;
@@ -15,30 +16,18 @@ class BuildingService {
     this.connectOrganization = getCustomRepository(OrganizationRepository);
   }
 
-  async create(
-    name: string,
-    latitude: number,
-    longitude: number,
-    description: string,
-    organization_id: string,
-  ) {
-    const buildingExist = await this.connectBuilding.findOne({ name });
+  async create(data: IBuilding) {
+    const buildingExist = await this.connectBuilding.findOne({ name: data.name });
     if (buildingExist) {
       throw new ApiError(400, 'Prédio já existe');
     }
 
-    const fkOrganization = await this.connectOrganization.findOne({ id: organization_id });
+    const fkOrganization = await this.connectOrganization.findOne({ id: data.organization_id });
     if (!fkOrganization) {
       throw new ApiError(404, 'Id de organização não existe');
     }
 
-    const building = this.connectBuilding.create({
-      name,
-      latitude,
-      longitude,
-      description,
-      organization_id,
-    });
+    const building = this.connectBuilding.create(data);
     await this.connectBuilding.save(building);
 
     return building;
@@ -52,7 +41,7 @@ class BuildingService {
   async readById(id: string) {
     const building = await this.connectBuilding.findOne({ id });
     if (!building) {
-      throw new ApiError(404, 'Prédio não existe');
+      throw new ApiError(404, 'Prédio não existe!');
     }
     return building;
   }
@@ -65,31 +54,18 @@ class BuildingService {
     await this.connectBuilding.delete(building.id);
   }
 
-  async update(
-    id: string,
-    name: string,
-    latitude: number,
-    longitude: number,
-    description: string,
-    organization_id: string,
-  ) {
+  async update(data: IBuilding, id: string) {
     const building = await this.connectBuilding.findOne({ id });
     if (!building) {
       throw new ApiError(404, 'Prédio não existe!');
     }
 
-    const fkOrganization = await this.connectOrganization.findOne({ id: organization_id });
+    const fkOrganization = await this.connectOrganization.findOne({ id: data.organization_id });
     if (!fkOrganization) {
       throw new ApiError(404, 'Id de organização não existe');
     }
 
-    await this.connectBuilding.update(building.id, {
-      name,
-      latitude,
-      longitude,
-      description,
-      organization_id,
-    });
+    await this.connectBuilding.update(building.id, data);
   }
 }
 

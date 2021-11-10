@@ -1,27 +1,22 @@
 import { Request, Response } from 'express';
 import { ApiError } from '../exceptions/ApiError';
+import { IBuilding } from '../interfaces/IBuilding.interface';
 import { BuildingService } from '../services/BuildingService';
 import { BuildingDto } from '../validators/BuildingDto';
 
 class BuildingController {
   async create(req: Request, resp: Response) {
-    const { name, latitude, longitude, description, organization_id } = req.body;
+    const { ...data }: IBuilding = req.body;
 
-    const buildingValidator = new BuildingDto();
+    const buildingDto = new BuildingDto();
     try {
-      await buildingValidator.createUpdateValidation().validate(req.body, { abortEarly: false });
+      await buildingDto.createValidation().validate(data, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
 
     const buildingService = new BuildingService();
-    const building = await buildingService.create(
-      name,
-      latitude,
-      longitude,
-      description,
-      organization_id,
-    );
+    const building = await buildingService.create(data);
     return resp.status(201).json(building);
   }
 
@@ -34,6 +29,13 @@ class BuildingController {
   async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
+    const buildingDto = new BuildingDto();
+    try {
+      await buildingDto.readByIdValidation().validate({ id }, { abortEarly: false });
+    } catch (error) {
+      throw new ApiError(400, error.message);
+    }
+
     const buildingService = new BuildingService();
     const building = await buildingService.readById(id);
     return resp.json(building);
@@ -42,6 +44,13 @@ class BuildingController {
   async delete(req: Request, resp: Response) {
     const { id } = req.params;
 
+    const buildingDto = new BuildingDto();
+    try {
+      await buildingDto.readByIdValidation().validate({ id }, { abortEarly: false });
+    } catch (error) {
+      throw new ApiError(400, error.message);
+    }
+
     const buildingService = new BuildingService();
     await buildingService.delete(id);
     return resp.status(200).json({ message: 'Prédio removido com sucesso!' });
@@ -49,17 +58,17 @@ class BuildingController {
 
   async update(req: Request, resp: Response) {
     const { id } = req.params;
-    const { name, latitude, longitude, description, organization_id } = req.body;
+    const { ...data }: IBuilding = req.body;
 
-    const buildingValidator = new BuildingDto();
+    const buildingDto = new BuildingDto();
     try {
-      await buildingValidator.createUpdateValidation().validate(req.body, { abortEarly: false });
+      await buildingDto.updateValidation().validate({ ...data, id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
 
     const buildingService = new BuildingService();
-    await buildingService.update(id, name, latitude, longitude, description, organization_id);
+    await buildingService.update(data, id);
     return resp.status(200).json({ message: 'Prédio atualizado com sucesso!' });
   }
 }

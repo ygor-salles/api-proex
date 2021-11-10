@@ -1,31 +1,22 @@
 import { Request, Response } from 'express';
 import { ApiError } from '../exceptions/ApiError';
+import { IPoint } from '../interfaces/IPoint.interface';
 import { PointService } from '../services/PointService';
 import { PointDto } from '../validators/PointDto';
 
 class PointController {
   async create(req: Request, resp: Response) {
-    const { name, description, floor, altitude, latitude, longitude, isObstacle, map_id } =
-      req.body;
+    const { ...data }: IPoint = req.body;
 
-    const pointValidator = new PointDto();
+    const pointDto = new PointDto();
     try {
-      await pointValidator.createUpdateValidation().validate(req.body, { abortEarly: false });
+      await pointDto.createValidation().validate(data, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
 
     const pointService = new PointService();
-    const point = await pointService.create(
-      name,
-      description,
-      floor,
-      altitude,
-      latitude,
-      longitude,
-      isObstacle,
-      map_id,
-    );
+    const point = await pointService.create(data);
     return resp.status(201).json(point);
   }
 
@@ -38,6 +29,13 @@ class PointController {
   async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
+    const pointDto = new PointDto();
+    try {
+      await pointDto.readByIdValidation().validate({ id }, { abortEarly: false });
+    } catch (error) {
+      throw new ApiError(400, error.message);
+    }
+
     const pointService = new PointService();
     const point = await pointService.readById(id);
     return resp.status(200).json(point);
@@ -46,6 +44,13 @@ class PointController {
   async delete(req: Request, resp: Response) {
     const { id } = req.params;
 
+    const pointDto = new PointDto();
+    try {
+      await pointDto.deleteByIdValidation().validate({ id }, { abortEarly: false });
+    } catch (error) {
+      throw new ApiError(400, error.message);
+    }
+
     const pointService = new PointService();
     await pointService.delete(id);
     return resp.status(200).json({ message: 'Ponto removido com sucesso!' });
@@ -53,28 +58,17 @@ class PointController {
 
   async update(req: Request, resp: Response) {
     const { id } = req.params;
-    const { name, description, floor, altitude, latitude, longitude, isObstacle, map_id } =
-      req.body;
+    const { ...data }: IPoint = req.body;
 
-    const pointValidator = new PointDto();
+    const pointDto = new PointDto();
     try {
-      await pointValidator.createUpdateValidation().validate(req.body, { abortEarly: false });
+      await pointDto.updateValidation().validate({ ...data, id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
 
     const pointService = new PointService();
-    await pointService.update(
-      id,
-      name,
-      description,
-      floor,
-      altitude,
-      latitude,
-      longitude,
-      isObstacle,
-      map_id,
-    );
+    await pointService.update(data, id);
     return resp.status(200).json({ message: 'Ponto atualizado com sucesso!' });
   }
 }

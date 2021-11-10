@@ -25,6 +25,13 @@ const editedMap = {
   building_id: buildingId2,
 };
 
+const mapInvalid = {
+  name: 'Map Test 2',
+  source: 'https://www.joaoleitao.com/viagens/wp-content/uploads/2008/05/MAPA-DO-MUNDO-1.jpg',
+  description: 'Map Test Description 2',
+  building_id: idInexist,
+};
+
 // usuário criado na execução dos seeders
 const loginUser = {
   email: 'user1@gmail.com',
@@ -116,6 +123,16 @@ describe('Maps', () => {
     expect(response.body.message).toBe('Mapa já existe');
   });
 
+  it('Should return 404 because when registering map, building_id does not exist in the database', async () => {
+    const response = await request(app)
+      .post('/maps')
+      .set('Authorization', `bearer ${token}`)
+      .send(mapInvalid);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Id de prédio não existe');
+  });
+
   // testes para edição de mapas
   it('Should be able to edit a existing map and return 200', async () => {
     const response = await request(app)
@@ -123,8 +140,35 @@ describe('Maps', () => {
       .set('Authorization', `bearer ${token}`)
       .send(editedMap);
 
+    const repository = getCustomRepository(MapRepository);
+    const mapUpdated = await repository.findOne({ id: mapId });
+
     expect(response.status).toBe(200);
+    expect(mapUpdated.name).toBe(editedMap.name);
+    expect(mapUpdated.source).toBe(editedMap.source);
+    expect(mapUpdated.description).toBe(editedMap.description);
+    expect(mapUpdated.building_id).toBe(editedMap.building_id);
     expect(response.body.message).toBe('Mapa atualizado com sucesso!');
+  });
+
+  it('Should return 400 when update map by invalid type id', async () => {
+    const response = await request(app)
+      .put('/maps/2')
+      .set('Authorization', `bearer ${token}`)
+      .send(editedMap);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Id de mapa deve ser do tipo uuid');
+  });
+
+  it('Should return 404 because when update map, building_id does not exist in the database', async () => {
+    const response = await request(app)
+      .put(`/maps/${mapId}`)
+      .set('Authorization', `bearer ${token}`)
+      .send(mapInvalid);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Id de prédio não existe');
   });
 
   // testes para visualição de mapa por id
@@ -147,6 +191,13 @@ describe('Maps', () => {
 
     expect(response.status).toBe(404);
     expect(response.body.message).toBe('Mapa não existe!');
+  });
+
+  it('Should return 400 when searching map by invalid type id', async () => {
+    const response = await request(app).get(`/maps/2`).set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Id de mapa deve ser do tipo uuid');
   });
 
   // testes para visualização de todos mapas
@@ -172,5 +223,12 @@ describe('Maps', () => {
     expect(response.status).toBe(200);
     expect(deleted).toBeUndefined();
     expect(response.body.message).toBe('Mapa removido com sucesso!');
+  });
+
+  it('Should return 400 when delete map by invalid type id', async () => {
+    const response = await request(app).delete(`/maps/2`).set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Id de mapa deve ser do tipo uuid');
   });
 });

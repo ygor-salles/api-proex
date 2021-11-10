@@ -139,8 +139,25 @@ describe('Users', () => {
       .set('Authorization', `bearer ${token}`)
       .send(editedUser);
 
+    const repository = getCustomRepository(UserRepository);
+    const userUpdated = await repository.findOne({ id: userId });
+
     expect(response.status).toBe(200);
+    expect(userUpdated.name).toBe(editedUser.name);
+    expect(userUpdated.email).toBe(editedUser.email);
+    expect(userUpdated.password).not.toBe(editedUser.password);
+    expect(userUpdated.role).toBe(editedUser.role);
     expect(response.body.message).toBe('Usuário atualizado com sucesso!');
+  });
+
+  it('Should return 400 when update user by invalid type id', async () => {
+    const response = await request(app)
+      .delete(`/users/2`)
+      .set('Authorization', `bearer ${token}`)
+      .send(editedUser);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Id de usuário deve ser do tipo uuid');
   });
 
   // testes para visualização de usuário por id
@@ -155,13 +172,20 @@ describe('Users', () => {
     expect(response.body.role).toBe(editedUser.role);
   });
 
-  it('Should not be able to get a user by inavlid Id and return 404', async () => {
+  it('Should return 404 for fetch missing id', async () => {
     const response = await request(app)
       .get(`/users/${idInexist}`)
       .set('Authorization', `bearer ${token}`);
 
     expect(response.status).toBe(404);
     expect(response.body.message).toBe('Usuário não existe!');
+  });
+
+  it('Should return 400 when searching user by invalid type id', async () => {
+    const response = await request(app).get(`/users/2`).set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Id de usuário deve ser do tipo uuid');
   });
 
   // testes para visualização de todos os usuários
@@ -187,5 +211,12 @@ describe('Users', () => {
     expect(response.status).toBe(200);
     expect(deleted).toBeUndefined();
     expect(response.body.message).toBe('Usuário removido com sucesso!');
+  });
+
+  it('Should return 400 when delete user by invalid type id', async () => {
+    const response = await request(app).delete(`/users/2`).set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Id de usuário deve ser do tipo uuid');
   });
 });

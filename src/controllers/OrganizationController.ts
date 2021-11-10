@@ -1,32 +1,22 @@
 import { Request, Response } from 'express';
 import { ApiError } from '../exceptions/ApiError';
+import { IOrganization } from '../interfaces/IOrganization.interface';
 import { OrganizationService } from '../services/OrganizationService';
 import { OrganizationDto } from '../validators/OrganizationDto';
 
 class OrganizationController {
   async create(req: Request, resp: Response) {
-    const { name, cep, state, district, city, street, number, description } = req.body;
+    const { ...data }: IOrganization = req.body;
 
-    const organizationValidator = new OrganizationDto();
+    const organizationDto = new OrganizationDto();
     try {
-      await organizationValidator
-        .createUpdateValidation()
-        .validate(req.body, { abortEarly: false });
+      await organizationDto.createValidation().validate(data, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
 
     const organizationService = new OrganizationService();
-    const organization = await organizationService.create(
-      name,
-      cep,
-      state,
-      district,
-      city,
-      street,
-      number,
-      description,
-    );
+    const organization = await organizationService.create(data);
     return resp.status(201).json(organization);
   }
 
@@ -39,6 +29,13 @@ class OrganizationController {
   async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
+    const organizationDto = new OrganizationDto();
+    try {
+      await organizationDto.readByIdValidation().validate({ id }, { abortEarly: false });
+    } catch (error) {
+      throw new ApiError(400, error.message);
+    }
+
     const organizationService = new OrganizationService();
     const organization = await organizationService.readById(id);
     return resp.status(200).json(organization);
@@ -47,6 +44,13 @@ class OrganizationController {
   async delete(req: Request, resp: Response) {
     const { id } = req.params;
 
+    const organizationDto = new OrganizationDto();
+    try {
+      await organizationDto.deleteByIdValidation().validate({ id }, { abortEarly: false });
+    } catch (error) {
+      throw new ApiError(400, error.message);
+    }
+
     const organizationService = new OrganizationService();
     await organizationService.delete(id);
     return resp.status(200).json({ message: 'Organização removida com sucesso!' });
@@ -54,29 +58,17 @@ class OrganizationController {
 
   async update(req: Request, resp: Response) {
     const { id } = req.params;
-    const { name, cep, state, district, city, street, number, description } = req.body;
+    const { ...data }: IOrganization = req.body;
 
-    const organizationValidator = new OrganizationDto();
+    const organizationDto = new OrganizationDto();
     try {
-      await organizationValidator
-        .createUpdateValidation()
-        .validate(req.body, { abortEarly: false });
+      await organizationDto.updateValidation().validate({ ...data, id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
 
     const organizationService = new OrganizationService();
-    await organizationService.update(
-      id,
-      name,
-      cep,
-      state,
-      district,
-      city,
-      street,
-      number,
-      description,
-    );
+    await organizationService.update(data, id);
     return resp.status(200).json({ message: 'Organização atualizada com sucesso!' });
   }
 }
