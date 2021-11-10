@@ -171,6 +171,16 @@ describe('Maps', () => {
     expect(response.body.message).toBe('Id de prédio não existe');
   });
 
+  it('Should return 404 for update missing id map', async () => {
+    const response = await request(app)
+      .put(`/maps/${idInexist}`)
+      .set('Authorization', `bearer ${token}`)
+      .send(editedMap);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Mapa não existe!');
+  });
+
   // testes para visualição de mapa por id
   it('Should be able to get a map by Id and return 200', async () => {
     const response = await request(app)
@@ -184,7 +194,7 @@ describe('Maps', () => {
     expect(response.body.building_id).toBe(editedMap.building_id);
   });
 
-  it('Should not be able to get a map by Id and return 400', async () => {
+  it('Should return 404 for searching missing id map', async () => {
     const response = await request(app)
       .get(`/maps/${idInexist}`)
       .set('Authorization', `bearer ${token}`);
@@ -230,5 +240,14 @@ describe('Maps', () => {
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('Id de mapa deve ser do tipo uuid');
+  });
+
+  it('Should return 404 for delete missing id map', async () => {
+    const response = await request(app)
+      .delete(`/maps/${idInexist}`)
+      .set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Mapa não existe!');
   });
 });

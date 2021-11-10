@@ -289,6 +289,16 @@ describe('Maps', () => {
     expect(response.body.message).toBe('Id de mapa não existe');
   });
 
+  it('Should return 404 for update missing id point', async () => {
+    const response = await request(app)
+      .put(`/points/${idInexist}`)
+      .set('Authorization', `bearer ${token}`)
+      .send(editPoint);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Ponto não existe!');
+  });
+
   // testes para visualição de ponto por id
   it('Should be able to get a point by Id and return 200', async () => {
     const response = await request(app)
@@ -306,7 +316,7 @@ describe('Maps', () => {
     expect(response.body.map_id).toBe(editPoint.map_id);
   });
 
-  it('Should not be able to get a point by Id and return 400', async () => {
+  it('Should return 404 for searching missing id point', async () => {
     const response = await request(app)
       .get(`/points/${idInexist}`)
       .set('Authorization', `bearer ${token}`);
@@ -352,5 +362,14 @@ describe('Maps', () => {
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('Id de ponto deve ser do tipo uuid');
+  });
+
+  it('Should return 404 for delete missing id point', async () => {
+    const response = await request(app)
+      .delete(`/points/${idInexist}`)
+      .set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Ponto não existe!');
   });
 });

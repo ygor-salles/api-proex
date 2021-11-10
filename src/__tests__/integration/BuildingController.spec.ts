@@ -206,6 +206,16 @@ describe('Buildings', () => {
     expect(response.body.message).toBe('Id de organização não existe');
   });
 
+  it('Should return 404 for update missing id building', async () => {
+    const response = await request(app)
+      .put(`/buildings/${idInexist}`)
+      .set('Authorization', `bearer ${token}`)
+      .send(editedBuilding);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Prédio não existe!');
+  });
+
   // testes para visualição de prédio por id
   it('Should be able to get a building by Id and return 200', async () => {
     const response = await request(app)
@@ -220,7 +230,7 @@ describe('Buildings', () => {
     expect(response.body.organization_id).toBe(editedBuilding.organization_id);
   });
 
-  it('Should not be able to get a building by Id and return 400', async () => {
+  it('Should return 404 for searching missing id building', async () => {
     const response = await request(app)
       .get(`/buildings/${idInexist}`)
       .set('Authorization', `bearer ${token}`);
@@ -268,5 +278,14 @@ describe('Buildings', () => {
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('Id de prédio deve ser do tipo uuid');
+  });
+
+  it('Should return 404 for delete missing id building', async () => {
+    const response = await request(app)
+      .delete(`/buildings/${idInexist}`)
+      .set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Prédio não existe!');
   });
 });

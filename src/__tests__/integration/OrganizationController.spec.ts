@@ -256,6 +256,16 @@ describe('Organizations', () => {
     expect(response.body.message).toBe('Id de organização deve ser do tipo uuid');
   });
 
+  it('Should return 404 for update missing id organization', async () => {
+    const response = await request(app)
+      .put(`/organizations/${idInexist}`)
+      .set('Authorization', `bearer ${token}`)
+      .send(editedOrganization);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Organização não existe!');
+  });
+
   // testes para visualização de organização por id
   it('Should be able to get a organization by Id and return 200', async () => {
     const response = await request(app)
@@ -273,7 +283,7 @@ describe('Organizations', () => {
     expect(response.body.description).toBe(editedOrganization.description);
   });
 
-  it('Should not be able to get a user by Id and return 404', async () => {
+  it('Should return 404 for searching missing id organization', async () => {
     const response = await request(app)
       .get(`/organizations/${idInexist}`)
       .set('Authorization', `bearer ${token}`);
@@ -325,5 +335,14 @@ describe('Organizations', () => {
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('Id de organização deve ser do tipo uuid');
+  });
+
+  it('Should return 404 for delete missing id organization', async () => {
+    const response = await request(app)
+      .delete(`/organizations/${idInexist}`)
+      .set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Organização não existe!');
   });
 });

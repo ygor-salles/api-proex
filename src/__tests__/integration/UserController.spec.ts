@@ -160,6 +160,16 @@ describe('Users', () => {
     expect(response.body.message).toBe('Id de usuário deve ser do tipo uuid');
   });
 
+  it('Should return 404 for update missing id user', async () => {
+    const response = await request(app)
+      .put(`/users/${idInexist}`)
+      .set('Authorization', `bearer ${token}`)
+      .send(editedUser);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Usuário não existe!');
+  });
+
   // testes para visualização de usuário por id
   it('Should be able to get a user by Id and return 200', async () => {
     const response = await request(app)
@@ -172,7 +182,7 @@ describe('Users', () => {
     expect(response.body.role).toBe(editedUser.role);
   });
 
-  it('Should return 404 for fetch missing id', async () => {
+  it('Should return 404 for searching missing id user', async () => {
     const response = await request(app)
       .get(`/users/${idInexist}`)
       .set('Authorization', `bearer ${token}`);
@@ -218,5 +228,14 @@ describe('Users', () => {
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('Id de usuário deve ser do tipo uuid');
+  });
+
+  it('Should return 404 for delete missing id user', async () => {
+    const response = await request(app)
+      .delete(`/users/${idInexist}`)
+      .set('Authorization', `bearer ${token}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Usuário não existe!');
   });
 });
