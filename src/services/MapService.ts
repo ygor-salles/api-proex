@@ -34,7 +34,7 @@ class MapService {
   }
 
   async read() {
-    const allMaps = await this.connectMap.find();
+    const allMaps = await this.connectMap.find({ relations: ['points'] });
     return allMaps;
   }
 

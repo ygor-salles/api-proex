@@ -34,7 +34,7 @@ class BuildingService {
   }
 
   async read() {
-    const allBuindings = await this.connectBuilding.find();
+    const allBuindings = await this.connectBuilding.find({ relations: ['maps'] });
     return allBuindings;
   }
 

@@ -42,8 +42,8 @@ class Building {
   @JoinColumn({ name: 'organization_id' })
   organization: Organization;
 
-  @OneToMany(() => Map, map => map.building, { eager: true })
-  map: Map;
+  @OneToMany(() => Map, map => map.building)
+  maps: Map;
 
   constructor() {
     if (!this.id) {

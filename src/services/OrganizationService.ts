@@ -23,7 +23,7 @@ class OrganizationService {
   }
 
   async read() {
-    const allOrganizzations = await this.connectOrganization.find();
+    const allOrganizzations = await this.connectOrganization.find({ relations: ['buildings'] });
     return allOrganizzations;
   }
 

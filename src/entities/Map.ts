@@ -39,7 +39,7 @@ class Map {
   @JoinColumn({ name: 'building_id' })
   building: Building;
 
-  @OneToMany(() => Point, points => points.map, { eager: true })
+  @OneToMany(() => Point, points => points.map)
   points: Point;
 
   constructor() {

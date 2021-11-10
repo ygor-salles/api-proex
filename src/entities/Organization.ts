@@ -44,8 +44,8 @@ class Organization {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => Building, building => building.organization, { eager: true })
-  building: Building;
+  @OneToMany(() => Building, building => building.organization)
+  buildings: Building;
 
   constructor() {
     if (!this.id) {
