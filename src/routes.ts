@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express';
 
 import { ensureSuper } from './middlewares/ensureSuper';
+// import { ensureEmployee } from './middlewares/ensureEmployee';
+// import { ensureNormal } from './middlewares/ensureNormal';
 import { ensureAuthenticated } from './middlewares/ensureAuthenticated';
 
 import { AuthenticateUserController } from './controllers/AuthenticateUserController';
