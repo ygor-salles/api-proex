@@ -11,6 +11,10 @@ class UserDto {
         .mixed<keyof typeof EnumRoleUser>()
         .oneOf(Object.values(EnumRoleUser))
         .required('Tipo de usuário é obrigatório'),
+      organization_id: yup
+        .string()
+        .uuid('Id da organização deve ser do tipo uuid')
+        .required('Id da Organização é obrigatória'),
     });
   }
 
@@ -24,6 +28,7 @@ class UserDto {
       email: yup.string().optional(),
       password: yup.string().optional(),
       role: yup.mixed<keyof typeof EnumRoleUser>().oneOf(Object.values(EnumRoleUser)).optional(),
+      organization_id: yup.string().uuid('Id da organização deve ser do tipo uuid').optional(),
     });
   }
 

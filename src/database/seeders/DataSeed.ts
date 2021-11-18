@@ -321,6 +321,17 @@ class DataSeed {
 
     await repository.save(arrayPoints);
   }
+
+  public static async associateUserOrganization() {
+    const repository = getCustomRepository(UserRepository);
+    const arrayUsers = await repository.find();
+
+    arrayUsers.forEach((item, index) => {
+      if (index % 2 === 0) item.organization_id = 'ad8fb4ff-a518-42c0-af78-ac5062eaf53d';
+      else item.organization_id = '45659fc4-1946-4080-adba-d084543c3324';
+    });
+    await repository.save(arrayUsers);
+  }
 }
 
 export { DataSeed };

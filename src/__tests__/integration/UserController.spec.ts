@@ -5,6 +5,10 @@ import createConnection from '../../database';
 import { EnumRoleUser } from '../../entities/User';
 import { UserRepository } from '../../repositories/UserRepository';
 
+// ids de organizações cadastradas no seeders
+const organizationId1 = 'ad8fb4ff-a518-42c0-af78-ac5062eaf53d';
+const organizationId2 = '45659fc4-1946-4080-adba-d084543c3324';
+
 // id inexistente
 const idInexist = 'bf918fbb-94a9-4dd5-9db1-85ce524ed306';
 
@@ -19,6 +23,7 @@ const createUser = {
   email: 'user@example.com',
   password: '123456',
   role: EnumRoleUser.SUPER,
+  organization_id: organizationId1,
 };
 
 const editedUser = {
@@ -26,6 +31,15 @@ const editedUser = {
   email: 'user@example_edit.com',
   password: '123456',
   role: EnumRoleUser.NORMAL,
+  organization_id: organizationId2,
+};
+
+const userInvalid = {
+  name: 'User example 10',
+  email: 'user10@example.com',
+  password: '123456',
+  role: EnumRoleUser.NORMAL,
+  organization_id: idInexist,
 };
 
 let token: string;
@@ -53,6 +67,7 @@ describe('Users', () => {
     expect(response.body.name).toBe(createUser.name);
     expect(response.body.email).toBe(createUser.email);
     expect(response.body.role).toBe(createUser.role);
+    expect(response.body.organization_id).toBe(createUser.organization_id);
   });
 
   it('Should returns 400 beacause there is no user name', async () => {
@@ -60,6 +75,7 @@ describe('Users', () => {
       email: 'user@example2.com.br',
       password: '123456',
       role: EnumRoleUser.SUPER,
+      organization_id: organizationId1,
     });
 
     expect(response.status).toBe(400);
@@ -71,6 +87,7 @@ describe('Users', () => {
       name: 'User example 2',
       password: '123456',
       role: EnumRoleUser.SUPER,
+      organization_id: organizationId1,
     });
 
     expect(response.status).toBe(400);
@@ -83,6 +100,7 @@ describe('Users', () => {
       email: 'email_invalid.com',
       password: '123456',
       role: EnumRoleUser.SUPER,
+      organization_id: organizationId1,
     });
 
     expect(response.status).toBe(400);
@@ -94,6 +112,7 @@ describe('Users', () => {
       name: 'User example 2',
       email: 'user@example2.com.br',
       role: EnumRoleUser.SUPER,
+      organization_id: organizationId1,
     });
 
     expect(response.status).toBe(400);
@@ -105,6 +124,7 @@ describe('Users', () => {
       name: 'User example 2',
       email: 'user@example2.com.br',
       password: '123456',
+      organization_id: organizationId1,
     });
 
     expect(response.status).toBe(400);
@@ -116,7 +136,8 @@ describe('Users', () => {
       name: 'User example 2',
       email: 'user@example2.com.br',
       password: '123456',
-      role: 'ivalid',
+      role: 'invalid',
+      organization_id: organizationId1,
     });
 
     expect(response.status).toBe(400);
@@ -125,11 +146,30 @@ describe('Users', () => {
     );
   });
 
+  it('Should returns 400 beacause there is no user organization_id', async () => {
+    const response = await request(app).post('/users').send({
+      name: 'User example 2',
+      email: 'user@example2.com.br',
+      password: '123456',
+      role: EnumRoleUser.SUPER,
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Id da Organização é obrigatória');
+  });
+
   it('Should not be able to create a user with exists email and return 400', async () => {
     const response = await request(app).post('/users').send(createUser);
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('Usuário já existe');
+  });
+
+  it('Should return 404 because when registering users, organization_id does not exist in the database', async () => {
+    const response = await request(app).post('/users').send(userInvalid);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Id de organização não existe');
   });
 
   // testes para atualização de usuário
