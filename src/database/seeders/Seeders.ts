@@ -23,6 +23,7 @@ class SeederRun {
         await DataSeed.createBuildings();
         await DataSeed.createMaps();
         await DataSeed.createPoints();
+        await DataSeed.associateUserOrganization();
         console.log('\n== [Seeders run successfully] ==\n');
       } catch (error) {
         console.log('\nError:', error);

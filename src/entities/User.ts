@@ -6,10 +6,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+import { Organization } from './Organization';
 
 export enum EnumRoleUser {
   SUPER = 'SUPER',
@@ -39,6 +42,13 @@ class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Column()
+  organization_id: string;
+
+  @ManyToOne(() => Organization, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'organization_id' })
+  organization: Organization;
 
   @BeforeInsert()
   hashPasswordCreate() {

@@ -9,7 +9,7 @@ class ForgotPasswordController {
 
     const forgotValidator = new ForgotDto();
     try {
-      (await forgotValidator.forgotValidation()).validate(request.body, { abortEarly: false });
+      await forgotValidator.forgotValidation().validate({ email }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }

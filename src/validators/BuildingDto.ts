@@ -20,14 +20,11 @@ class BuildingDto {
         .string()
         .uuid('Id de prédio deve ser do tipo uuid')
         .required('Id de prédio é obrigatório no parametro da requisição'),
-      name: yup.string().required('Nome é obrigatório'),
-      latitude: yup.number().required('Latitude é obrigatória'),
-      longitude: yup.number().required('Longitude é obrigatória'),
-      description: yup.string().required('Descrição é obrigatória'),
-      organization_id: yup
-        .string()
-        .uuid('Id da organização deve ser do tipo uuid')
-        .required('Id da Organização é obrigatória'),
+      name: yup.string().optional(),
+      latitude: yup.number().optional(),
+      longitude: yup.number().optional(),
+      description: yup.string().optional(),
+      organization_id: yup.string().uuid('Id da organização deve ser do tipo uuid').optional(),
     });
   }
 

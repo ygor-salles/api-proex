@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 class ForgotDto {
-  async forgotValidation() {
+  forgotValidation() {
     return yup.object().shape({
       email: yup.string().email('E-mail incorreto').required('E-mail é obrigatório'),
     });

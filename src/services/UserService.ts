@@ -4,18 +4,28 @@ import { User } from '../entities/User';
 import { UserRepository } from '../repositories/UserRepository';
 import { ApiError } from '../exceptions/ApiError';
 import { IUser } from '../interfaces/IUser.interface';
+import { Organization } from '../entities/Organization';
+import { OrganizationRepository } from '../repositories/OrganizationRepository';
 
 class UserService {
   private connectUser: Repository<User>;
 
+  private connectOrganization: Repository<Organization>;
+
   constructor() {
     this.connectUser = getCustomRepository(UserRepository);
+    this.connectOrganization = getCustomRepository(OrganizationRepository);
   }
 
   async create(data: IUser) {
     const userExist = await this.connectUser.findOne({ email: data.email });
     if (userExist) {
       throw new ApiError(400, 'Usuário já existe');
+    }
+
+    const fkOrganization = await this.connectOrganization.findOne({ id: data.organization_id });
+    if (!fkOrganization) {
+      throw new ApiError(404, 'Id de organização não existe');
     }
 
     const user = this.connectUser.create(data);
@@ -55,6 +65,11 @@ class UserService {
     const user = await this.connectUser.findOne({ id });
     if (!user) {
       throw new ApiError(404, 'Usuário não existe!');
+    }
+
+    const fkOrganization = await this.connectOrganization.findOne({ id: data.organization_id });
+    if (!fkOrganization) {
+      throw new ApiError(404, 'Id de organização não existe');
     }
 
     if (data.password) {
