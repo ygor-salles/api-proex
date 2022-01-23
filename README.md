@@ -1,25 +1,73 @@
+# api-proex
+
+<h4 align="center">
+    :computer: Api para registro de informações estáticas e dinâmicas que são utilizadas em um app mobile de navegação de deficientes visuais dentro dos prédios da UNIFEI
+</h4>
+
+<p align="center">
+    <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#rocket-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#user-content-clipboard-instruções">Instruções</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#%EF%B8%8F-comandos-básicos-para-as-migrations">Migrations</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#-gerar-o-build">Build</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#%EF%B8%8F-collection-das-requisições---insomnia">Requisições</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#-ajustes-e-melhorias">Melhorias</a>
+</p>
+
+<div align="center">
+    <img src="https://raw.githubusercontent.com/ygor-salles/api-proex/dev/assets/Modelagem-API-Proex.png" alt="Modelagem" >
+</div>
+ 
+----
+ ## 💻 Projeto
+
+API em ExpressJS. Aplicação backend para registro de informações estáticas e dinâmicas que são utilizadas em um app mobile de navegação de deficientes visuais dentro dos prédios da UNIFEI. Contendo autenticação de usuários e tipo de acessos dos usuários para registro das informações
+
+Descrição completa do sistema: https://github.com/ygor-salles/api-proex/blob/dev/assets/Projeto_Proex_01_2021-AppDeficientesVisuais.pdf
+
+----
+## :rocket: Tecnologias
+
+- [Typescript](https://www.typescriptlang.org/)
+- [ExpressJS](https://expressjs.com/pt-br/)
+- [Typeorm](https://typeorm.io/)
+- [Docker](https://www.docker.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Yup](https://www.npmjs.com/package/yup)
+- [ts-node-dev](https://www.npmjs.com/package/ts-node-dev)
+- [eslint](https://eslint.org/)
+- [prettier](https://prettier.io/)
+- [Jest](https://jestjs.io/pt-BR/)
+- [Supertest](https://www.npmjs.com/package/supertest)
+- [Handlebars](https://handlebarsjs.com/)
+- [JsonWebtoken](https://www.npmjs.com/package/jsonwebtoken)
+- [bcryptjs](https://www.npmjs.com/package/bcryptjs)
+- [nodemailer](https://nodemailer.com/about/)
+
+----
 ## :clipboard: Instruções
 
 ### VARIÁVEIS DE AMBIENTE
 
-- Criar na raiz da pasta do projeto um arquivo `.env`
-  e preencher as informações conforme se encontra no arquivo `.env_example`.
+- Criar na raiz da pasta do projeto um arquivo `.env` e preencher as informações conforme se encontra no arquivo `.env_example`.
 
 ### DOCKER
 
-- Após preenchida as variáveis de ambiente subir o container do docker
+- Após preenchida as variáveis de ambiente, subir o container do docker pelo terminal com o comando:
 
 ```bash
 docker-compose up
 ```
 
-### BACKEND
+### DEPENDÊNCIAS
 
-- Entrar no repositório backend do projeto com o terminal e executar o seguinte comando para instalar as dependências:
+- No terminal executar o comando para instalar as dependências:
 
 ```bash
 yarn
 ```
+
+### MIGRATIONS
 
 - Após todas as dependências instaladas
 
@@ -35,6 +83,8 @@ yarn seed
 yarn typeorm migration:run
 ```
 
+### START
+
 - Finalizado! Basta agora executar a aplicação backend com o seguinte comando:
 
 ```bash
@@ -43,55 +93,8 @@ yarn dev
 
 - A Api estará rodando na porta conforme definido no arquivo .env em PORT, por padrão utilize
   a porta 4000. `http://localhost:4000`
-
-## Comandos básicos para as migrations
-
-- Criar uma migration
-
-```bash
-yarn typeorm migration:create -n CreateExample
-```
-
-- Rodar as migrations
-
-```bash
-yarn typeorm migration:run
-```
-
-- Desfazer alterações da migration
-
-```bash
-yarn typeorm migration:revert
-```
-
-## Gerar o build
-
-```bash
-yarn build
-```
-
-## Rodar a migration em homolog
-
-- 1 - alterar no aquivo .env o NODE_ENV para homolog
-- 2 - executar o comando yarn build caso o build não esteja atualizado
-- 3 - executar o comando de rodar a migration - $ yarn typeorm migration:run
-
-## Rodar a migration em produção
-
-- 1 - alterar no aquivo .env o NODE_ENV para production
-- 2 - executar o comando yarn build caso o build não esteja atualizado
-- 3 - executar o comando de rodar a migration - $ yarn typeorm migration:run
-
-## Link de homolog
-
-- Link da api homolog: https://app-proex.herokuapp.com/
-
-## Link de como foi feito o deploy do Heroku
-
-https://www.youtube.com/watch?v=Zl7ORGmumLI
-
-https://github.com/nunesfb/typeorm_typescript_nodejs_postgres_heroku
-
+  
+----
 ## Exemplo de processo para alterações no projeto
 
 - 1 - Estar no ambiente de dev
@@ -125,7 +128,7 @@ git add . && git commit -m "feat: create User" && git push origin feature/create
 - 6 - Logo após voltar para a branch dev no VSCode (git checkout dev) e executar o comando para atualizar a DEV
   (git pull). Assim a branch DEV estará atualizada no seu repositório local. E para uma nova demanda, seguir novamente os mesmos passos, criar uma nova branch a partir da dev ...
 
-## Atualizar ambiente de homolog ou prod a partir do ambiente de dev(local)
+### Atualizar ambiente de homolog ou prod a partir do ambiente de dev(local)
 
 - Até o momento não foi configurado actions no repositório do projeto para que as migrations e os ambientes de homologação e produção sejam atualizados de forma mais automatizada
 
@@ -149,6 +152,7 @@ git merge dev
 git push
 ```
 
+----
 ## Executar os testes
 
 - Deve-se criar um banco local no container do docker com o nome definido na variavel de ambiente BD_TEST_DATABASE.
@@ -180,3 +184,65 @@ git push
 ```bash
 yarn test
 ```
+
+
+----
+## ⚙️ Comandos básicos para as migrations
+
+- Criar uma migration
+
+```bash
+yarn typeorm migration:create -n CreateExample
+```
+
+- Rodar as migrations
+
+```bash
+yarn typeorm migration:run
+```
+
+- Desfazer alterações da migration
+
+```bash
+yarn typeorm migration:revert
+```
+
+### Rodar a migration em homolog
+
+- 1 - alterar no aquivo .env o NODE_ENV para homolog
+- 2 - executar o comando yarn build caso o build não esteja atualizado
+- 3 - executar o comando de rodar a migration - $ yarn typeorm migration:run
+
+### Rodar a migration em produção
+
+- 1 - alterar no aquivo .env o NODE_ENV para production
+- 2 - executar o comando yarn build caso o build não esteja atualizado
+- 3 - executar o comando de rodar a migration - $ yarn typeorm migration:run
+
+### Link de homolog
+
+- Link da api homolog: https://app-proex.herokuapp.com/
+
+### Link de como foi feito o deploy do Heroku
+
+https://www.youtube.com/watch?v=Zl7ORGmumLI
+
+https://github.com/nunesfb/typeorm_typescript_nodejs_postgres_heroku
+
+
+----
+## 📬 Gerar o build 
+
+```bash
+yarn build
+```
+
+----
+ ## ✈️ Collection das requisições - insomnia
+ 
+ - As collections das requisições backend se econtra na raiz do diretório desse projeto `Insomnia_2021-09-11.json`.
+
+----
+## 📌 Ajustes e melhorias
+
+O projeto ainda está em desenvolvimento porém até o momento nenhuma feature nova foi requisitada.
