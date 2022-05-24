@@ -1,5 +1,5 @@
-import { DataSeed } from './DataSeed';
-import createConnection from '../index';
+import { DataSeed } from '../database/seeders/DataSeed';
+import createConnection from '../database/index';
 import 'dotenv/config';
 
 class SeederRun {
