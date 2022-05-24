@@ -59,7 +59,10 @@ describe('Users', () => {
 
   // testes para criação de usuário
   it('Should be able to create a new user and return 201', async () => {
-    const response = await request(app).post('/users').send(createUser);
+    const response = await request(app)
+      .post('/users')
+      .set('Authorization', `bearer ${token}`)
+      .send(createUser);
 
     userId = response.body.id;
 
@@ -71,74 +74,92 @@ describe('Users', () => {
   });
 
   it('Should returns 400 beacause there is no user name', async () => {
-    const response = await request(app).post('/users').send({
-      email: 'user@example2.com.br',
-      password: '123456',
-      role: EnumRoleUser.SUPER,
-      organization_id: organizationId1,
-    });
+    const response = await request(app)
+      .post('/users')
+      .set('Authorization', `bearer ${token}`)
+      .send({
+        email: 'user@example2.com.br',
+        password: '123456',
+        role: EnumRoleUser.SUPER,
+        organization_id: organizationId1,
+      });
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('Nome é obrigatório');
   });
 
   it('Should returns 400 beacause there is no user email', async () => {
-    const response = await request(app).post('/users').send({
-      name: 'User example 2',
-      password: '123456',
-      role: EnumRoleUser.SUPER,
-      organization_id: organizationId1,
-    });
+    const response = await request(app)
+      .post('/users')
+      .set('Authorization', `bearer ${token}`)
+      .send({
+        name: 'User example 2',
+        password: '123456',
+        role: EnumRoleUser.SUPER,
+        organization_id: organizationId1,
+      });
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('E-mail é obrigatório');
   });
 
   it('Should returns 400 beacause there is no valid user email', async () => {
-    const response = await request(app).post('/users').send({
-      name: 'User example 2',
-      email: 'email_invalid.com',
-      password: '123456',
-      role: EnumRoleUser.SUPER,
-      organization_id: organizationId1,
-    });
+    const response = await request(app)
+      .post('/users')
+      .set('Authorization', `bearer ${token}`)
+      .send({
+        name: 'User example 2',
+        email: 'email_invalid.com',
+        password: '123456',
+        role: EnumRoleUser.SUPER,
+        organization_id: organizationId1,
+      });
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('E-mail incorreto');
   });
 
   it('Should returns 400 beacause there is no user password', async () => {
-    const response = await request(app).post('/users').send({
-      name: 'User example 2',
-      email: 'user@example2.com.br',
-      role: EnumRoleUser.SUPER,
-      organization_id: organizationId1,
-    });
+    const response = await request(app)
+      .post('/users')
+      .set('Authorization', `bearer ${token}`)
+      .send({
+        name: 'User example 2',
+        email: 'user@example2.com.br',
+        role: EnumRoleUser.SUPER,
+        organization_id: organizationId1,
+      });
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('Senha é obrigatória');
   });
 
   it('Should returns 400 beacause there is no user role', async () => {
-    const response = await request(app).post('/users').send({
-      name: 'User example 2',
-      email: 'user@example2.com.br',
-      password: '123456',
-      organization_id: organizationId1,
-    });
+    const response = await request(app)
+      .post('/users')
+      .set('Authorization', `bearer ${token}`)
+      .send({
+        name: 'User example 2',
+        email: 'user@example2.com.br',
+        password: '123456',
+        organization_id: organizationId1,
+      });
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('Tipo de usuário é obrigatório');
   });
 
   it('Should returns 400 beacause there is no valid user role', async () => {
-    const response = await request(app).post('/users').send({
-      name: 'User example 2',
-      email: 'user@example2.com.br',
-      password: '123456',
-      role: 'invalid',
-      organization_id: organizationId1,
-    });
+    const response = await request(app)
+      .post('/users')
+      .set('Authorization', `bearer ${token}`)
+      .send({
+        name: 'User example 2',
+        email: 'user@example2.com.br',
+        password: '123456',
+        role: 'invalid',
+        organization_id: organizationId1,
+      });
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe(
@@ -147,26 +168,35 @@ describe('Users', () => {
   });
 
   it('Should returns 400 beacause there is no user organization_id', async () => {
-    const response = await request(app).post('/users').send({
-      name: 'User example 2',
-      email: 'user@example2.com.br',
-      password: '123456',
-      role: EnumRoleUser.SUPER,
-    });
+    const response = await request(app)
+      .post('/users')
+      .set('Authorization', `bearer ${token}`)
+      .send({
+        name: 'User example 2',
+        email: 'user@example2.com.br',
+        password: '123456',
+        role: EnumRoleUser.SUPER,
+      });
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('Id da Organização é obrigatória');
   });
 
   it('Should not be able to create a user with exists email and return 400', async () => {
-    const response = await request(app).post('/users').send(createUser);
+    const response = await request(app)
+      .post('/users')
+      .set('Authorization', `bearer ${token}`)
+      .send(createUser);
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe('Usuário já existe');
   });
 
   it('Should return 404 because when registering users, organization_id does not exist in the database', async () => {
-    const response = await request(app).post('/users').send(userInvalid);
+    const response = await request(app)
+      .post('/users')
+      .set('Authorization', `bearer ${token}`)
+      .send(userInvalid);
 
     expect(response.status).toBe(404);
     expect(response.body.message).toBe('Id de organização não existe');

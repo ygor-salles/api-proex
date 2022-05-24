@@ -5,6 +5,7 @@ import { MapRepository } from '../../repositories/MapRepository';
 import { OrganizationRepository } from '../../repositories/OrganizationRepository';
 import { PointRepository } from '../../repositories/PointRepository';
 import { UserRepository } from '../../repositories/UserRepository';
+import 'dotenv/config';
 
 class DataSeed {
   public static async verifyEntities(): Promise<boolean> {
@@ -331,6 +332,35 @@ class DataSeed {
       else item.organization_id = '45659fc4-1946-4080-adba-d084543c3324';
     });
     await repository.save(arrayUsers);
+  }
+
+  public static async createOneOrganization(): Promise<void> {
+    const repository = getCustomRepository(OrganizationRepository);
+    const organizatiotion = repository.create({
+      id: 'ad8fb4ff-a518-42c0-af78-ac5062eaf53d',
+      name: 'Unifei - Universidade Federal',
+      cep: '37510-002',
+      state: 'Minas Gerais',
+      district: 'Centro',
+      city: 'Itajubá',
+      street: 'Rua Inácio Ferrão',
+      number: 122,
+      description: 'Universidade Federal',
+    });
+    await repository.save(organizatiotion);
+  }
+
+  public static async createOneUser(): Promise<void> {
+    const repository = getCustomRepository(UserRepository);
+    const user = repository.create({
+      id: 'd8fbf4cb-3395-41db-81f3-a4db9ef9f657',
+      name: 'PROEX ADMIN',
+      email: process.env.INIT_USER_EMAIL,
+      password: process.env.INIT_USER_PASSWORD,
+      role: EnumRoleUser.SUPER,
+      organization_id: 'ad8fb4ff-a518-42c0-af78-ac5062eaf53d',
+    });
+    await repository.save(user);
   }
 }
 

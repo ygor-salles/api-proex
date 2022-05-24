@@ -29,8 +29,7 @@ router.get('/', (req: Request, resp: Response) =>
   resp.status(200).json({ message: 'Welcome api-proex' }),
 );
 
-// router.post('/users', ensureAuthenticated, ensureSuper, userController.create);
-router.post('/users', userController.create);
+router.post('/users', ensureAuthenticated, ensureSuper, userController.create);
 router.get('/users', ensureAuthenticated, userController.read);
 router.get('/users/:id', ensureAuthenticated, userController.readById);
 router.put('/users/:id', ensureAuthenticated, ensureSuper, userController.update);
