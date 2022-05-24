@@ -1,37 +1,46 @@
+import { getConnection } from 'typeorm';
 import { DataSeed } from '../database/seeders/DataSeed';
 import createConnection from '../database/index';
 import 'dotenv/config';
 
+const EMAIL_ENV = process.env.INIT_USER_EMAIL;
+const PASSWORD_ENV = process.env.INIT_USER_PASSWORD;
+
 class SeederAndInitializeUser {
   public static async run(): Promise<void> {
-    if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
-      if (process.env.INIT_USER_EMAIL && process.env.INIT_USER_PASSWORD) {
-        try {
-          const connection = await createConnection();
-          console.log('\n== [Database connection] ==');
+    if (EMAIL_ENV && PASSWORD_ENV) {
+      try {
+        const connection = await createConnection();
+        console.log('\n== [Database connection] ==');
 
-          const entitiesExists = await DataSeed.verifyEntities();
-          if (entitiesExists) {
-            console.log('\n== Database is already populated ==\n');
-            await connection.query(`DROP SCHEMA PUBLIC CASCADE; CREATE SCHEMA PUBLIC`);
-            console.log('== Database initialized ==\n');
+        const entitiesExists = await DataSeed.verifyEntities();
+
+        if (entitiesExists) {
+          console.log('\n== Database is already populated ==');
+
+          if (await DataSeed.findUserByEmail(EMAIL_ENV)) {
+            console.log('\n== User Already exists ==');
+            return;
           }
+        } else {
           await connection.runMigrations();
           console.log('\n== [Migrations run sucessfully] ==');
-
-          await DataSeed.createOneOrganization();
-          await DataSeed.createOneUser();
-          console.log('\n== [Seeders run successfully] ==\n');
-        } catch (error) {
-          console.log('\nError:', error);
         }
-      } else {
-        console.log(
-          `The first users email and password environment variables must be set ("INIT_USER_EMAIL", "INIT_USER_PASSWORD")`,
-        );
+
+        await DataSeed.createOneOrganization();
+        await DataSeed.createOneUser();
+        console.log('\n== [User registered successfully] ==');
+      } catch (error) {
+        console.log('\nError:', error);
+      } finally {
+        const connection = getConnection();
+        await connection.close();
+        console.log('\n== [Database connection closed] ==\n');
       }
     } else {
-      console.log('Seeders should only be run in local environments');
+      console.log(
+        `The first users email and password environment variables must be set ("INIT_USER_EMAIL", "INIT_USER_PASSWORD")`,
+      );
     }
   }
 }

@@ -13,5 +13,5 @@ async function dropDatabase() {
 }
 
 dropDatabase()
-  .then((db: string) => console.log(`Test database ${db} deleted successfully`))
-  .catch(err => console.log('Error: ', err));
+  .then((db: string) => console.log(`\n== [Test database ${db} deleted successfully] ==\n`))
+  .catch(err => console.log('\nError: ', err));

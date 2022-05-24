@@ -362,6 +362,12 @@ class DataSeed {
     });
     await repository.save(user);
   }
+
+  public static async findUserByEmail(email: string): Promise<boolean> {
+    const repository = getCustomRepository(UserRepository);
+    const user = await repository.findOne({ email });
+    return !!user;
+  }
 }
 
 export { DataSeed };
