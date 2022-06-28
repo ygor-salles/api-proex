@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-class BuildingDto {
+class BuildingValidator {
   createValidation() {
     return yup.object().shape({
       name: yup.string().required('Nome é obrigatório'),
@@ -47,4 +47,4 @@ class BuildingDto {
   }
 }
 
-export { BuildingDto };
+export { BuildingValidator };

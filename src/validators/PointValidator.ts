@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-class PointDto {
+class PointValidator {
   createValidation() {
     return yup.object().shape({
       name: yup.string().required('Nome é obrigatório'),
@@ -53,4 +53,4 @@ class PointDto {
   }
 }
 
-export { PointDto };
+export { PointValidator };

@@ -2,15 +2,15 @@ import { Request, Response } from 'express';
 import { ApiError } from '../exceptions/ApiError';
 import { IPoint } from '../interfaces/IPoint.interface';
 import { PointService } from '../services/PointService';
-import { PointDto } from '../validators/PointDto';
+import { PointValidator } from '../validators/PointValidator';
 
 class PointController {
   async create(req: Request, resp: Response) {
     const { ...data }: IPoint = req.body;
 
-    const pointDto = new PointDto();
+    const pointValidator = new PointValidator();
     try {
-      await pointDto.createValidation().validate(data, { abortEarly: false });
+      await pointValidator.createValidation().validate(data, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -29,9 +29,9 @@ class PointController {
   async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
-    const pointDto = new PointDto();
+    const pointValidator = new PointValidator();
     try {
-      await pointDto.readByIdValidation().validate({ id }, { abortEarly: false });
+      await pointValidator.readByIdValidation().validate({ id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -44,9 +44,9 @@ class PointController {
   async delete(req: Request, resp: Response) {
     const { id } = req.params;
 
-    const pointDto = new PointDto();
+    const pointValidator = new PointValidator();
     try {
-      await pointDto.deleteByIdValidation().validate({ id }, { abortEarly: false });
+      await pointValidator.deleteByIdValidation().validate({ id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -60,9 +60,9 @@ class PointController {
     const { id } = req.params;
     const { ...data }: IPoint = req.body;
 
-    const pointDto = new PointDto();
+    const pointValidator = new PointValidator();
     try {
-      await pointDto.updateValidation().validate({ ...data, id }, { abortEarly: false });
+      await pointValidator.updateValidation().validate({ ...data, id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }

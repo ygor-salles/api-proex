@@ -2,15 +2,15 @@ import { Request, Response } from 'express';
 import { ApiError } from '../exceptions/ApiError';
 import { IMap } from '../interfaces/IMap.interface';
 import { MapService } from '../services/MapService';
-import { MapDto } from '../validators/MapDto';
+import { MapValidator } from '../validators/MapValidator';
 
 class MapController {
   async create(req: Request, resp: Response) {
     const { ...data }: IMap = req.body;
 
-    const mapDto = new MapDto();
+    const mapValidaMapValidator = new MapValidator();
     try {
-      await mapDto.createValidation().validate(data, { abortEarly: false });
+      await mapValidaMapValidator.createValidation().validate(data, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -29,9 +29,9 @@ class MapController {
   async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
-    const mapDto = new MapDto();
+    const mapValidaMapValidator = new MapValidator();
     try {
-      await mapDto.readByIdValidation().validate({ id }, { abortEarly: false });
+      await mapValidaMapValidator.readByIdValidation().validate({ id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -44,9 +44,9 @@ class MapController {
   async delete(req: Request, resp: Response) {
     const { id } = req.params;
 
-    const mapDto = new MapDto();
+    const mapValidaMapValidator = new MapValidator();
     try {
-      await mapDto.deleteByIdValidation().validate({ id }, { abortEarly: false });
+      await mapValidaMapValidator.deleteByIdValidation().validate({ id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -60,9 +60,11 @@ class MapController {
     const { id } = req.params;
     const { ...data }: IMap = req.body;
 
-    const mapDto = new MapDto();
+    const mapValidaMapValidator = new MapValidator();
     try {
-      await mapDto.updateValidation().validate({ ...data, id }, { abortEarly: false });
+      await mapValidaMapValidator
+        .updateValidation()
+        .validate({ ...data, id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }

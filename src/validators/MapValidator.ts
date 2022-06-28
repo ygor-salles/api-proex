@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-class MapDto {
+class MapValidator {
   createValidation() {
     return yup.object().shape({
       name: yup.string().required('Nome é obrigatório'),
@@ -45,4 +45,4 @@ class MapDto {
   }
 }
 
-export { MapDto };
+export { MapValidator };

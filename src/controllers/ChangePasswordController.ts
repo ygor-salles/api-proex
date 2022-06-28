@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import { ApiError } from '../exceptions/ApiError';
 import { ChangeService } from '../services/ChangeService';
-import { ChangeDto } from '../validators/ChangeDto';
+import { ChangeValidator } from '../validators/ChangeValidator';
 
 class ChangePasswordController {
   async handle(request: Request, response: Response) {
     const { email, password, codVerificacao } = request.body;
 
-    const changeValidator = new ChangeDto();
+    const changeValidator = new ChangeValidator();
     try {
       await changeValidator.changeValidation().validate(request.body, { abortEarly: false });
     } catch (error) {

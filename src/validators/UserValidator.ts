@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { EnumRoleUser } from '../entities/User';
 
-class UserDto {
+class UserValidator {
   createValidation() {
     return yup.object().shape({
       name: yup.string().required('Nome é obrigatório'),
@@ -51,4 +51,4 @@ class UserDto {
   }
 }
 
-export { UserDto };
+export { UserValidator };

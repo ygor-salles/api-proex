@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import { ApiError } from '../exceptions/ApiError';
 import { ForgotService } from '../services/ForgotService';
-import { ForgotDto } from '../validators/ForgotDto';
+import { ForgotValidator } from '../validators/ForgotValidator';
 
 class ForgotPasswordController {
   async handle(request: Request, response: Response) {
     const { email } = request.body;
 
-    const forgotValidator = new ForgotDto();
+    const forgotValidator = new ForgotValidator();
     try {
       await forgotValidator.forgotValidation().validate({ email }, { abortEarly: false });
     } catch (error) {

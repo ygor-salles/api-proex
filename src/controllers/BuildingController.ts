@@ -2,15 +2,15 @@ import { Request, Response } from 'express';
 import { ApiError } from '../exceptions/ApiError';
 import { IBuilding } from '../interfaces/IBuilding.interface';
 import { BuildingService } from '../services/BuildingService';
-import { BuildingDto } from '../validators/BuildingDto';
+import { BuildingValidator } from '../validators/BuildingValidator';
 
 class BuildingController {
   async create(req: Request, resp: Response) {
     const { ...data }: IBuilding = req.body;
 
-    const buildingDto = new BuildingDto();
+    const buildingValidator = new BuildingValidator();
     try {
-      await buildingDto.createValidation().validate(data, { abortEarly: false });
+      await buildingValidator.createValidation().validate(data, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -29,9 +29,9 @@ class BuildingController {
   async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
-    const buildingDto = new BuildingDto();
+    const buildingValidator = new BuildingValidator();
     try {
-      await buildingDto.readByIdValidation().validate({ id }, { abortEarly: false });
+      await buildingValidator.readByIdValidation().validate({ id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -44,9 +44,9 @@ class BuildingController {
   async delete(req: Request, resp: Response) {
     const { id } = req.params;
 
-    const buildingDto = new BuildingDto();
+    const buildingValidator = new BuildingValidator();
     try {
-      await buildingDto.readByIdValidation().validate({ id }, { abortEarly: false });
+      await buildingValidator.readByIdValidation().validate({ id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -60,9 +60,9 @@ class BuildingController {
     const { id } = req.params;
     const { ...data }: IBuilding = req.body;
 
-    const buildingDto = new BuildingDto();
+    const buildingValidator = new BuildingValidator();
     try {
-      await buildingDto.updateValidation().validate({ ...data, id }, { abortEarly: false });
+      await buildingValidator.updateValidation().validate({ ...data, id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }

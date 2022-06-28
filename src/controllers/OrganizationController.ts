@@ -2,15 +2,15 @@ import { Request, Response } from 'express';
 import { ApiError } from '../exceptions/ApiError';
 import { IOrganization } from '../interfaces/IOrganization.interface';
 import { OrganizationService } from '../services/OrganizationService';
-import { OrganizationDto } from '../validators/OrganizationDto';
+import { OrganizationValidator } from '../validators/OrganizationValidator';
 
 class OrganizationController {
   async create(req: Request, resp: Response) {
     const { ...data }: IOrganization = req.body;
 
-    const organizationDto = new OrganizationDto();
+    const organizationValidator = new OrganizationValidator();
     try {
-      await organizationDto.createValidation().validate(data, { abortEarly: false });
+      await organizationValidator.createValidation().validate(data, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -29,9 +29,9 @@ class OrganizationController {
   async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
-    const organizationDto = new OrganizationDto();
+    const organizationValidator = new OrganizationValidator();
     try {
-      await organizationDto.readByIdValidation().validate({ id }, { abortEarly: false });
+      await organizationValidator.readByIdValidation().validate({ id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -44,9 +44,9 @@ class OrganizationController {
   async delete(req: Request, resp: Response) {
     const { id } = req.params;
 
-    const organizationDto = new OrganizationDto();
+    const organizationValidator = new OrganizationValidator();
     try {
-      await organizationDto.deleteByIdValidation().validate({ id }, { abortEarly: false });
+      await organizationValidator.deleteByIdValidation().validate({ id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -60,9 +60,11 @@ class OrganizationController {
     const { id } = req.params;
     const { ...data }: IOrganization = req.body;
 
-    const organizationDto = new OrganizationDto();
+    const organizationValidator = new OrganizationValidator();
     try {
-      await organizationDto.updateValidation().validate({ ...data, id }, { abortEarly: false });
+      await organizationValidator
+        .updateValidation()
+        .validate({ ...data, id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }

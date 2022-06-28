@@ -2,15 +2,15 @@ import { Request, Response } from 'express';
 import { ApiError } from '../exceptions/ApiError';
 import { IUser } from '../interfaces/IUser.interface';
 import { UserService } from '../services/UserService';
-import { UserDto } from '../validators/UserDto';
+import { UserValidator } from '../validators/UserValidator';
 
 class UserController {
   async create(req: Request, resp: Response) {
     const { ...data }: IUser = req.body;
 
-    const userDto = new UserDto();
+    const userValidator = new UserValidator();
     try {
-      await userDto.createValidation().validate(data, { abortEarly: false });
+      await userValidator.createValidation().validate(data, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -29,9 +29,9 @@ class UserController {
   async readById(req: Request, resp: Response) {
     const { id } = req.params;
 
-    const userDto = new UserDto();
+    const userValidator = new UserValidator();
     try {
-      await userDto.readByIdValidation().validate({ id }, { abortEarly: false });
+      await userValidator.readByIdValidation().validate({ id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -44,9 +44,9 @@ class UserController {
   async delete(req: Request, resp: Response) {
     const { id } = req.params;
 
-    const userDto = new UserDto();
+    const userValidator = new UserValidator();
     try {
-      await userDto.deleteByIdValidation().validate({ id }, { abortEarly: false });
+      await userValidator.deleteByIdValidation().validate({ id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
@@ -60,9 +60,9 @@ class UserController {
     const { id } = req.params;
     const { ...data }: IUser = req.body;
 
-    const userDto = new UserDto();
+    const userValidator = new UserValidator();
     try {
-      await userDto.updateValidation().validate({ ...data, id }, { abortEarly: false });
+      await userValidator.updateValidation().validate({ ...data, id }, { abortEarly: false });
     } catch (error) {
       throw new ApiError(400, error.message);
     }
