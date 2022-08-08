@@ -59,10 +59,6 @@ class PointService {
     if (!point) {
       throw new ApiError(404, 'Ponto não existe!');
     }
-    const fkMap = await this.connectMap.findOne({ id: data.map_id });
-    if (!fkMap) {
-      throw new ApiError(404, 'Id de mapa não existe');
-    }
 
     await this.connectPoint.update(point.id, data);
   }
