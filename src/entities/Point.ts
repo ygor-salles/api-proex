@@ -22,19 +22,19 @@ class Point {
   description: string;
 
   @Column()
+  x: number;
+
+  @Column()
+  y: number;
+  
+  @Column()
   floor: number;
 
   @Column()
-  altitude: number;
+  breakPoint: boolean;
 
   @Column()
-  latitude: number;
-
-  @Column()
-  longitude: number;
-
-  @Column()
-  isObstacle: boolean;
+  neighbor: string;
 
   @CreateDateColumn()
   created_at: Date;

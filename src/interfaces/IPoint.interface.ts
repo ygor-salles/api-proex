@@ -2,9 +2,9 @@ export interface IPoint {
   name?: string;
   description?: string;
   floor?: number;
-  altitude?: number;
-  latitude?: number;
-  longitude?: number;
-  isObstacle?: boolean;
+  x?: number;
+  y?: number;
+  breakPoint?: boolean;
+  neighbor?: string;
   map_id?: string;
 }

@@ -231,37 +231,46 @@ class DataSeed {
         id: '9fcbbe36-b52d-4192-8ff3-987049d7d9b3',
         name: 'Ponto 1',
         description: 'Descrição do ponto 1',
-        floor: 2,
-        altitude: 10.123,
-        latitude: -25.3347773,
-        longitude: -47.5304414,
-        isObstacle: false,
+        x: 10.123,
+        y: -25.3347773,
+        floor: 1,
+        breakPoint: true,
+        neighbor: JSON.stringify({
+          left: "de845e22-8eaf-466b-a6c2-40821975b959"
+        }),
         map_id: 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e',
       }),
     );
+
     arrayPoints.push(
       repository.create({
         id: 'de845e22-8eaf-466b-a6c2-40821975b959',
         name: 'Ponto 2',
         description: 'Descrição do ponto 2',
+        x: 2.123,
+        y: -25.3347773,
         floor: 1,
-        altitude: 2.123,
-        latitude: -25.3347772,
-        longitude: -47.530441,
-        isObstacle: true,
+        breakPoint: false,
+        neighbor: JSON.stringify({
+          right: "9fcbbe36-b52d-4192-8ff3-987049d7d9b3",
+          left: "4ae7a74c-b598-404d-8fc0-6fa7b8c5c822"
+        }),
         map_id: 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e',
       }),
     );
+
     arrayPoints.push(
       repository.create({
         id: '4ae7a74c-b598-404d-8fc0-6fa7b8c5c822',
         name: 'Ponto 3',
         description: 'Descrição do ponto 3',
-        floor: 2,
-        altitude: 2.123,
-        latitude: -25.3347769,
-        longitude: -47.5304407,
-        isObstacle: true,
+        x: 1.123,
+        y: -25.3347773,
+        floor: 1,
+        breakPoint: true,
+        neighbor: JSON.stringify({
+          right: "de845e22-8eaf-466b-a6c2-40821975b959"
+      }),
         map_id: 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e',
       }),
     );
@@ -269,54 +278,49 @@ class DataSeed {
     arrayPoints.push(
       repository.create({
         id: '6136957d-8350-40ec-bde4-8f300b317ad2',
-        name: 'Ponto 1',
-        description: 'Descrição do ponto 1',
+        name: 'Ponto 4',
+        description: 'Descrição do ponto 4',
+        x: 10.123,
+        y: 28.3347773,
         floor: 2,
-        altitude: 10.123,
-        latitude: -25.3347773,
-        longitude: -47.5304414,
-        isObstacle: false,
-        map_id: 'd80c3e0f-97b7-4a1d-bba3-384db2c1ff5c',
+        breakPoint: true,
+        neighbor: JSON.stringify({
+          left: "de845e22-8eaf-466b-a6c2-40821975b959"
       }),
-    );
-    arrayPoints.push(
-      repository.create({
-        id: '3440ccf1-66b4-4c3b-9ad7-dd7e7c89549c',
-        name: 'Ponto 2',
-        description: 'Descrição do ponto 2',
-        floor: 1,
-        altitude: 2.123,
-        latitude: -25.3347772,
-        longitude: -47.530441,
-        isObstacle: false,
-        map_id: 'd80c3e0f-97b7-4a1d-bba3-384db2c1ff5c',
-      }),
-    );
-    arrayPoints.push(
-      repository.create({
-        id: 'a29f4630-7886-4a02-ad90-928b847eb840',
-        name: 'Ponto 3',
-        description: 'Descrição do ponto 3',
-        floor: 2,
-        altitude: 2.123,
-        latitude: -25.3347769,
-        longitude: -47.5304407,
-        isObstacle: true,
-        map_id: 'd80c3e0f-97b7-4a1d-bba3-384db2c1ff5c',
+        map_id: 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e',
       }),
     );
 
     arrayPoints.push(
       repository.create({
-        id: 'c624cade-ab6f-4c8f-9f15-166e87a3bd10',
-        name: 'Ponto 1',
-        description: 'Descrição do ponto 1',
-        floor: 4,
-        altitude: 1.123,
-        latitude: -22.3347769,
-        longitude: -42.5304407,
-        isObstacle: false,
-        map_id: 'c14330a6-841e-4cde-8d03-da0a66823975',
+        id: '3440ccf1-66b4-4c3b-9ad7-dd7e7c89549c',
+        name: 'Ponto 5',
+        description: 'Descrição do ponto 5',
+        x: 2.123,
+        y: 28.3347773,
+        floor: 2,
+        breakPoint: false,
+        neighbor: JSON.stringify({
+          right: "9fcbbe36-b52d-4192-8ff3-987049d7d9b3",
+          left: "4ae7a74c-b598-404d-8fc0-6fa7b8c5c822"
+        }),
+        map_id: 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e',
+      }),
+    );
+
+    arrayPoints.push(
+      repository.create({
+        id: 'a29f4630-7886-4a02-ad90-928b847eb840',
+        name: 'Ponto 6',
+        description: 'Descrição do ponto 6',
+        x: 1.123,
+        y: 28.3347773,
+        floor: 2,
+        breakPoint: true,
+        neighbor: JSON.stringify({
+          right: "de845e22-8eaf-466b-a6c2-40821975b959"
+      }),
+        map_id: 'b30996e8-e87f-4ce7-aaa2-b76c9bb1cc1e',
       }),
     );
 
