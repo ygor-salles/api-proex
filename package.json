@@ -15,7 +15,8 @@
     "test": "set NODE_ENV=test&&jest --detectOpenHandles",
     "posttest": "ts-node-dev src/scripts/afterAllTests.ts",
     "seed": "ts-node-dev src/scripts/SeederAndInitializeUser.ts",
-    "clean": "ts-node-dev src/scripts/afterAllTests.ts"
+    "clean": "ts-node-dev src/scripts/afterAllTests.ts",
+    "homolog-migration:run" : "set NODE_ENV=homolog-migration&&yarn typeorm migration:run"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

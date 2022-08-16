@@ -73,6 +73,28 @@ if (process.env.NODE_ENV === 'development') {
       migrationsDir: 'build/src/database/migrations',
     },
   };
+//Run migrations from repository to the hosting platform
+} else if (process.env.NODE_ENV === 'homolog-migration') {
+  config = {
+    type: 'postgres',
+    host: process.env.BD_HOMOLOG_HOST,
+    port: +process.env.BD_HOMOLOG_PORT || 5432,
+    username: process.env.BD_HOMOLOG_USERNAME,
+    password: process.env.BD_HOMOLOG_PASSWORD,
+    database: process.env.BD_HOMOLOG_DATABASE,
+    synchronize: false,
+    extra: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+    migrations: ['src/database/migrations/*.js'],
+    entities: ['src/entities/*.js'],
+    cli: {
+      migrationsDir: 'src/database/migrations',
+    },
+  };
 }
 
 module.exports = config;
