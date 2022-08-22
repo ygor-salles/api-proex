@@ -21,8 +21,17 @@ class PointController {
   }
 
   async read(req: Request, resp: Response) {
+    const map_id = req.query.map_id as string;
+
+    const pointValidator = new PointValidator();
+    try {
+      await pointValidator.readValidation().validate({ map_id }, { abortEarly: false });
+    } catch (error) {
+      throw new ApiError(400, error.message);
+    }
+
     const pointService = new PointService();
-    const allPoints = await pointService.read();
+    const allPoints = await pointService.read(map_id);
     return resp.json(allPoints);
   }
 

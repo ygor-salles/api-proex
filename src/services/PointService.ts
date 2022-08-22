@@ -33,8 +33,19 @@ class PointService {
     return point;
   }
 
-  async read() {
-    const allPoints = await this.connectPoint.find();
+  async read(map_id? : string) {
+    if(map_id) {
+      const fkMap = await this.connectMap.findOne({ id: map_id });
+      if (!fkMap) {
+        throw new ApiError(404, 'Id de mapa não existe');
+      }
+    }
+
+    const allPoints = await this.connectPoint.find(map_id ? {
+      where: {
+        map_id: map_id as string,
+      },
+    } : {});
     return allPoints;
   }
 
